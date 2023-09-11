@@ -1,0 +1,35 @@
+:root {
+  --layout-min-width: 83.875rem;
+}
+
+.container {
+  min-width: var(--layout-min-width);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+.controls {
+  margin-inline-start: auto;
+}
+
+.content {
+  padding: 1.5rem;
+  overflow: initial;
+}
+
+.logo {
+  height: 2rem;
+  width: 10.125rem;
+  margin: 1rem;
+  transform: translateX(0);
+  transition: transform var(--sider-collapse-animation-timing);
+}
+
+:global(.ant-layout-sider-collapsed) .logo {
+  transform: translateX(0.5rem);
+}

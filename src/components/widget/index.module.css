@@ -1,0 +1,13 @@
+.container {
+  position: relative;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}

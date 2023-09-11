@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+  overflow: hidden;
+}
+
+:global(#service-plus-logo-text) {
+  opacity: 1;
+  transform: translateX(0);
+  transition: transform var(--sider-collapse-animation-timing), opacity var(--sider-collapse-animation-timing);
+}
+
+.collapsed :global(#service-plus-logo-text) {
+  transform: translateX(-100%);
+  opacity: 0;
+}

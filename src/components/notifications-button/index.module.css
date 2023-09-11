@@ -1,0 +1,8 @@
+.container {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
