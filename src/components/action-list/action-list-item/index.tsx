@@ -48,20 +48,19 @@ export const ActionListItem: FC<Props> = ({
     }
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.code === "Enter") {
       handleClick();
     }
   };
 
   return (
-    <div
-      role="listitem"
+    <li
       style={containerThemeStyles}
       className={clsx(className, styles.container)}
       data-testid={dataTestId}
     >
-      <a
+      <div
         className={styles.item}
         role="button"
         style={itemThemeStyles}
@@ -78,7 +77,7 @@ export const ActionListItem: FC<Props> = ({
         )}
 
         <i className={styles.arrow} />
-      </a>
-    </div>
+      </div>
+    </li>
   );
 };

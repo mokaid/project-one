@@ -36,8 +36,7 @@ const ActionList: ActionListCompoundComponent = ({
   };
 
   return (
-    <section
-      role="list"
+    <ul
       className={clsx(className, styles.container)}
       style={themeStyles}
       data-testid={dataTestId}
@@ -45,7 +44,7 @@ const ActionList: ActionListCompoundComponent = ({
       {Children.map(children, (child) =>
         isValidElement(child) ? cloneElement(child) : null,
       )}
-    </section>
+    </ul>
   );
 };
 
