@@ -52,8 +52,8 @@ const navItems: NavigationProps["items"] = [
   },
 
   {
-    label: "Disconect Site",
-    href: AppRoute.DisconnectSite,
+    label: "Disconected Sites",
+    href: AppRoute.DisconnectedSites,
     icon: <DisconnectOutlined />,
   },
 ];

@@ -13,13 +13,13 @@ type Props = {
 
 export const Logo = memo<Props>(({ className, collapsed = false }) => {
   const {
-    token: { colorText },
+    token: { colorText, motionEaseInOut },
   } = theme.useToken();
 
   return (
     <div
       className={clsx(className, styles.container)}
-      style={{ color: colorText }}
+      style={{ color: colorText, transitionTimingFunction: motionEaseInOut }}
     >
       <LogoImage
         className={clsx(styles.logo, { [styles.collapsed]: collapsed })}

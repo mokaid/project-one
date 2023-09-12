@@ -1,7 +1,7 @@
 export enum AppRoute {
   Alarm = "/alarm",
   Dashboard = "/dashboard",
-  DisconnectSite = "/disconnect-site",
+  DisconnectedSites = "/disconnected-sites",
   Home = "/",
   MaskedSource = "/masked-source",
   Notifications = "/notifications",
