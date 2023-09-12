@@ -1,6 +1,6 @@
 import { type FC, useCallback, useState } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import { Input, Typography } from "antd";
+import { Input } from "antd";
 import ErrorBoundary from "antd/es/alert/ErrorBoundary";
 import clsx from "clsx";
 
@@ -35,42 +35,34 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
   }, []);
 
   return (
-    <Widget
-      className={clsx(className, styles.container)}
-      dataTestId={dataTestId}
-    >
-      <div className={styles.content}>
-        <div className={styles.alerts}>
-          <header className={styles.header}>
-            <Typography.Title level={5} className={styles.heading}>
-              Alerts Map
-            </Typography.Title>
-          </header>
+    <div className={clsx(className, styles.container)} data-testid={dataTestId}>
+      <Widget
+        title="Alerts Map"
+        className={styles.alerts}
+        contentClassName={styles.content}
+        round={false}
+      >
+        <Input.Search placeholder="Search..." />
 
-          <Input.Search placeholder="Search..." />
+        <ActionList className={styles.list}>
+          {alerts.map(({ id, name, count }) => (
+            <ActionList.Item key={id} extra={count}>
+              {name}
+            </ActionList.Item>
+          ))}
+        </ActionList>
+      </Widget>
 
-          <div className={styles.list}>
-            <ActionList>
-              {alerts.map(({ id, name, count }) => (
-                <ActionList.Item key={id} extra={count}>
-                  {name}
-                </ActionList.Item>
-              ))}
-            </ActionList>
-          </div>
-        </div>
-
-        <ErrorBoundary>
-          {isLoaded && (
-            <GoogleMap
-              mapContainerClassName={styles.map}
-              options={ALERTS_MAP_CONFIG}
-              onLoad={handleMapLoad}
-              onUnmount={handleMapUnmount}
-            />
-          )}
-        </ErrorBoundary>
-      </div>
-    </Widget>
+      <ErrorBoundary>
+        {isLoaded && (
+          <GoogleMap
+            mapContainerClassName={styles.map}
+            options={ALERTS_MAP_CONFIG}
+            onLoad={handleMapLoad}
+            onUnmount={handleMapUnmount}
+          />
+        )}
+      </ErrorBoundary>
+    </div>
   );
 };

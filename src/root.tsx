@@ -67,8 +67,6 @@ export const Root: FC = () => {
     [appTheme, themeAlgorithm],
   );
 
-  console.log(theme.defaultConfig);
-
   return (
     <ThemeContext.Provider value={themeContext}>
       <StyleProvider transformers={styleTransformers}>
