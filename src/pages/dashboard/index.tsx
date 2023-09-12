@@ -8,7 +8,7 @@ export const Dashboard: FC = () => {
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
-        <AlertsMap />
+        <AlertsMap dataTestId="alerts-map" />
       </Col>
 
       <Col span={6}>

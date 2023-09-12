@@ -23,6 +23,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: unknown, errorInfo: unknown) {
+    // eslint-disable-next-line no-console
     console.error(error, errorInfo);
     // TODO: Send to log service
   }

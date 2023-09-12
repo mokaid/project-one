@@ -27,7 +27,8 @@
   width: 10.125rem;
   margin: 1rem;
   transform: translateX(0);
-  transition: transform var(--sider-collapse-animation-timing);
+  transition-property: transform;
+  transition-duration: 0.3s;
 }
 
 :global(.ant-layout-sider-collapsed) .logo {

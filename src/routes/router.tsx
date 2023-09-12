@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
         element: "Masked Source",
       },
       {
-        path: AppRoute.DisconnectSite,
+        path: AppRoute.DisconnectedSites,
         element: "Disconnect Site",
       },
       {

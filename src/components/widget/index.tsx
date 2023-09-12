@@ -1,10 +1,4 @@
-import {
-  type CSSProperties,
-  type FC,
-  type PropsWithChildren,
-  type ReactNode,
-  useMemo,
-} from "react";
+import type { CSSProperties, FC, PropsWithChildren, ReactNode } from "react";
 import { theme } from "antd";
 import clsx from "clsx";
 
@@ -28,14 +22,11 @@ export const Widget: FC<WidgetProps> = ({
 }) => {
   const { token } = useToken();
 
-  const themeStyle = useMemo<CSSProperties>(
-    () => ({
-      backgroundColor: token.colorBgContainer,
-      color: token.colorText,
-      borderRadius: token.borderRadiusLG,
-    }),
-    [token],
-  );
+  const themeStyle: CSSProperties = {
+    color: token.colorText,
+    backgroundColor: token.colorBgContainer,
+    borderRadius: token.borderRadiusLG,
+  };
 
   return (
     <section
