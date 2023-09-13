@@ -1,9 +1,10 @@
 import type { FC } from "react";
 import { Col, Row } from "antd";
 
-import { AlertsMap } from "../../components/alerts-map";
-import { WeeklyAlerts } from "../../components/weekly-alerts";
 import { Widget } from "../../components/widget";
+import { AlertsByType } from "../../widgets/alerts-by-type";
+import { AlertsByVendor } from "../../widgets/alerts-by-vendor";
+import { AlertsMap } from "../../widgets/alerts-map";
 
 import styles from "./index.module.css";
 
@@ -15,7 +16,12 @@ export const Dashboard: FC = () => {
       </Col>
 
       <Col span={6}>
-        <WeeklyAlerts className={styles.widget} />
+        <AlertsByType
+          title="This Week Alerts"
+          tooltipText="TODO: Add tooltip text"
+          className={styles.widget}
+          dataTestId="weekly-alerts"
+        />
       </Col>
       <Col span={6}>
         <Widget className={styles.widget} title="Weekly Alert by Priority">
@@ -23,9 +29,12 @@ export const Dashboard: FC = () => {
         </Widget>
       </Col>
       <Col span={6}>
-        <Widget className={styles.widget} title="Weekly Alerts by Vendor">
-          Weekly Alerts by Vendor
-        </Widget>
+        <AlertsByVendor
+          title="Weekly Alerts by Vendor"
+          tooltipText="TODO: Add tooltip text"
+          className={styles.widget}
+          dataTestId="alerts-by-vendor"
+        />
       </Col>
       <Col span={6}>
         <Widget className={styles.widget} title="Weekly Alerts by Sites">

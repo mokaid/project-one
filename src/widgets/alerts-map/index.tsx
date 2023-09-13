@@ -4,9 +4,9 @@ import { Input } from "antd";
 import ErrorBoundary from "antd/es/alert/ErrorBoundary";
 import clsx from "clsx";
 
+import { ActionList } from "../../components/action-list";
+import { Widget } from "../../components/widget";
 import { GOOGLE_MAP_API_KEY } from "../../const/google-maps";
-import { ActionList } from "../action-list";
-import { Widget } from "../widget";
 
 import { ALERTS_MAP_CONFIG } from "./config";
 import { alerts } from "./mock";
@@ -17,6 +17,8 @@ type Props = {
   className?: string;
   dataTestId?: string;
 };
+
+const { Search } = Input;
 
 export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
   const { isLoaded } = useJsApiLoader({
@@ -42,7 +44,7 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
         contentClassName={styles.content}
         round={false}
       >
-        <Input.Search placeholder="Search..." />
+        <Search placeholder="Search..." />
 
         <ActionList className={styles.list}>
           {alerts.map(({ id, name, count }) => (

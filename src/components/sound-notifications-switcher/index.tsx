@@ -19,7 +19,7 @@ export const SoundNotificationsSwitcher: FC<Props> = ({
       <Switch
         checkedChildren="ON"
         unCheckedChildren="OFF"
-        data-testid="audio-notifications-switch"
+        data-testid="sound-notifications-switch"
       />
     </div>
   );

@@ -1,21 +1,27 @@
 import type { FC } from "react";
 
-import { ActionList } from "../action-list";
-import { Widget } from "../widget";
+import { ActionList } from "../../components/action-list";
+import { Widget, type WidgetProps } from "../../components/widget";
 
 import { alerts } from "./mock";
 
-type Props = {
+type Props = Pick<WidgetProps, "title" | "tooltipText"> & {
   className?: string;
   dataTestId?: string;
 };
 
-export const WeeklyAlerts: FC<Props> = ({ className, dataTestId }) => {
+export const AlertsByType: FC<Props> = ({
+  title,
+  tooltipText,
+  className,
+  dataTestId,
+}) => {
+  // TODO: Get data
   return (
     <Widget
       className={className}
-      title="This Week Alerts"
-      tooltipText="TODO: Add tooltip text"
+      title={title}
+      tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
       <ActionList>
