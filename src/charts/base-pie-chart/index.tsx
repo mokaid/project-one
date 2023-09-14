@@ -14,8 +14,8 @@ export const BasePieChart: FC<BasePieChartProps> = ({
   colors = [],
   data = [],
   dataKey,
-  width = 180,
-  height = 180,
+  width,
+  height,
 }) => {
   const {
     token: { colorBgContainer },
@@ -27,8 +27,6 @@ export const BasePieChart: FC<BasePieChartProps> = ({
         data={data}
         cx="50%"
         cy="50%"
-        width={180}
-        height={180}
         dataKey={dataKey}
         stroke={colorBgContainer}
         cornerRadius={5}

@@ -4,7 +4,7 @@ import { BasePieChart } from "../../charts/base-pie-chart";
 import {
   ChartContainer,
   type ChartContainerProps,
-} from "../../components/chart-container";
+} from "../../charts/chart-container";
 
 type Props = Pick<
   ChartContainerProps,

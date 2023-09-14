@@ -1,0 +1,3 @@
+.chart :global(.recharts-surface) {
+  display: block;
+}
