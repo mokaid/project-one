@@ -34,3 +34,10 @@
 :global(.ant-layout-sider-collapsed) .logo {
   transform: translateX(0.5rem);
 }
+
+.trigger {
+  position: absolute;
+  top: 50vh;
+  left: 100%;
+  transform: translateY(-50%);
+}

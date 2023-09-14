@@ -8,6 +8,7 @@ import { ThemeContext } from "../../theme";
 import { DashboardNavigation } from "../dashboard-navigation";
 import { Logo } from "../logo";
 import { NotificationsButton } from "../notifications-button";
+import { SiderTrigger } from "../sider-trigger";
 import { SoundNotificationsSwitcher } from "../sound-notifications-switcher";
 import { ThemeSwitcher } from "../theme-switcher";
 import { UserPanel } from "../user-panel";
@@ -45,13 +46,20 @@ export const DashboardLayout: FC = () => {
     >
       <Layout className={styles.container}>
         <Sider
+          className={styles.sidemenu}
           theme={appTheme}
           collapsible={true}
           collapsed={collapsed}
           onCollapse={handleCollapseMenu}
+          trigger={null}
         >
           <Logo collapsed={collapsed} className={styles.logo} />
           <DashboardNavigation />
+          <SiderTrigger
+            className={styles.trigger}
+            collapsed={collapsed}
+            onClick={handleCollapseMenu}
+          />
         </Sider>
 
         <Layout>
