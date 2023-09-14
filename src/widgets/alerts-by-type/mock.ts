@@ -36,7 +36,7 @@ export const alerts = [
   },
 
   {
-    id: 7,
+    id: 8,
     name: "Power",
     count: 5,
   },
