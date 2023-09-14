@@ -12,7 +12,7 @@ type Props = Pick<
 >;
 
 const data = [
-  { name: "Dubai Police", value: 3 },
+  { name: "Dubai Police", value: 40 },
   { name: "Dubai Hills Mall", value: 400 },
   { name: "Dubai Mall", value: 26 },
   { name: "RTA", value: 246 },

@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Col, Row } from "antd";
 
+import { AllAlerts } from "../../components/all-alerts";
 import { AlertsByPriopity } from "../../widgets/alerts-by-priority";
 import { AlertsByType } from "../../widgets/alerts-by-type";
 import { AlertsByVendor } from "../../widgets/alerts-by-vendor";
@@ -49,7 +50,9 @@ export const Dashboard: FC = () => {
         />
       </Col>
 
-      <Col span={24}>Tabs and table</Col>
+      <Col span={24}>
+        <AllAlerts />
+      </Col>
     </Row>
   );
 };
