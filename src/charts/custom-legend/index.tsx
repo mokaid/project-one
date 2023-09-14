@@ -1,7 +1,7 @@
 import type { CSSProperties, FC } from "react";
 import { theme } from "antd";
 import clsx from "clsx";
-import { type LegendProps } from "recharts";
+import type { LegendProps } from "recharts";
 import type { Payload } from "recharts/types/component/DefaultLegendContent";
 
 import styles from "./index.module.css";

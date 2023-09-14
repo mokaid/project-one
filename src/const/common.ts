@@ -6,4 +6,5 @@ export const API_DATE_FORMAT = "YYYY-MM-DD" as const;
 
 export const APP_DATE_FORMAT = "DD\u00A0MMM\u00A0YYYY" as const;
 
-export const APP_DATE_TIME_FORMAT = `${APP_DATE_FORMAT}, h:mm\u00A0a` as const;
+export const APP_DATE_TIME_FORMAT =
+  `${APP_DATE_FORMAT}, h:mm:ss\u00A0A` as const;
