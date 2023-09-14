@@ -5,10 +5,10 @@ import { Widget, type WidgetProps } from "../../components/widget";
 
 import { alerts } from "./mock";
 
-type Props = Pick<WidgetProps, "title" | "tooltipText"> & {
-  className?: string;
-  dataTestId?: string;
-};
+type Props = Pick<
+  WidgetProps,
+  "title" | "tooltipText" | "className" | "dataTestId"
+>;
 
 export const AlertsByVendor: FC<Props> = ({
   title,
