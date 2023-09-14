@@ -1,10 +1,12 @@
 import { type FC, useCallback, useState } from "react";
+import { AimOutlined } from "@ant-design/icons";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Input } from "antd";
 import ErrorBoundary from "antd/es/alert/ErrorBoundary";
 import clsx from "clsx";
 
 import { ActionList } from "../../components/action-list";
+import { GoogleMapControl } from "../../components/google-map-control";
 import { Widget } from "../../components/widget";
 import { GOOGLE_MAP_API_KEY } from "../../const/google-maps";
 
@@ -26,7 +28,7 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
   });
 
-  const [, setMap] = useState<google.maps.Map | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const handleMapLoad = useCallback((mapInstance: google.maps.Map) => {
     setMap(mapInstance);
@@ -35,6 +37,17 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
   const handleMapUnmount = useCallback(() => {
     setMap(null);
   }, []);
+
+  const handleMapCenterClick = () => {
+    if (map === null) {
+      return;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    map.panTo(ALERTS_MAP_CONFIG.center!);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    map.setZoom(ALERTS_MAP_CONFIG.zoom!);
+  };
 
   return (
     <div className={clsx(className, styles.container)} data-testid={dataTestId}>
@@ -62,7 +75,22 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
             options={ALERTS_MAP_CONFIG}
             onLoad={handleMapLoad}
             onUnmount={handleMapUnmount}
-          />
+          >
+            <GoogleMapControl
+              position={window.google.maps.ControlPosition.RIGHT_BOTTOM}
+            >
+              <button
+                type="button"
+                className={styles.mapButton}
+                style={{ marginInlineEnd: "6px" }}
+                onClick={handleMapCenterClick}
+                title="Re-center the map"
+                aria-label="Re-center the map"
+              >
+                <AimOutlined />
+              </button>
+            </GoogleMapControl>
+          </GoogleMap>
         )}
       </ErrorBoundary>
     </div>

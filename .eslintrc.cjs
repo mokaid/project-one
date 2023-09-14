@@ -36,6 +36,7 @@ module.exports = {
     "unicorn",
   ],
   rules: {
+    "consistent-return": "off",
     "dirnames/match-kebab-case": "error",
     "import/prefer-default-export": "off",
     "jsx-a11y/anchor-is-valid": "off",
