@@ -6,8 +6,9 @@
 :global(#service-plus-logo-text) {
   opacity: 1;
   transform: translateX(0);
-  transition-duration: 0.3s;
   transition-property: transform, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
 }
 
 .collapsed :global(#service-plus-logo-text) {

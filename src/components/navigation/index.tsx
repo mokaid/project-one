@@ -36,6 +36,7 @@ export const Navigation: FC<NavigationProps> = ({
 
   return (
     <Menu
+      role="navigation"
       mode={mode}
       onSelect={handleSelect}
       className={className}

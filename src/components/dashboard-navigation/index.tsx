@@ -18,11 +18,15 @@ type Props = {
 };
 
 const navItems: NavigationProps["items"] = [
-  { label: "Home", href: AppRoute.Dashboard, icon: <DashboardOutlined /> },
+  {
+    label: "Home",
+    href: AppRoute.Dashboard,
+    icon: <DashboardOutlined aria-hidden={true} />,
+  },
   {
     label: "Alarm",
     href: AppRoute.Alarm,
-    icon: <AlertOutlined />,
+    icon: <AlertOutlined aria-hidden={true} />,
     subNav: [
       {
         label: "Record",
@@ -37,24 +41,24 @@ const navItems: NavigationProps["items"] = [
   {
     label: "Site Map",
     href: AppRoute.SiteMap,
-    icon: <AimOutlined />,
+    icon: <AimOutlined aria-hidden={true} />,
   },
   {
     label: "Site Configuration",
     href: AppRoute.SiteConfiguration,
-    icon: <ControlOutlined />,
+    icon: <ControlOutlined aria-hidden={true} />,
   },
 
   {
     label: "Masked Source",
     href: AppRoute.MaskedSource,
-    icon: <BellOutlined />,
+    icon: <BellOutlined aria-hidden={true} />,
   },
 
   {
     label: "Disconnected Sites",
     href: AppRoute.DisconnectedSites,
-    icon: <DisconnectOutlined />,
+    icon: <DisconnectOutlined aria-hidden={true} />,
   },
 ];
 

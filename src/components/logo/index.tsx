@@ -22,7 +22,9 @@ export const Logo = memo<Props>(({ className, collapsed = false }) => {
       style={{ color: colorText, transitionTimingFunction: motionEaseInOut }}
     >
       <LogoImage
+        role="img"
         className={clsx(styles.logo, { [styles.collapsed]: collapsed })}
+        aria-label="Service Plus"
       />
     </div>
   );

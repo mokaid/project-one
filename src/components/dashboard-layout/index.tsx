@@ -25,7 +25,7 @@ export const DashboardLayout: FC = () => {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
   const { appTheme } = useContext(ThemeContext);
   const {
-    token: { colorBgContainer, colorText, motionDurationMid },
+    token: { colorBgContainer, colorText },
   } = theme.useToken();
 
   const handleCollapseMenu = (newCollapsed: boolean) => {
@@ -46,13 +46,22 @@ export const DashboardLayout: FC = () => {
       }}
     >
       <Layout className={styles.container}>
+        {/* Fake sider to avoid using margins and flickering animations */}
+        <Sider
+          className={styles.fakeSider}
+          collapsible={true}
+          collapsed={collapsed}
+          trigger={null}
+          aria-hidden={true}
+        />
+
         <Sider
           className={styles.sider}
           theme={appTheme}
           collapsible={true}
           collapsed={collapsed}
           onCollapse={handleCollapseMenu}
-          // trigger={null}
+          trigger={null}
         >
           <Logo collapsed={collapsed} className={styles.logo} />
           <DashboardNavigation />
@@ -60,15 +69,11 @@ export const DashboardLayout: FC = () => {
             className={styles.trigger}
             collapsed={collapsed}
             onClick={handleCollapseMenu}
+            dataTestId="sider-trigger"
           />
         </Sider>
 
-        <Layout
-          style={{
-            marginLeft: collapsed ? 80 : 200,
-            transition: `margin ${motionDurationMid}`,
-          }}
-        >
+        <Layout>
           <Header
             className={styles.header}
             style={{ backgroundColor: colorBgContainer }}
