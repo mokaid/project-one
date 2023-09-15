@@ -33,8 +33,9 @@ export const SiderTrigger: FC<Props> = ({
       type="button"
       style={containerThemeStyles}
       className={clsx(className, styles.container)}
-      data-testid={dataTestId}
       onClick={handleClick}
+      aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
+      data-testid={dataTestId}
     >
       {collapsed ? <RightOutlined /> : <LeftOutlined />}
     </button>
