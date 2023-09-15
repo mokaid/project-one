@@ -25,7 +25,7 @@ export const DashboardLayout: FC = () => {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
   const { appTheme } = useContext(ThemeContext);
   const {
-    token: { colorBgContainer, colorText },
+    token: { colorBgContainer, colorText, motionDurationMid },
   } = theme.useToken();
 
   const handleCollapseMenu = (newCollapsed: boolean) => {
@@ -47,12 +47,12 @@ export const DashboardLayout: FC = () => {
     >
       <Layout className={styles.container}>
         <Sider
-          className={styles.sidemenu}
+          className={styles.sider}
           theme={appTheme}
           collapsible={true}
           collapsed={collapsed}
           onCollapse={handleCollapseMenu}
-          trigger={null}
+          // trigger={null}
         >
           <Logo collapsed={collapsed} className={styles.logo} />
           <DashboardNavigation />
@@ -63,7 +63,12 @@ export const DashboardLayout: FC = () => {
           />
         </Sider>
 
-        <Layout>
+        <Layout
+          style={{
+            marginLeft: collapsed ? 80 : 200,
+            transition: `margin ${motionDurationMid}`,
+          }}
+        >
           <Header
             className={styles.header}
             style={{ backgroundColor: colorBgContainer }}
