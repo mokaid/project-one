@@ -49,8 +49,8 @@ export const router = createBrowserRouter([
         element: "Masked Source",
       },
       {
-        path: AppRoute.DisconnectSite,
-        element: "Disconnect Site",
+        path: AppRoute.DisconnectedSites,
+        element: "Disconnected Sites",
       },
       {
         path: AppRoute.Notifications,
