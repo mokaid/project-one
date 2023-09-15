@@ -1,4 +1,10 @@
-import { type FC, useCallback, useMemo, useState } from "react";
+import {
+  type FC,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import {
@@ -66,6 +72,13 @@ export const Root: FC = () => {
     }),
     [appTheme, themeAlgorithm],
   );
+
+  useLayoutEffect(() => {
+    const metaTag = document.querySelector("meta[name=color-scheme]")!;
+
+    metaTag.setAttribute("content", appTheme);
+    document.documentElement.style.setProperty("--color-scheme", appTheme);
+  }, [appTheme]);
 
   return (
     <ThemeContext.Provider value={themeContext}>
