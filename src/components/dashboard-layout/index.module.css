@@ -4,9 +4,12 @@
 }
 
 .header {
+  position: sticky;
+  top: 0;
   display: flex;
   padding: 0 1.5rem;
   width: 100%;
+  z-index: 2;
 }
 
 .controls {
@@ -36,4 +39,10 @@
   top: 50vh;
   left: 100%;
   transform: translateY(-50%);
+}
+
+.sider {
+  position: fixed !important;
+  height: 100vh;
+  overflow: auto;
 }
