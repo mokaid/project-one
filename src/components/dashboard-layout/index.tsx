@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { SIDER_MENU_COLLAPSED_STATE_COOKIE } from "../../const/cookies";
 import { ThemeContext } from "../../theme";
 import { DashboardNavigation } from "../dashboard-navigation";
+import { FullScreenSwitcher } from "../fullscreen-switcher";
 import { Logo } from "../logo";
 import { NotificationsButton } from "../notifications-button";
 import { SiderTrigger } from "../sider-trigger";
@@ -68,6 +69,7 @@ export const DashboardLayout: FC = () => {
             style={{ backgroundColor: colorBgContainer }}
           >
             <Space size="large" align="center" className={styles.controls}>
+              <FullScreenSwitcher />
               <ThemeSwitcher />
               <SoundNotificationsSwitcher />
               <NotificationsButton />
