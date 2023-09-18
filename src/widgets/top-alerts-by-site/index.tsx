@@ -15,6 +15,7 @@ import {
   ChartContainer,
   type ChartContainerProps,
 } from "../../charts/chart-container";
+import { CustomTooltip } from "../../charts/custom-tooltip";
 
 type Props = Pick<
   ChartContainerProps,
@@ -34,7 +35,7 @@ const data = [
   { name: "Museum of Future", value: 44 },
 ];
 
-type RenderLabelParams<T extends ContentType> = T extends (
+type RenderLabelParams<T extends ContentType = ContentType> = T extends (
   ...args: infer P
 ) => void
   ? P[number]
@@ -47,11 +48,17 @@ export const TopAlertsBySite: FC<Props> = ({
   dataTestId,
 }) => {
   const {
-    token: { colorText, colorBorder, colorError, ...token },
+    token: {
+      colorText,
+      colorBorder,
+      colorBorderSecondary,
+      colorError,
+      ...token
+    },
   } = theme.useToken();
 
   const renderLabel = useCallback(
-    (props: RenderLabelParams<ContentType>) => {
+    (props: RenderLabelParams) => {
       const { value, y, height } = props;
 
       return (
@@ -80,10 +87,10 @@ export const TopAlertsBySite: FC<Props> = ({
         data={data}
         margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
       >
-        <CartesianGrid stroke={colorBorder} />
+        <CartesianGrid stroke={colorBorderSecondary} />
         <XAxis type="number" />
         <YAxis hide={true} dataKey="name" type="category" scale="auto" />
-        <Tooltip cursor={false} />
+        <Tooltip cursor={false} content={<CustomTooltip />} />
 
         <Bar dataKey="value" barSize={16} fill={token["geekblue-3"]}>
           <LabelList
