@@ -58,7 +58,6 @@ export const Root: FC = () => {
     () => ({
       algorithm: themeAlgorithm,
       token: {
-        colorBorder: appTheme === "dark" ? "#222222" : "#d9d9d9",
         fontWeightStrong: 500,
         fontFamily:
           "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
@@ -70,7 +69,7 @@ export const Root: FC = () => {
         },
       },
     }),
-    [appTheme, themeAlgorithm],
+    [themeAlgorithm],
   );
 
   useLayoutEffect(() => {

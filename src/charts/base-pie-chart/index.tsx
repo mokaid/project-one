@@ -3,6 +3,7 @@ import { theme } from "antd";
 import { Cell, Legend, Pie, PieChart, type PieProps, Tooltip } from "recharts";
 
 import { CustomLegend } from "../custom-legend";
+import { CustomTooltip } from "../custom-tooltip";
 
 export type BasePieChartProps = Pick<PieProps, "data" | "dataKey"> & {
   colors: string[];
@@ -39,10 +40,8 @@ export const BasePieChart: FC<BasePieChartProps> = ({
           return <Cell key={key} fill={colors[index % colors.length]} />;
         })}
       </Pie>
-
+      <Tooltip content={<CustomTooltip />} />
       <Legend align="center" content={<CustomLegend />} />
-
-      <Tooltip />
     </PieChart>
   );
 };

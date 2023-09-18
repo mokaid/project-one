@@ -25,11 +25,16 @@ export const ActionListItem: FC<Props> = ({
   onClick,
 }) => {
   const {
-    token: { colorBorder, colorText, colorTextDescription, fontWeightStrong },
+    token: {
+      colorBorderSecondary,
+      colorText,
+      colorTextDescription,
+      fontWeightStrong,
+    },
   } = theme.useToken();
 
   const containerThemeStyles: CSSProperties = {
-    borderColor: colorBorder,
+    borderColor: colorBorderSecondary,
   };
 
   const itemThemeStyles = {
