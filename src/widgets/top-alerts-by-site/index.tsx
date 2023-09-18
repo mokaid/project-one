@@ -1,6 +1,16 @@
-import type { FC } from "react";
+import { type FC, useCallback } from "react";
+import { theme } from "antd";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { ContentType } from "recharts/types/component/Label";
 
-import { BasePieChart } from "../../charts/base-pie-chart";
 import {
   ChartContainer,
   type ChartContainerProps,
@@ -12,16 +22,16 @@ type Props = Pick<
 >;
 
 const data = [
-  { name: "Dubai Police", value: 40 },
-  { name: "Dubai Hills Mall", value: 400 },
-  { name: "Dubai Mall", value: 26 },
-  { name: "RTA", value: 246 },
-  { name: "Dubai Metro", value: 5 },
-  { name: "Burj Al Arab", value: 115 },
-  { name: "Mall of Emirates", value: 78 },
-  { name: "Dubai Opera", value: 37 },
-  { name: "MOFA", value: 48 },
-  { name: "Museum of Future", value: 45 },
+  { name: "Dubai Police", value: 400 },
+  { name: "Dubai Hills Mall", value: 380 },
+  { name: "Dubai Mall", value: 246 },
+  { name: "RTA", value: 214 },
+  { name: "Dubai Metro", value: 198 },
+  { name: "Burj Al Arab", value: 175 },
+  { name: "Mall of Emirates", value: 130 },
+  { name: "Dubai Opera", value: 121 },
+  { name: "MOFA", value: 100 },
+  { name: "Museum of Future", value: 44 },
 ];
 
 const COLORS = [
@@ -37,12 +47,40 @@ const COLORS = [
   "#F5222D",
 ];
 
+type RenderLabelParams<T extends ContentType> = T extends (
+  ...args: infer P
+) => void
+  ? P[number]
+  : never;
+
 export const TopAlertsBySite: FC<Props> = ({
   className,
   title,
   tooltipText,
   dataTestId,
 }) => {
+  const {
+    token: { colorText, colorBorder, colorError, ...token },
+  } = theme.useToken();
+
+  const renderLabel = useCallback(
+    (props: RenderLabelParams<ContentType>) => {
+      const { value, y, height } = props;
+
+      return (
+        <text
+          x={16}
+          y={Number(y) + Number(height) / 2}
+          fill={colorText}
+          dominantBaseline="middle"
+        >
+          {value}
+        </text>
+      );
+    },
+    [colorText],
+  );
+
   return (
     <ChartContainer
       className={className}
@@ -50,7 +88,25 @@ export const TopAlertsBySite: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
-      <BasePieChart data={data} colors={COLORS} dataKey="value" />
+      <BarChart
+        layout="vertical"
+        data={data}
+        margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+      >
+        <CartesianGrid stroke={colorBorder} />
+        <XAxis type="number" />
+        <YAxis hide={true} dataKey="name" type="category" scale="auto" />
+        <Tooltip cursor={false} />
+
+        <Bar dataKey="value" barSize={16} fill={token["geekblue-3"]}>
+          <LabelList
+            dataKey="name"
+            position="insideLeft"
+            fill="white"
+            content={renderLabel}
+          />
+        </Bar>
+      </BarChart>
     </ChartContainer>
   );
 };

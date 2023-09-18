@@ -7,7 +7,7 @@
 }
 
 .alerts {
-  width: 17.5rem;
+  width: calc(25% - 1rem);
   flex-shrink: 0;
 }
 
