@@ -34,19 +34,6 @@ const data = [
   { name: "Museum of Future", value: 44 },
 ];
 
-const COLORS = [
-  "#13C2C2",
-  "#FA8C16",
-  "#FADB14",
-  "#A0D911",
-  "#FA541C",
-  "#1890FF",
-  "#2F54EB",
-  "#9254DE",
-  "#EB2F96",
-  "#F5222D",
-];
-
 type RenderLabelParams<T extends ContentType> = T extends (
   ...args: infer P
 ) => void
