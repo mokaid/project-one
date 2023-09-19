@@ -4,7 +4,7 @@ import { CheckCircleOutlined, FilterOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 
 import { setShowEventsFilterModal } from "../../store/slices/events";
-import { AlertsTable } from "../alerts-table";
+import { EventsTable } from "../events-table";
 
 import styles from "./index.module.css";
 
@@ -53,7 +53,7 @@ export const AllAlerts: FC = () => {
       </Col>
 
       <Col span={24}>
-        <AlertsTable dataTestId="all-alerts-table" />
+        <EventsTable dataTestId="all-alerts-table" />
       </Col>
     </Row>
   );

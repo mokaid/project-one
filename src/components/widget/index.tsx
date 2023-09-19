@@ -30,11 +30,10 @@ export const Widget: FC<WidgetProps> = ({
   dataTestId,
 }) => {
   const {
-    token: { colorText, colorBgContainer, colorIcon, borderRadiusLG },
+    token: { colorBgContainer, colorIcon, borderRadiusLG },
   } = useToken();
 
   const themeStyle: CSSProperties = {
-    color: colorText,
     backgroundColor: colorBgContainer,
     borderRadius: round ? borderRadiusLG : undefined,
   };

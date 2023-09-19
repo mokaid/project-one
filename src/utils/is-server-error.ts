@@ -1,11 +1,9 @@
-import type { ServerResponse } from "../types/api";
+import type { ServerError } from "../types/api";
 
-export function isServerError(
-  error: unknown,
-): error is ServerResponse<unknown> {
+export function isServerError(error: unknown): error is ServerError {
   return (
     typeof error === "object" &&
     error !== null &&
-    (error as ServerResponse<unknown>).error === 1
+    (error as ServerError).error === 1
   );
 }

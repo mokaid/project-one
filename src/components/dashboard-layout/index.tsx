@@ -25,7 +25,7 @@ export const DashboardLayout: FC = () => {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
   const { appTheme } = useContext(ThemeContext);
   const {
-    token: { colorBgContainer, colorText },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   const handleCollapseMenu = (newCollapsed: boolean) => {
@@ -87,11 +87,7 @@ export const DashboardLayout: FC = () => {
             </Space>
           </Header>
 
-          <Content
-            style={{ color: colorText }}
-            className={styles.content}
-            data-testid="main-content"
-          >
+          <Content className={styles.content} data-testid="main-content">
             <Outlet />
           </Content>
         </Layout>

@@ -1,6 +1,7 @@
 import { Divider, Space, Typography } from "antd";
 import type { ColumnType } from "antd/es/table";
 
+import type { AlarmLevel, DeviceEvent } from "../../types/device-event";
 import { getFormattedDateTime } from "../../utils/get-formatted-date-time";
 import { AlertPriorityTag } from "../alert-priority-tag";
 
@@ -8,30 +9,26 @@ const { Link } = Typography;
 
 type ColumnParams = {
   onMark: () => void;
-  onAcknowledge: () => void;
+  onProcess: (event: DeviceEvent) => void;
 };
 
 export const generateColumns = ({
   onMark,
-  onAcknowledge, // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}: ColumnParams): ColumnType<any>[] => [
+  onProcess,
+}: ColumnParams): ColumnType<DeviceEvent>[] => [
   {
     title: "Priority",
     dataIndex: "priority",
     width: 100,
-    sorter: true,
-    render: (level: "low" | "medium" | "high") => (
-      <AlertPriorityTag level={level} />
-    ),
+    render: (level: AlarmLevel) => <AlertPriorityTag level={level} />,
   },
   {
     title: "Site",
-    dataIndex: "site",
-    sorter: true,
+    dataIndex: ["site", "name"],
   },
   {
     title: "Time",
-    dataIndex: "dateTime",
+    dataIndex: "timeEvent",
     sorter: true,
     width: 192,
     render: (date: string) => getFormattedDateTime(date),
@@ -39,34 +36,30 @@ export const generateColumns = ({
   {
     title: "Vendor",
     dataIndex: "vendor",
-    sorter: true,
   },
   {
     title: "Object",
-    dataIndex: "object",
-    sorter: true,
+    dataIndex: ["obj", "name"],
   },
   {
     title: "Type",
-    dataIndex: "type",
-    sorter: true,
+    dataIndex: ["obj", "key"],
   },
   {
     title: "Value",
-    dataIndex: "value",
-    sorter: true,
+    dataIndex: ["obj", "value"],
   },
   {
     title: "Actions",
     dataIndex: "id",
     sorter: false,
-    width: 170,
+    width: 140,
     fixed: "right",
-    render() {
+    render(_, event) {
       return (
         <Space size={2} split={<Divider type="vertical" />}>
           <Link onClick={onMark}>Mark</Link>
-          <Link onClick={onAcknowledge}>Acknowledge</Link>
+          <Link onClick={() => onProcess(event)}>Process</Link>
         </Space>
       );
     },

@@ -1,5 +1,12 @@
-import { type FC } from "react";
+import { type FC, useCallback } from "react";
 import { Table, TableProps } from "antd";
+
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import {
+  setSelectedEvents,
+  setShowProcesslarmModal,
+} from "../../store/slices/events";
+import type { DeviceEvent } from "../../types/device-event";
 
 import { generateColumns } from "./config";
 import { data } from "./mock";
@@ -25,11 +32,24 @@ const rowSelection: TableProps<any>["rowSelection"] = {
   }),
 };
 
-export const AlertsTable: FC<Props> = ({ className, dataTestId }) => {
-  const columns = generateColumns({ onAcknowledge() {}, onMark() {} });
+export const EventsTable: FC<Props> = ({ className, dataTestId }) => {
+  const dispatch = useAppDispatch();
+
+  const handleProcessAlarm = useCallback(
+    (selectedEvent: DeviceEvent) => {
+      dispatch(setSelectedEvents([selectedEvent]));
+      dispatch(setShowProcesslarmModal(true));
+    },
+    [dispatch],
+  );
+
+  const columns = generateColumns({
+    onProcess: handleProcessAlarm,
+    onMark() {},
+  });
 
   return (
-    <Table
+    <Table<DeviceEvent>
       className={className}
       scroll={{ x: 1200 }}
       dataSource={data}
