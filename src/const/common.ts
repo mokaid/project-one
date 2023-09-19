@@ -8,3 +8,5 @@ export const APP_DATE_FORMAT = "DD\u00A0MMM\u00A0YYYY" as const;
 
 export const APP_DATE_TIME_FORMAT =
   `${APP_DATE_FORMAT}, h:mm:ss\u00A0A` as const;
+
+export const QUERY_STRING_ARRAY_FORMAT = "comma";

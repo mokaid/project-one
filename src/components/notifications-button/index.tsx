@@ -13,7 +13,10 @@ type Props = {
   dataTestId?: string;
 };
 
-export const NotificationsButton: FC<Props> = ({ className, dataTestId }) => {
+export const NotificationsButton: FC<Props> = ({
+  className,
+  dataTestId = "notification-button",
+}) => {
   const count = 1;
 
   return (
@@ -21,6 +24,8 @@ export const NotificationsButton: FC<Props> = ({ className, dataTestId }) => {
       className={clsx(className, styles.container)}
       to={AppRoute.Notifications}
       data-testid={dataTestId}
+      title="Show Notifications"
+      aria-label="Show notifications"
     >
       <Badge size="small" dot={count > 0}>
         <NotificationOutlined className={styles.icon} onClick={() => {}} />

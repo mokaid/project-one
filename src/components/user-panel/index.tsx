@@ -35,6 +35,7 @@ export const UserPanel: FC = () => {
         className={styles.avatar}
         userName={userName}
         aria-label={open ? "Hide user menu" : "Show user menu"}
+        dataTestId="user-avatar"
       />
     </Popover>
   );
