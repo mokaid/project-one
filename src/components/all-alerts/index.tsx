@@ -1,7 +1,9 @@
 import type { FC } from "react";
+import { useDispatch } from "react-redux";
 import { CheckCircleOutlined, FilterOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 
+import { setShowEventsFilterModal } from "../../store/slices/events";
 import { AlertsTable } from "../alerts-table";
 
 import styles from "./index.module.css";
@@ -11,7 +13,12 @@ const { Item } = Form;
 const { Search } = Input;
 
 export const AllAlerts: FC = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  const handleFilterClick = () => {
+    dispatch(setShowEventsFilterModal(true));
+  };
 
   return (
     <Row gutter={[24, 24]}>
@@ -35,7 +42,9 @@ export const AllAlerts: FC = () => {
               </Item>
             </Form>
 
-            <Button icon={<FilterOutlined />}>Filter</Button>
+            <Button icon={<FilterOutlined />} onClick={handleFilterClick}>
+              Filter
+            </Button>
             <Button icon={<CheckCircleOutlined />} disabled={true}>
               Mark All
             </Button>

@@ -3,6 +3,10 @@ import { Button, Checkbox, DatePicker, Drawer, Form, Space } from "antd";
 
 import { BaseSelect } from "../../components/base-select";
 import { APP_DATE_TIME_FORMAT } from "../../const/common";
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { useAppSelector } from "../../hooks/use-app-selector";
+import { getShowEventsFilterModalState } from "../../store/selectors/events";
+import { setShowEventsFilterModal } from "../../store/slices/events";
 import { getCheckboxGroupProps } from "../../utils/form-helpers/get-checkbox-group-props";
 import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
 import { getDateProps } from "../../utils/form-helpers/get-date-props";
@@ -41,10 +45,16 @@ const options = [
 ];
 
 export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
+  const dispatch = useAppDispatch();
+  const show = useAppSelector(getShowEventsFilterModalState);
   const [form] = Form.useForm<Fields>();
 
   const handleReset = () => {
     form.resetFields();
+  };
+
+  const handleClose = () => {
+    dispatch(setShowEventsFilterModal(false));
   };
 
   const handleSubmit = async (values: Fields) => {
@@ -53,7 +63,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
 
   return (
     <Drawer
-      // open={true}
+      open={show}
       width={460}
       title="Alerts Filter"
       extra={
@@ -67,6 +77,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
         </Space>
       }
       destroyOnClose={true}
+      onClose={handleClose}
       data-testid={dataTestId}
     >
       <Form<Fields>
@@ -84,7 +95,11 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
           <Checkbox.Group options={options} />
         </Item>
         <Item label="Site" name="site" getValueProps={getMultipleSelectProps}>
-          <BaseSelect mode="multiple" placeholder="Select Site" />
+          <BaseSelect
+            mode="multiple"
+            placeholder="Select Site"
+            allowClear={true}
+          />
         </Item>
         <Item
           label="Date and Time"
@@ -102,20 +117,36 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
           name="vendor"
           getValueProps={getMultipleSelectProps}
         >
-          <BaseSelect mode="multiple" placeholder="Select Vendor" />
+          <BaseSelect
+            mode="multiple"
+            placeholder="Select Vendor"
+            allowClear={true}
+          />
         </Item>
         <Item
           label="Object"
           name="object"
           getValueProps={getMultipleSelectProps}
         >
-          <BaseSelect mode="multiple" placeholder="Select Object" />
+          <BaseSelect
+            mode="multiple"
+            placeholder="Select Object"
+            allowClear={true}
+          />
         </Item>
         <Item label="Type" name="type" getValueProps={getMultipleSelectProps}>
-          <BaseSelect mode="multiple" placeholder="Select Type" />
+          <BaseSelect
+            mode="multiple"
+            placeholder="Select Type"
+            allowClear={true}
+          />
         </Item>
         <Item label="Value" name="value" getValueProps={getMultipleSelectProps}>
-          <BaseSelect mode="multiple" placeholder="Select Value" />
+          <BaseSelect
+            mode="multiple"
+            placeholder="Select Value"
+            allowClear={true}
+          />
         </Item>
       </Form>
     </Drawer>
