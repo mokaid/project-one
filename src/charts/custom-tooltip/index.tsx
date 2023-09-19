@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
-import { CSSProperties, FC, Fragment } from "react";
+import { type CSSProperties, type FC, Fragment } from "react";
 import { theme, Typography } from "antd";
-import { ContentType } from "recharts/types/component/Tooltip";
+import type { ContentType } from "recharts/types/component/Tooltip";
 
 type TooltipContentType = ContentType<
   number | string | Array<number | string>,

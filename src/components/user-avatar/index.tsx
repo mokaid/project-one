@@ -3,6 +3,7 @@ import { Avatar, type AvatarProps } from "antd";
 
 type Props = Exclude<AvatarProps, "children" | "style"> & {
   userName: string;
+  dataTestId?: string;
 };
 
 const colorsList = [
@@ -17,7 +18,12 @@ const colorsList = [
   "#C41D7F",
 ];
 
-export const UserAvatar: FC<Props> = ({ userName, style, ...props }) => {
+export const UserAvatar: FC<Props> = ({
+  userName,
+  style,
+  dataTestId,
+  ...props
+}) => {
   const bgColorIndex = userName.length % colorsList.length;
 
   return (
@@ -27,6 +33,7 @@ export const UserAvatar: FC<Props> = ({ userName, style, ...props }) => {
         ...style,
         backgroundColor: colorsList[bgColorIndex],
       }}
+      data-testid={dataTestId}
     >
       {userName.charAt(0).toUpperCase()}
     </Avatar>

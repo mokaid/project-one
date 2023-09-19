@@ -1,0 +1,123 @@
+import type { FC } from "react";
+import { Button, Checkbox, DatePicker, Drawer, Form, Space } from "antd";
+
+import { BaseSelect } from "../../components/base-select";
+import { APP_DATE_TIME_FORMAT } from "../../const/common";
+import { getCheckboxGroupProps } from "../../utils/form-helpers/get-checkbox-group-props";
+import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
+import { getDateProps } from "../../utils/form-helpers/get-date-props";
+import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-select-props";
+
+type Props = {
+  dataTestId?: string;
+};
+
+type Fields = {
+  datetime: string[];
+  object: [];
+  priority: [];
+  site: [];
+  type: [];
+  value: [];
+  vendor: [];
+};
+
+const { Item } = Form<Fields>;
+const { RangePicker } = DatePicker;
+const initialValues: Fields = {
+  datetime: [],
+  object: [],
+  priority: [],
+  site: [],
+  type: [],
+  value: [],
+  vendor: [],
+};
+
+const options = [
+  { label: "High", value: "high" },
+  { label: "Medium", value: "medium" },
+  { label: "Low", value: "low" },
+];
+
+export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
+  const [form] = Form.useForm<Fields>();
+
+  const handleReset = () => {
+    form.resetFields();
+  };
+
+  const handleSubmit = async (values: Fields) => {
+    console.log(values);
+  };
+
+  return (
+    <Drawer
+      // open={true}
+      width={460}
+      title="Alerts Filter"
+      extra={
+        <Space>
+          <Button type="default" onClick={handleReset}>
+            Reset
+          </Button>
+          <Button type="primary" onClick={form.submit}>
+            Apply
+          </Button>
+        </Space>
+      }
+      destroyOnClose={true}
+      data-testid={dataTestId}
+    >
+      <Form<Fields>
+        form={form}
+        layout="vertical"
+        name="alerts-search"
+        initialValues={initialValues}
+        onFinish={handleSubmit}
+      >
+        <Item
+          label="Priority"
+          name="priority"
+          getValueProps={getCheckboxGroupProps}
+        >
+          <Checkbox.Group options={options} />
+        </Item>
+        <Item label="Site" name="site" getValueProps={getMultipleSelectProps}>
+          <BaseSelect mode="multiple" placeholder="Select Site" />
+        </Item>
+        <Item
+          label="Date and Time"
+          name="datetime"
+          getValueFromEvent={getDateFromEvent}
+          getValueProps={getDateProps}
+        >
+          <RangePicker
+            showTime={{ format: "HH:mm" }}
+            format={APP_DATE_TIME_FORMAT}
+          />
+        </Item>
+        <Item
+          label="Vendor"
+          name="vendor"
+          getValueProps={getMultipleSelectProps}
+        >
+          <BaseSelect mode="multiple" placeholder="Select Vendor" />
+        </Item>
+        <Item
+          label="Object"
+          name="object"
+          getValueProps={getMultipleSelectProps}
+        >
+          <BaseSelect mode="multiple" placeholder="Select Object" />
+        </Item>
+        <Item label="Type" name="type" getValueProps={getMultipleSelectProps}>
+          <BaseSelect mode="multiple" placeholder="Select Type" />
+        </Item>
+        <Item label="Value" name="value" getValueProps={getMultipleSelectProps}>
+          <BaseSelect mode="multiple" placeholder="Select Value" />
+        </Item>
+      </Form>
+    </Drawer>
+  );
+};
