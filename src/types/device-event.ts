@@ -1,8 +1,8 @@
-import { Site } from "./site";
+import type { OrganisationSite } from "./organisation";
 
 export type DeviceEvent = {
   eventId: number;
-  site: Pick<Site, "id" | "name">;
+  site: Pick<OrganisationSite, "id" | "name">;
   vendor: string;
   obj: DeviceEventObject;
   /**

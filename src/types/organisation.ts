@@ -1,4 +1,26 @@
-export type Site = {
+export type Organisation = {
+  id: string;
+  name: string;
+  remark: string;
+  /**
+   * YYYY-MM-DD HH:MM:SS
+   */
+  createTimeUTC: string;
+  /**
+   * YYYY-MM-DD HH:MM:SS
+   */
+  lastChangedUTC: string;
+  groups: OrganisationGroup[];
+  sites: OrganisationSite[];
+};
+
+export type OrganisationGroup = {
+  id: string;
+  name: string;
+  parentId: OrganisationGroup["id"];
+};
+
+export type OrganisationSite = {
   id: string;
   name: string;
   address: string;
