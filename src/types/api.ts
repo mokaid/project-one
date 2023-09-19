@@ -1,10 +1,7 @@
 export type ServerResponse<T> = {
-  data: T;
-  message: string;
-};
-
-export type ServerError = {
-  data: {
-    message: string;
-  };
-};
+  /**
+   * 0 - Succeed,
+   * 1 - Error
+   */
+  error: 0 | 1;
+} & T;
