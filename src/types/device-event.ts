@@ -13,27 +13,27 @@ export type DeviceEvent = {
    * YYYY-MM-DD HH:MM:SS
    */
   timeServer: string;
-  timeZoneOffset: number;
-  problem: boolean;
-  level: number;
+  timeZone: number;
+  problem: number;
+  level: AlarmLevel;
   process: {
     status: ProcessStatus;
     /**
      * YYYY-MM-DD HH:MM:SS
      */
     time: string;
-    caseNum: string;
-    remark: string;
+    caseNum?: string;
+    remark?: string;
   };
 };
 
 type DeviceEventObject = {
   id: string;
   name: string;
-  keyId: number;
+  keyId?: number;
   key: string;
   value: string;
-  desc: string;
+  desc?: string;
 };
 
 export enum ProcessStatus {
@@ -41,3 +41,5 @@ export enum ProcessStatus {
   Dispatched = 1,
   Accomplished = 2,
 }
+
+export type AlarmLevel = 1 | 2 | 3 | 4 | 5;

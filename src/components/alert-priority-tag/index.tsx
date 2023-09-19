@@ -1,8 +1,11 @@
 import type { FC } from "react";
 import { Tag } from "antd";
 
+import { AlarmLevel } from "../../types/device-event";
+import { getAlarmLevelName } from "../../utils/get-alarm-level-name";
+
 type Props = {
-  level: "low" | "medium" | "high";
+  level: AlarmLevel;
 };
 
 const ALERT_LABEL_MAP = {
@@ -18,7 +21,11 @@ const ALERT_LEVEL_COLOR_MAP = {
 };
 
 export const AlertPriorityTag: FC<Props> = ({ level }) => {
+  const alarmLevel = getAlarmLevelName(level);
+
   return (
-    <Tag color={ALERT_LEVEL_COLOR_MAP[level]}>{ALERT_LABEL_MAP[level]}</Tag>
+    <Tag color={ALERT_LEVEL_COLOR_MAP[alarmLevel]}>
+      {ALERT_LABEL_MAP[alarmLevel]}
+    </Tag>
   );
 };

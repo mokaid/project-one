@@ -3,6 +3,7 @@ import { Col, Row } from "antd";
 
 import { AllAlerts } from "../../components/all-alerts";
 import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
+import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import { AlertsByPriopity } from "../../widgets/alerts-by-priority";
 import { AlertsByType } from "../../widgets/alerts-by-type";
 import { AlertsByVendor } from "../../widgets/alerts-by-vendor";
@@ -58,6 +59,7 @@ export const Dashboard: FC = () => {
       </Row>
 
       <AlertsSearchFilterDrawer dataTestId="all-alerts-search-filter" />
+      <ProcessAlarmModal dataTestId="process-alarm" />
     </>
   );
 };
