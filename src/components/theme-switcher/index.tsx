@@ -1,10 +1,10 @@
 import { type FC, useContext } from "react";
-import { Switch } from "antd";
-import clsx from "clsx";
+import Icon from "@ant-design/icons";
 
+import { ReactComponent as MoonIcon } from "../../assets/moon.svg";
+import { ReactComponent as SunIcon } from "../../assets/sun.svg";
 import { ThemeContext } from "../../theme";
-
-import styles from "./index.module.css";
+import { HeaderButton } from "../header-button";
 
 type Props = {
   className?: string;
@@ -16,17 +16,17 @@ export const ThemeSwitcher: FC<Props> = ({
   dataTestId = "theme-switcher",
 }) => {
   const { appTheme, toggleAppTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
+  const IconComponent = darkTheme ? SunIcon : MoonIcon;
+  const label = darkTheme ? "Light Theme" : "Dark Theme";
 
   return (
-    <div className={clsx(className, styles.container)} data-testid={dataTestId}>
-      Dark Mode:
-      <Switch
-        checkedChildren="ON"
-        unCheckedChildren="OFF"
-        onChange={toggleAppTheme}
-        defaultChecked={appTheme === "dark"}
-        data-testid="theme-switch"
-      />
-    </div>
+    <HeaderButton
+      label={label}
+      className={className}
+      icon={<Icon component={IconComponent} />}
+      onClick={toggleAppTheme}
+      data-testid={dataTestId}
+    />
   );
 };

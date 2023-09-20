@@ -1,6 +1,8 @@
-import type { FC } from "react";
-import { Switch } from "antd";
+import { type FC, useState } from "react";
+import { SoundOutlined } from "@ant-design/icons";
 import clsx from "clsx";
+
+import { HeaderButton } from "../header-button";
 
 import styles from "./index.module.css";
 
@@ -13,14 +15,22 @@ export const SoundNotificationsSwitcher: FC<Props> = ({
   className,
   dataTestId = "sound-notifications-switcher",
 }) => {
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const label = soundEnabled ? "Mute" : "Unmute";
+
+  const toggleSoundEnabled = () => {
+    setSoundEnabled((prevSoundEnabled) => !prevSoundEnabled);
+  };
+
   return (
-    <div className={clsx(className, styles.container)} data-testid={dataTestId}>
-      Sound:
-      <Switch
-        checkedChildren="ON"
-        unCheckedChildren="OFF"
-        data-testid="sound-notifications-switch"
-      />
-    </div>
+    <HeaderButton
+      label={label}
+      className={clsx(className, styles.container, {
+        [styles.disabled]: !soundEnabled,
+      })}
+      icon={<SoundOutlined />}
+      onClick={toggleSoundEnabled}
+      dataTestId={dataTestId}
+    />
   );
 };

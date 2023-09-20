@@ -1,12 +1,10 @@
 import type { FC } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { NotificationOutlined } from "@ant-design/icons";
 import { Badge } from "antd";
-import clsx from "clsx";
 
 import { AppRoute } from "../../routes/routes";
-
-import styles from "./index.module.css";
+import { HeaderButton } from "../header-button";
 
 type Props = {
   className?: string;
@@ -17,19 +15,25 @@ export const NotificationsButton: FC<Props> = ({
   className,
   dataTestId = "notification-button",
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(AppRoute.Notifications);
+  };
+
   const count = 1;
 
   return (
-    <Link
-      className={clsx(className, styles.container)}
-      to={AppRoute.Notifications}
+    <HeaderButton
+      label="Notifications"
+      className={className}
+      icon={
+        <Badge size="small" dot={count > 0}>
+          <NotificationOutlined />
+        </Badge>
+      }
+      onClick={handleClick}
       data-testid={dataTestId}
-      title="Show Notifications"
-      aria-label="Show notifications"
-    >
-      <Badge size="small" dot={count > 0}>
-        <NotificationOutlined className={styles.icon} onClick={() => {}} />
-      </Badge>
-    </Link>
+    />
   );
 };
