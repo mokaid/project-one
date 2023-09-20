@@ -2,6 +2,9 @@ import type { FC } from "react";
 import { Button, Drawer, Form, Input, Radio, Space } from "antd";
 import { useDidUpdate } from "rooks";
 
+import { AlarmInfoList } from "../../alarm-info-list";
+import { SiteInfoList } from "../../components/site-info-list";
+import { DescriptionList } from "../../description-list";
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { useAppSelector } from "../../hooks/use-app-selector";
 import {
@@ -14,6 +17,8 @@ import {
 } from "../../store/slices/events";
 import { ProcessStatus } from "../../types/device-event";
 import { getFormattedDateTime } from "../../utils/get-formatted-date-time";
+
+import styles from "./index.module.css";
 
 type Props = {
   dataTestId?: string;
@@ -85,28 +90,42 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
       onClose={handleClose}
       data-testid={dataTestId}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={initialValues}
-        name="process-alarm"
-      >
-        <Item label="Last Process Time">{processTime}</Item>
-        <Item label="Status" name="processStatus">
-          <Radio.Group options={processStatusOptions} />
-        </Item>
-        <Item label="Case Number" name="caseNumber">
-          <Input maxLength={32} placeholder="Netsuite Case Number" />
-        </Item>
-        <Item label="Notes" name="notes">
-          <TextArea
-            autoSize={{ minRows: 4, maxRows: 6 }}
-            maxLength={256}
-            showCount={true}
-            placeholder="Process notes"
-          />
-        </Item>
-      </Form>
+      <div className={styles.container}>
+        <DescriptionList
+          title="Process Info"
+          items={[{ label: "Process Time", value: processTime }]}
+        />
+
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={initialValues}
+          name="process-alarm"
+          data-testid="process-alarm-form"
+        >
+          <Item label="Status" name="processStatus">
+            <Radio.Group options={processStatusOptions} />
+          </Item>
+          <Item label="Case Number" name="caseNumber">
+            <Input maxLength={32} placeholder="Netsuite Case Number" />
+          </Item>
+          <Item label="Notes" name="notes">
+            <TextArea
+              autoSize={{ minRows: 4, maxRows: 6 }}
+              maxLength={256}
+              showCount={true}
+              placeholder="Process notes"
+            />
+          </Item>
+        </Form>
+
+        {event && (
+          <>
+            <AlarmInfoList event={event} dataTestId="alarm-info-list" />
+            <SiteInfoList site={event.site} />
+          </>
+        )}
+      </div>
     </Drawer>
   );
 };

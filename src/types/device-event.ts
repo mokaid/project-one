@@ -1,3 +1,5 @@
+import type { ALARM_LEVEL_MAP, AlarmLevelName } from "../const/alarm";
+
 import type { OrganisationSite } from "./organisation";
 
 export type DeviceEvent = {
@@ -42,4 +44,9 @@ export enum ProcessStatus {
   Accomplished = 2,
 }
 
-export type AlarmLevel = 1 | 2 | 3 | 4 | 5;
+export type AlarmLevel =
+  (typeof ALARM_LEVEL_MAP)[AlarmLevelName] extends readonly [...infer A]
+    ? A extends Array<infer L>
+      ? L
+      : never
+    : never;
