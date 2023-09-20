@@ -94,6 +94,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
         <DescriptionList
           title="Process Info"
           items={[{ label: "Process Time", value: processTime }]}
+          dataTestId="process-info-list"
         />
 
         <Form
@@ -122,7 +123,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
         {event && (
           <>
             <AlarmInfoList event={event} dataTestId="alarm-info-list" />
-            <SiteInfoList site={event.site} />
+            <SiteInfoList site={event.site} dataTestId="site-info-list" />
           </>
         )}
       </div>

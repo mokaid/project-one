@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { type FC, useMemo } from "react";
 import { Space, Tag } from "antd";
 
 import { AlertPriorityTag } from "../components/alert-priority-tag";
