@@ -34,7 +34,6 @@ export const FullScreenSwitcher: FC<Props> = ({
       className={className}
       icon={icon}
       onClick={toggleFullscreen}
-      title="Toggle fullscreen"
       dataTestId={dataTestId}
     />
   );
