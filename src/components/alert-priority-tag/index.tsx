@@ -5,6 +5,7 @@ import { AlarmLevel } from "../../types/device-event";
 import { getAlarmLevelName } from "../../utils/get-alarm-level-name";
 
 type Props = {
+  className?: string;
   level: AlarmLevel;
 };
 
@@ -20,11 +21,11 @@ const ALERT_LEVEL_COLOR_MAP = {
   high: "error",
 };
 
-export const AlertPriorityTag: FC<Props> = ({ level }) => {
+export const AlertPriorityTag: FC<Props> = ({ className, level }) => {
   const alarmLevel = getAlarmLevelName(level);
 
   return (
-    <Tag color={ALERT_LEVEL_COLOR_MAP[alarmLevel]}>
+    <Tag className={className} color={ALERT_LEVEL_COLOR_MAP[alarmLevel]}>
       {ALERT_LABEL_MAP[alarmLevel]}
     </Tag>
   );

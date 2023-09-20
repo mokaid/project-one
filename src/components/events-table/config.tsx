@@ -18,7 +18,7 @@ export const generateColumns = ({
 }: ColumnParams): ColumnType<DeviceEvent>[] => [
   {
     title: "Priority",
-    dataIndex: "priority",
+    dataIndex: "level",
     width: 100,
     render: (level: AlarmLevel) => <AlertPriorityTag level={level} />,
   },
