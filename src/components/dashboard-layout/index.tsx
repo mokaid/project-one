@@ -78,12 +78,12 @@ export const DashboardLayout: FC = () => {
             className={styles.header}
             style={{ backgroundColor: colorBgContainer }}
           >
-            <Space size="large" align="center" className={styles.controls}>
-              <FullScreenSwitcher />
+            <Space align="center" className={styles.controls}>
               <ThemeSwitcher />
               <SoundNotificationsSwitcher />
+              <FullScreenSwitcher />
               <NotificationsButton />
-              <UserPanel />
+              <UserPanel className={styles.userPanel} />
             </Space>
           </Header>
 

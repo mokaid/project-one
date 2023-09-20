@@ -1,14 +1,8 @@
 import { type FC } from "react";
-import { Switch } from "antd";
-import clsx from "clsx";
+import { FullscreenExitOutlined, FullscreenOutlined } from "@ant-design/icons";
+import { useFullscreen } from "rooks";
 
-import {
-  closeFullScreen,
-  isFullScreen,
-  openFullScreen,
-} from "../../utils/fullscreen";
-
-import styles from "./index.module.css";
+import { HeaderButton } from "../header-button";
 
 type Props = {
   className?: string;
@@ -19,24 +13,29 @@ export const FullScreenSwitcher: FC<Props> = ({
   className,
   dataTestId = "full-screen-switcher",
 }) => {
-  const toggleFullScreen = () => {
-    if (isFullScreen()) {
-      closeFullScreen();
-    } else {
-      openFullScreen();
-    }
-  };
+  const { isFullscreenAvailable, isFullscreenEnabled, toggleFullscreen } =
+    useFullscreen();
+
+  if (!isFullscreenAvailable) {
+    return null;
+  }
+
+  const label = isFullscreenEnabled ? "Exit full screen" : "Full screen";
+
+  const icon = isFullscreenEnabled ? (
+    <FullscreenExitOutlined />
+  ) : (
+    <FullscreenOutlined />
+  );
 
   return (
-    <div className={clsx(className, styles.container)} data-testid={dataTestId}>
-      Full Screen:
-      <Switch
-        checkedChildren="ON"
-        unCheckedChildren="OFF"
-        onChange={toggleFullScreen}
-        defaultChecked={false}
-        data-testid="full-screen-switch"
-      />
-    </div>
+    <HeaderButton
+      label={label}
+      className={className}
+      icon={icon}
+      onClick={toggleFullscreen}
+      title="Toggle fullscreen"
+      dataTestId={dataTestId}
+    />
   );
 };
