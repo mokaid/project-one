@@ -1,8 +1,8 @@
 import { type FC, useContext } from "react";
 import Icon from "@ant-design/icons";
 
-import { ReactComponent as MoonIcon } from "../../assets/moon.svg";
-import { ReactComponent as SunIcon } from "../../assets/sun.svg";
+import MoonIcon from "../../assets/moon.svg?react";
+import SunIcon from "../../assets/sun.svg?react";
 import { ThemeContext } from "../../theme";
 import { HeaderButton } from "../header-button";
 

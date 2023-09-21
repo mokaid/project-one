@@ -2,7 +2,7 @@ import { memo } from "react";
 import { theme } from "antd";
 import clsx from "clsx";
 
-import { ReactComponent as LogoImage } from "./assets/logo.svg";
+import LogoImage from "./assets/logo.svg?react";
 
 import styles from "./index.module.css";
 
