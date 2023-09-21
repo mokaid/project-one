@@ -1,12 +1,11 @@
-import { type FC, type ReactNode, useEffect, useRef } from "react";
+import { type FC, type PropsWithChildren, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useGoogleMap } from "@react-google-maps/api";
 
-type Props = {
+type Props = PropsWithChildren<{
   position: google.maps.ControlPosition;
-  children?: ReactNode;
   zIndex?: number;
-};
+}>;
 
 export const GoogleMapControl: FC<Props> = ({
   position,

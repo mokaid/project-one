@@ -18,9 +18,9 @@
     "@mvp-tech/utils": "1.6.0",
     "@react-google-maps/api": "2.19.2",
     "@reduxjs/toolkit": "1.9.5",
-    "antd": "5.9.1",
+    "antd": "5.9.2",
     "clsx": "2.0.0",
-    "dayjs": "1.11.9",
+    "dayjs": "1.11.10",
     "js-cookie": "3.0.5",
     "query-string": "8.1.0",
     "react": "18.2.0",
@@ -31,12 +31,12 @@
     "rooks": "7.14.1"
   },
   "devDependencies": {
-    "@types/js-cookie": "3.0.3",
-    "@types/node": "20.6.0",
-    "@types/react": "18.2.21",
+    "@types/js-cookie": "3.0.4",
+    "@types/node": "20.6.3",
+    "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
-    "@typescript-eslint/eslint-plugin": "6.7.0",
-    "@typescript-eslint/parser": "6.7.0",
+    "@typescript-eslint/eslint-plugin": "6.7.2",
+    "@typescript-eslint/parser": "6.7.2",
     "@vitejs/plugin-react-swc": "3.3.2",
     "eslint": "8.49.0",
     "eslint-config-airbnb": "19.0.4",
@@ -57,7 +57,7 @@
     "stylelint-config-standard": "34.0.0",
     "typescript": "5.2.2",
     "vite": "4.4.9",
-    "vite-plugin-svgr": "3.2.0",
+    "vite-plugin-svgr": "4.0.0",
     "vitest": "0.34.4"
   }
 }
