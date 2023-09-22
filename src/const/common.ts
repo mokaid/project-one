@@ -10,3 +10,5 @@ export const APP_DATE_TIME_FORMAT =
   `${APP_DATE_FORMAT}, h:mm:ss\u00A0A` as const;
 
 export const QUERY_STRING_ARRAY_FORMAT = "comma";
+
+export const DEFAULT_SEARCH_PARAM_NAME = "keyword" as const;

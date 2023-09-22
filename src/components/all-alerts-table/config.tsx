@@ -3,7 +3,7 @@ import type { ColumnType } from "antd/es/table";
 
 import type { AlarmLevel, DeviceEvent } from "../../types/device-event";
 import { getFormattedDateTime } from "../../utils/get-formatted-date-time";
-import { AlertPriorityTag } from "../alert-priority-tag";
+import { AlarmLevelTag } from "../alarm-level-tag";
 
 const { Link } = Typography;
 
@@ -20,7 +20,7 @@ export const generateColumns = ({
     title: "Priority",
     dataIndex: "level",
     width: 100,
-    render: (level: AlarmLevel) => <AlertPriorityTag level={level} />,
+    render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
   },
   {
     title: "Site",
@@ -51,7 +51,7 @@ export const generateColumns = ({
   },
   {
     title: "Actions",
-    dataIndex: "id",
+    dataIndex: "eventId",
     sorter: false,
     width: 140,
     fixed: "right",

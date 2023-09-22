@@ -1,19 +1,34 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import { DashboardLayout } from "../components/dashboard-layout";
+import { AlarmRecord } from "../pages/alarm-record";
 import { Dashboard } from "../pages/dashboard";
 
 import { AlarmRoute, AppRoute } from "./routes";
 
 export const router = createBrowserRouter([
   {
-    path: AppRoute.Home,
-    element: <Navigate to={AppRoute.Dashboard} replace={true} />,
-    errorElement: <>TODO: 404 page</>,
+    path: "/sign-in",
+    element: "Sign in",
   },
   {
+    path: "/sign-up",
+    element: "Sign up",
+  },
+  {
+    path: AppRoute.Home,
     element: <DashboardLayout />,
+    errorElement: <>TODO: 404 page</>,
+    handle: {
+      crumb: () => ({
+        title: "Home",
+      }),
+    },
     children: [
+      {
+        path: "",
+        element: <Navigate to={AppRoute.Dashboard} replace={true} />,
+      },
       {
         path: AppRoute.Dashboard,
         element: <Dashboard />,
@@ -21,6 +36,11 @@ export const router = createBrowserRouter([
       {
         path: AppRoute.Alarm,
         element: <Outlet />,
+        handle: {
+          crumb: () => ({
+            title: "Alarm",
+          }),
+        },
         children: [
           {
             path: "",
@@ -28,7 +48,13 @@ export const router = createBrowserRouter([
           },
           {
             path: AlarmRoute.Record,
-            element: "Alarm Record",
+            element: <AlarmRecord />,
+            index: true,
+            handle: {
+              crumb: () => ({
+                title: "Record",
+              }),
+            },
           },
           {
             path: AlarmRoute.SelfRecovery,

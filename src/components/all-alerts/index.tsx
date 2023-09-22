@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { CheckCircleOutlined, FilterOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 
+import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
 import { setShowEventsFilterModal } from "../../store/slices/events";
-import { EventsTable } from "../events-table";
+import { AllAlertsTable } from "../all-alerts-table";
 
 import styles from "./index.module.css";
 
@@ -21,40 +22,44 @@ export const AllAlerts: FC = () => {
   };
 
   return (
-    <Row gutter={[24, 24]}>
-      <Col span={24}>
-        <header className={styles.header}>
-          <Title level={4}>All Alerts — 1173</Title>
+    <>
+      <Row gutter={[24, 24]}>
+        <Col span={24}>
+          <header className={styles.header}>
+            <Title level={4}>All Alerts — 1173</Title>
 
-          <Space size="middle" align="center">
-            <Form
-              form={form}
-              layout="vertical"
-              name="all-alerts-search"
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
-              data-testid="all-alerts-search-form"
-            >
-              <Item name="search" noStyle={true}>
-                <Search placeholder="Search" allowClear={true} />
-              </Item>
-            </Form>
+            <Space size="middle" align="center">
+              <Form
+                form={form}
+                layout="vertical"
+                name="all-alerts-search"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                data-testid="all-alerts-search-form"
+              >
+                <Item name="search" noStyle={true}>
+                  <Search placeholder="Search" allowClear={true} />
+                </Item>
+              </Form>
 
-            <Button icon={<FilterOutlined />} onClick={handleFilterClick}>
-              Filter
-            </Button>
-            <Button icon={<CheckCircleOutlined />} disabled={true}>
-              Mark All
-            </Button>
-          </Space>
-        </header>
-      </Col>
+              <Button icon={<FilterOutlined />} onClick={handleFilterClick}>
+                Filter
+              </Button>
+              <Button icon={<CheckCircleOutlined />} disabled={true}>
+                Mark All
+              </Button>
+            </Space>
+          </header>
+        </Col>
 
-      <Col span={24}>
-        <EventsTable dataTestId="all-alerts-table" />
-      </Col>
-    </Row>
+        <Col span={24}>
+          <AllAlertsTable dataTestId="all-alerts-table" />
+        </Col>
+      </Row>
+
+      <AlertsSearchFilterDrawer dataTestId="all-alerts-search-filter" />
+    </>
   );
 };

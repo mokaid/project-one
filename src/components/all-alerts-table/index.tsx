@@ -1,7 +1,8 @@
 import { type FC, useCallback } from "react";
-import { Table, TableProps } from "antd";
+import { Table, type TableProps } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import {
   setSelectedEvents,
   setShowProcesslarmModal,
@@ -32,7 +33,7 @@ const rowSelection: TableProps<any>["rowSelection"] = {
   }),
 };
 
-export const EventsTable: FC<Props> = ({ className, dataTestId }) => {
+export const AllAlertsTable: FC<Props> = ({ className, dataTestId }) => {
   const dispatch = useAppDispatch();
 
   const handleProcessAlarm = useCallback(
@@ -49,17 +50,20 @@ export const EventsTable: FC<Props> = ({ className, dataTestId }) => {
   });
 
   return (
-    <Table<DeviceEvent>
-      className={className}
-      scroll={{ x: 1200 }}
-      dataSource={data}
-      sticky={true}
-      columns={columns}
-      rowSelection={rowSelection}
-      showSorterTooltip={false}
-      rowKey="id"
-      pagination={{ showQuickJumper: true, showSizeChanger: true }}
-      data-testid={dataTestId}
-    />
+    <>
+      <Table<DeviceEvent>
+        rowKey="eventId"
+        className={className}
+        scroll={{ x: 1200 }}
+        dataSource={data}
+        sticky={true}
+        columns={columns}
+        rowSelection={rowSelection}
+        showSorterTooltip={false}
+        pagination={{ showQuickJumper: true, showSizeChanger: true }}
+        data-testid={dataTestId}
+      />
+      <ProcessAlarmModal dataTestId="process-alarm" />
+    </>
   );
 };

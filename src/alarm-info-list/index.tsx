@@ -1,7 +1,7 @@
 import { type FC, useMemo } from "react";
 import { Space, Tag } from "antd";
 
-import { AlertPriorityTag } from "../components/alert-priority-tag";
+import { AlarmLevelTag } from "../components/alarm-level-tag";
 import { DescriptionList, type DescriptionListItem } from "../description-list";
 import type { DeviceEvent } from "../types/device-event";
 import { getFormattedDateTime } from "../utils/get-formatted-date-time";
@@ -18,7 +18,7 @@ export const AlarmInfoList: FC<Props> = ({ event, className, dataTestId }) => {
       { label: "System", value: event.vendor },
       { label: "Event ID", value: event.eventId },
       { label: "Object", value: event.obj.name },
-      { label: "Priority", value: <AlertPriorityTag level={event.level} /> },
+      { label: "Priority", value: <AlarmLevelTag level={event.level} /> },
       {
         label: "Type",
         value: (
