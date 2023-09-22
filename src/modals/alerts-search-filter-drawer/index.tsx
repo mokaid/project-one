@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Button, Checkbox, DatePicker, Drawer, Form, Space } from "antd";
 
 import { BaseSelect } from "../../components/base-select";
+import { ALARM_LEVEL_OPTIONS } from "../../const/alarm";
 import { APP_DATE_TIME_FORMAT } from "../../const/common";
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { useAppSelector } from "../../hooks/use-app-selector";
@@ -37,12 +38,6 @@ const initialValues: Fields = {
   value: [],
   vendor: [],
 };
-
-const options = [
-  { label: "High", value: "high" },
-  { label: "Medium", value: "medium" },
-  { label: "Low", value: "low" },
-];
 
 export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
   const dispatch = useAppDispatch();
@@ -92,7 +87,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
           name="priority"
           getValueProps={getCheckboxGroupProps}
         >
-          <Checkbox.Group options={options} />
+          <Checkbox.Group options={ALARM_LEVEL_OPTIONS} />
         </Item>
         <Item label="Site" name="site" getValueProps={getMultipleSelectProps}>
           <BaseSelect

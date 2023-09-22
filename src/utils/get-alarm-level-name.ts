@@ -1,7 +1,7 @@
 import { ALARM_LEVEL_MAP, AlarmLevelName } from "../const/alarm";
 import type { AlarmLevel } from "../types/device-event";
 
-export function getAlarmLevelName(level: AlarmLevel) {
+export function getAlarmLevelName(level: AlarmLevel): AlarmLevelName {
   let levelName = AlarmLevelName.High;
 
   (

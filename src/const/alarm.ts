@@ -9,3 +9,16 @@ export const ALARM_LEVEL_MAP = {
   [AlarmLevelName.Medium]: [2, 3],
   [AlarmLevelName.High]: [4, 5],
 } as const;
+
+export const ALARM_LEVEL_NAME_MAP: Record<AlarmLevelName, string> = {
+  [AlarmLevelName.Low]: "Low",
+  [AlarmLevelName.Medium]: "Medium",
+  [AlarmLevelName.High]: "High",
+};
+
+export const ALARM_LEVEL_OPTIONS = Object.values(AlarmLevelName).map(
+  (level) => ({
+    label: ALARM_LEVEL_NAME_MAP[level],
+    value: level,
+  }),
+);
