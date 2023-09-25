@@ -1,7 +1,9 @@
 import type { FC } from "react";
-import { Col, Row, Tabs, type TabsProps } from "antd";
+import { FilterOutlined } from "@ant-design/icons";
+import { Button, Col, Row, Tabs, type TabsProps } from "antd";
 
 import { Breadcrumbs } from "../../breadcrumbs";
+import { AlarmRecordCharts } from "../../components/alarm-record-charts";
 import { AlarmRecordGrid } from "../../components/alarm-record-grid";
 
 const items: TabsProps["items"] = [
@@ -13,7 +15,7 @@ const items: TabsProps["items"] = [
   {
     key: "chart",
     label: "Chart",
-    children: "Content of Tab Pane 2",
+    children: <AlarmRecordCharts />,
   },
 ];
 
@@ -25,7 +27,13 @@ export const AlarmRecord: FC = () => {
       </Col>
 
       <Col span={24}>
-        <Tabs type="card" items={items} />
+        <Tabs
+          type="card"
+          items={items}
+          tabBarExtraContent={{
+            right: <Button icon={<FilterOutlined />}>Filter</Button>,
+          }}
+        />
       </Col>
     </Row>
   );

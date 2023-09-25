@@ -1,3 +1,5 @@
-.chart :global(.recharts-surface) {
-  display: block;
+.chart {
+  & :global(.recharts-surface) {
+    display: block;
+  }
 }
