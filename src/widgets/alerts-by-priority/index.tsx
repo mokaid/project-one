@@ -19,7 +19,7 @@ const data = [
 
 const COLORS = ["#5CDB1D", "#FBB62D", "#F63A44"];
 
-export const AlertsByPriopity: FC<Props> = ({
+export const AlertsByPriority: FC<Props> = ({
   className,
   title,
   tooltipText,

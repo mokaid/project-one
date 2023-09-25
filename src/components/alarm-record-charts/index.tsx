@@ -1,47 +1,37 @@
 import type { FC } from "react";
 import { Col, Row } from "antd";
 
-import { AllAlerts } from "../../components/all-alerts";
+import { AlertsByMonth } from "../../widgets/alerts-by-month";
 import { AlertsByPriority } from "../../widgets/alerts-by-priority";
 import { AlertsByType } from "../../widgets/alerts-by-type";
-import { AlertsByVendor } from "../../widgets/alerts-by-vendor";
-import { AlertsMap } from "../../widgets/alerts-map";
 import { TopAlertsBySite } from "../../widgets/top-alerts-by-site";
 
 import styles from "./index.module.css";
 
-export const Dashboard: FC = () => {
+export const AlarmRecordCharts: FC = () => {
   return (
     <Row gutter={[24, 24]}>
-      <Col span={24}>
-        <AlertsMap dataTestId="alerts-map" />
-      </Col>
-
-      <Col span={6}>
+      <Col span={8}>
         <AlertsByType
-          title="All Weekly Alerts"
+          title="Alerts by Type"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
-          dataTestId="all-weekly-alerts"
+          dataTestId="alerts-by-type"
         />
       </Col>
-      <Col span={6}>
+      <Col span={8}>
         <AlertsByPriority
-          title="Weekly Alerts by Priority"
+          title="Alerts by Priority"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
-          dataTestId="weekly-priority-alerts-chart"
+          dataTestId="alerts-by-priority"
         />
       </Col>
-      <Col span={6}>
-        <AlertsByVendor
-          title="Weekly Alerts by Vendor"
-          tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
-          dataTestId="weekly-alerts-by-vendor"
-        />
+      <Col span={8}>
+        <AlertsByMonth />
       </Col>
-      <Col span={6}>
+      <Col span={8}>Alerts by System</Col>
+      <Col span={8}>
         <TopAlertsBySite
           title="Top 10 Weekly Alerts by Site"
           tooltipText="TODO: Add tooltip text"
@@ -49,10 +39,7 @@ export const Dashboard: FC = () => {
           dataTestId="top-10-alerts-by-site-chart"
         />
       </Col>
-
-      <Col span={24}>
-        <AllAlerts />
-      </Col>
+      <Col span={8}>Alerts by Devices</Col>
     </Row>
   );
 };

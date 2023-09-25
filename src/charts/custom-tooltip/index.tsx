@@ -15,7 +15,7 @@ type Props = RenderTooltipParams;
 
 const { Text } = Typography;
 
-export const CustomTooltip: FC<Props> = (props) => {
+export const CustomTooltip: FC<Props> = ({ active, payload: data }) => {
   const {
     token: { colorBgElevated, boxShadowSecondary, borderRadiusSM, paddingXS },
   } = theme.useToken();
@@ -27,11 +27,14 @@ export const CustomTooltip: FC<Props> = (props) => {
     borderRadius: borderRadiusSM,
   };
 
-  if (props.active && props.payload && props.payload.length) {
+  if (active && Array.isArray(data) && data.length > 0) {
+    const { dataKey } = data[0];
+
     return (
       <div style={themedStyles}>
-        {props.payload.map(({ payload }) => {
-          const { name, value } = payload;
+        {data.map(({ payload }) => {
+          const { name } = payload;
+          const value = payload[dataKey!];
 
           return (
             <Fragment key={`${name}-${value}`}>

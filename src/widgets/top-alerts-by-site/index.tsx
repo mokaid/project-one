@@ -1,39 +1,20 @@
 import { type FC, useCallback } from "react";
 import { theme } from "antd";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, LabelList, XAxis, YAxis } from "recharts";
 import { ContentType } from "recharts/types/component/Label";
 
+import { BaseBarChart } from "../../charts/base-bar-chart";
 import {
   ChartContainer,
   type ChartContainerProps,
 } from "../../charts/chart-container";
-import { CustomTooltip } from "../../charts/custom-tooltip";
+
+import { data } from "./mock";
 
 type Props = Pick<
   ChartContainerProps,
   "title" | "tooltipText" | "className" | "dataTestId"
 >;
-
-const data = [
-  { name: "Dubai Police", value: 400 },
-  { name: "Dubai Hills Mall", value: 380 },
-  { name: "Dubai Mall", value: 246 },
-  { name: "RTA", value: 214 },
-  { name: "Dubai Metro", value: 198 },
-  { name: "Burj Al Arab", value: 175 },
-  { name: "Mall of Emirates", value: 130 },
-  { name: "Dubai Opera", value: 121 },
-  { name: "MOFA", value: 100 },
-  { name: "Museum of Future", value: 44 },
-];
 
 type RenderLabelParams<T extends ContentType = ContentType> = T extends (
   ...args: infer P
@@ -48,13 +29,7 @@ export const TopAlertsBySite: FC<Props> = ({
   dataTestId,
 }) => {
   const {
-    token: {
-      colorText,
-      colorBorder,
-      colorBorderSecondary,
-      colorError,
-      ...token
-    },
+    token: { colorText, geekblue3 },
   } = theme.useToken();
 
   const renderLabel = useCallback(
@@ -82,17 +57,11 @@ export const TopAlertsBySite: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
-      <BarChart
-        layout="vertical"
-        data={data}
-        margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-      >
-        <CartesianGrid stroke={colorBorderSecondary} />
+      <BaseBarChart layout="vertical" data={data}>
         <XAxis type="number" />
         <YAxis hide={true} dataKey="name" type="category" scale="auto" />
-        <Tooltip cursor={false} content={<CustomTooltip />} />
 
-        <Bar dataKey="value" barSize={16} fill={token["geekblue-3"]}>
+        <Bar dataKey="count" barSize={16} fill={geekblue3}>
           <LabelList
             dataKey="name"
             position="insideLeft"
@@ -100,7 +69,7 @@ export const TopAlertsBySite: FC<Props> = ({
             content={renderLabel}
           />
         </Bar>
-      </BarChart>
+      </BaseBarChart>
     </ChartContainer>
   );
 };
