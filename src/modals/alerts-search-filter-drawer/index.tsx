@@ -19,15 +19,15 @@ type Props = {
 
 type Fields = {
   datetime: string[];
-  object: [];
-  priority: [];
-  site: [];
-  type: [];
-  value: [];
-  vendor: [];
+  object: unknown[];
+  priority: unknown[];
+  site: unknown[];
+  type: unknown[];
+  value: unknown[];
+  vendor: unknown[];
 };
 
-const { Item } = Form<Fields>;
+const { Item } = Form;
 const { RangePicker } = DatePicker;
 const initialValues: Fields = {
   datetime: [],
@@ -81,22 +81,27 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
         name="alerts-search"
         initialValues={initialValues}
         onFinish={handleSubmit}
+        data-testid="alerts-search-form"
       >
-        <Item
+        <Item<Fields>
           label="Priority"
           name="priority"
           getValueProps={getCheckboxGroupProps}
         >
           <Checkbox.Group options={ALARM_LEVEL_OPTIONS} />
         </Item>
-        <Item label="Site" name="site" getValueProps={getMultipleSelectProps}>
+        <Item<Fields>
+          label="Site"
+          name="site"
+          getValueProps={getMultipleSelectProps}
+        >
           <BaseSelect
             mode="multiple"
             placeholder="Select Site"
             allowClear={true}
           />
         </Item>
-        <Item
+        <Item<Fields>
           label="Date and Time"
           name="datetime"
           getValueFromEvent={getDateFromEvent}
@@ -107,7 +112,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
             format={APP_DATE_TIME_FORMAT}
           />
         </Item>
-        <Item
+        <Item<Fields>
           label="Vendor"
           name="vendor"
           getValueProps={getMultipleSelectProps}
@@ -118,7 +123,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
             allowClear={true}
           />
         </Item>
-        <Item
+        <Item<Fields>
           label="Object"
           name="object"
           getValueProps={getMultipleSelectProps}
@@ -129,14 +134,22 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
             allowClear={true}
           />
         </Item>
-        <Item label="Type" name="type" getValueProps={getMultipleSelectProps}>
+        <Item<Fields>
+          label="Type"
+          name="type"
+          getValueProps={getMultipleSelectProps}
+        >
           <BaseSelect
             mode="multiple"
             placeholder="Select Type"
             allowClear={true}
           />
         </Item>
-        <Item label="Value" name="value" getValueProps={getMultipleSelectProps}>
+        <Item<Fields>
+          label="Value"
+          name="value"
+          getValueProps={getMultipleSelectProps}
+        >
           <BaseSelect
             mode="multiple"
             placeholder="Select Value"

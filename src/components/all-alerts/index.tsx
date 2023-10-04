@@ -9,13 +9,21 @@ import { AllAlertsTable } from "../all-alerts-table";
 
 import styles from "./index.module.css";
 
+type Fields = {
+  search: string;
+};
+
+const initialValues: Fields = {
+  search: "",
+};
+
 const { Title } = Typography;
 const { Item } = Form;
 const { Search } = Input;
 
 export const AllAlerts: FC = () => {
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<Fields>();
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
@@ -32,6 +40,7 @@ export const AllAlerts: FC = () => {
               <Form
                 form={form}
                 layout="vertical"
+                initialValues={initialValues}
                 name="all-alerts-search"
                 autoComplete="off"
                 autoCorrect="off"
@@ -39,7 +48,7 @@ export const AllAlerts: FC = () => {
                 spellCheck="false"
                 data-testid="all-alerts-search-form"
               >
-                <Item name="search" noStyle={true}>
+                <Item<Fields> name="search" noStyle={true}>
                   <Search placeholder="Search" allowClear={true} />
                 </Item>
               </Form>

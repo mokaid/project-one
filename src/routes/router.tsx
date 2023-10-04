@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
   {
     path: AppRoute.Home,
     element: <DashboardLayout />,
-    errorElement: <>TODO: 404 page</>,
+    errorElement: <>TODO: Add 404 page</>,
     handle: {
       crumb: () => ({
         title: "Home",

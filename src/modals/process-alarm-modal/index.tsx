@@ -97,20 +97,20 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
           dataTestId="process-info-list"
         />
 
-        <Form
+        <Form<Fields>
           form={form}
           layout="vertical"
           initialValues={initialValues}
           name="process-alarm"
           data-testid="process-alarm-form"
         >
-          <Item label="Status" name="processStatus">
+          <Item<Fields> label="Status" name="processStatus">
             <Radio.Group options={processStatusOptions} />
           </Item>
-          <Item label="Case Number" name="caseNumber">
+          <Item<Fields> label="Case Number" name="caseNumber">
             <Input maxLength={32} placeholder="Netsuite Case Number" />
           </Item>
-          <Item label="Notes" name="notes">
+          <Item<Fields> label="Notes" name="remarks">
             <TextArea
               autoSize={{ minRows: 4, maxRows: 6 }}
               maxLength={256}
