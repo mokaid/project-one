@@ -1,4 +1,4 @@
-import { type FC, useCallback } from "react";
+import { type FC, useCallback, useState, useEffect } from "react";
 import { Table, type TableProps } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
@@ -7,10 +7,9 @@ import {
   setSelectedEvents,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
-import type { DeviceEvent } from "../../types/device-event";
 
 import { generateColumns } from "./config";
-import { data } from "./mock";
+import { DeviceEvent } from "../../types/device-event";
 
 type Props = {
   className?: string;
@@ -33,8 +32,18 @@ const rowSelection: TableProps<any>["rowSelection"] = {
   }),
 };
 
-export const AllAlertsTable: FC<Props> = ({ className, dataTestId }) => {
+export const AllAlertsTable: FC<Props> = ({
+  className,
+  dataTestId,
+  data,
+}: {
+  data: DeviceEvent;
+}) => {
   const dispatch = useAppDispatch();
+  const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
+  useEffect(() => {
+    setSourceData(data);
+  }, [data]);
 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
@@ -49,18 +58,24 @@ export const AllAlertsTable: FC<Props> = ({ className, dataTestId }) => {
     onMark() {},
   });
 
+ 
+
   return (
     <>
-      <Table<DeviceEvent>
+      <Table
         rowKey="eventId"
         className={className}
         scroll={{ x: 1200 }}
-        dataSource={data}
+        dataSource={sourceData}
         sticky={true}
         columns={columns}
         rowSelection={rowSelection}
         showSorterTooltip={false}
-        pagination={{ showQuickJumper: true, showSizeChanger: true }}
+        pagination={{
+          pageSize: 10,
+          showQuickJumper: true,
+          showSizeChanger: true,
+        }}
         data-testid={dataTestId}
       />
       <ProcessAlarmModal dataTestId="process-alarm" />

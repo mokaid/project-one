@@ -25,6 +25,9 @@ type Fields = {
   type: unknown[];
   value: unknown[];
   vendor: unknown[];
+  system: unknown[];
+  device: unknown[];
+  eventDetails: unknown[]
 };
 
 const { Item } = Form;
@@ -37,6 +40,9 @@ const initialValues: Fields = {
   type: [],
   value: [],
   vendor: [],
+  system: [],
+  device: [],
+  eventDetails: [],
 };
 
 export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
@@ -53,14 +59,17 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
   };
 
   const handleSubmit = async (values: Fields) => {
-    console.log(values);
+    console.log("values", values);
   };
-
+const siteOptions=[{
+  label:"TEST",
+  value:"TEST"
+}]
   return (
     <Drawer
       open={show}
       width={460}
-      title="Alerts Filter"
+      title="Filter"
       extra={
         <Space>
           <Button type="default" onClick={handleReset}>
@@ -74,6 +83,8 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
       destroyOnClose={true}
       onClose={handleClose}
       data-testid={dataTestId}
+      style={{background:" #0C183B"}}
+      
     >
       <Form<Fields>
         form={form}
@@ -99,6 +110,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
             mode="multiple"
             placeholder="Select Site"
             allowClear={true}
+            options={siteOptions}
           />
         </Item>
         <Item<Fields>
@@ -113,46 +125,46 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
           />
         </Item>
         <Item<Fields>
-          label="Vendor"
-          name="vendor"
+          label="System"
+          name="system"
           getValueProps={getMultipleSelectProps}
         >
           <BaseSelect
             mode="multiple"
-            placeholder="Select Vendor"
+            placeholder="Select System"
             allowClear={true}
           />
         </Item>
         <Item<Fields>
-          label="Object"
-          name="object"
+          label="Device"
+          name="device"
           getValueProps={getMultipleSelectProps}
         >
           <BaseSelect
             mode="multiple"
-            placeholder="Select Object"
+            placeholder="Select device"
             allowClear={true}
           />
         </Item>
         <Item<Fields>
-          label="Type"
+          label="Event Type"
           name="type"
           getValueProps={getMultipleSelectProps}
         >
           <BaseSelect
             mode="multiple"
-            placeholder="Select Type"
+            placeholder="Select Event Type"
             allowClear={true}
           />
         </Item>
         <Item<Fields>
-          label="Value"
-          name="value"
+          label="Event Details"
+          name="eventDetails"
           getValueProps={getMultipleSelectProps}
         >
           <BaseSelect
             mode="multiple"
-            placeholder="Select Value"
+            placeholder="Select Event Details"
             allowClear={true}
           />
         </Item>
