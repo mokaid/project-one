@@ -75,20 +75,21 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
     <Drawer
       open={show}
       width={460}
-      title="Process Alarm"
+      title="Acknowledge Alarm"
       extra={
         <Space>
-          <Button type="default" onClick={handleClose}>
+          <Button type="default" style={{background:"transparent",borderRadius:"1px",borderColor:"#1B3687"}} onClick={handleClose}>
             Cancel
           </Button>
-          <Button type="primary" onClick={form.submit}>
-            Process
+          <Button type="primary" style={{borderRadius:"1px"}} onClick={form.submit}>
+            Confirm
           </Button>
         </Space>
       }
       destroyOnClose={true}
       onClose={handleClose}
       data-testid={dataTestId}
+      style={{background:" #0C183B"}}
     >
       <div className={styles.container}>
         <DescriptionList
@@ -105,10 +106,10 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
           data-testid="process-alarm-form"
         >
           <Item<Fields> label="Status" name="processStatus">
-            <Radio.Group options={processStatusOptions} />
+            <Radio.Group  className={styles.ant_radio_group} options={processStatusOptions} />
           </Item>
           <Item<Fields> label="Case Number" name="caseNumber">
-            <Input maxLength={32} placeholder="Netsuite Case Number" />
+            <Input  maxLength={32} placeholder="Netsuite Case Number" className={styles.ant_input} />
           </Item>
           <Item<Fields> label="Notes" name="remarks">
             <TextArea
@@ -116,6 +117,8 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
               maxLength={256}
               showCount={true}
               placeholder="Process notes"
+              className={styles.testingTextarea}
+              // style={{backgroundColor: "yellow"}}
             />
           </Item>
         </Form>

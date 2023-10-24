@@ -7,7 +7,7 @@ export const api = createApi({
   reducerPath: "api",
   tagTypes: [],
   baseQuery: fetchBaseQuery({
-    baseUrl: API_BASE_URL,
+    baseUrl: "https://f50048686d07.ngrok.app/",
     paramsSerializer: (params) =>
       qs.stringify(params, {
         arrayFormat: QUERY_STRING_ARRAY_FORMAT,
@@ -15,5 +15,16 @@ export const api = createApi({
         skipNull: true,
       }),
   }),
-  endpoints: () => ({}),
+  endpoints: (builder) => ({
+    getAllEvents: builder.mutation({
+      query: (body:any) => ({
+        url:'query-events',
+        method: 'POST',
+        body
+      }),
+      transformResponse: (response: { data: any }, meta, arg) => response.data,
+    }),
+  }),
 });
+
+export const {useGetAllEventsMutation} = api

@@ -1,4 +1,4 @@
-import { type FC, useCallback } from "react";
+import { type FC, useCallback, useState, useEffect } from "react";
 import { Table, type TableProps } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
@@ -7,10 +7,10 @@ import {
   setSelectedEvents,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
-import type { DeviceEvent } from "../../types/device-event";
 
 import { generateColumns } from "./config";
-import { data } from "./mock";
+import { DeviceEvent } from "../../types/device-event";
+import { useSelector } from 'react-redux';
 
 type Props = {
   className?: string;
@@ -33,8 +33,21 @@ const rowSelection: TableProps<any>["rowSelection"] = {
   }),
 };
 
-export const AllAlertsTable: FC<Props> = ({ className, dataTestId }) => {
+export const AllAlertsTable: FC<Props> = ({
+  className,
+  dataTestId,
+  data,
+}: {
+  data: DeviceEvent;
+}) => {
   const dispatch = useAppDispatch();
+
+ const state = useSelector((state:any) => state)
+ console.log("state",state)
+  const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
+  useEffect(() => {
+    setSourceData(data);
+  }, [data]);
 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
@@ -48,19 +61,41 @@ export const AllAlertsTable: FC<Props> = ({ className, dataTestId }) => {
     onProcess: handleProcessAlarm,
     onMark() {},
   });
+  const handlePageChange = (page) => {
+    if (page === 10) {
+      // Modify the pageSize and other parameters for the API request
+    //   const modifiedBody = {
+    //     ...body,
+    //     pageSize: 100,
+    //     pageIndex: page,
+    //     // Other modifications as needed
+    //   };
+    //   // Make your API request with the modifiedBody
+    //   // Example: makeApiRequest(modifiedBody);
+    // }
+    // setPageIndex(page);
+  };
+  // console.log("Page:",page % 5 === 0 && page % === )
+}
 
   return (
     <>
-      <Table<DeviceEvent>
+      <Table
         rowKey="eventId"
         className={className}
         scroll={{ x: 1200 }}
-        dataSource={data}
+        dataSource={sourceData}
         sticky={true}
         columns={columns}
         rowSelection={rowSelection}
         showSorterTooltip={false}
-        pagination={{ showQuickJumper: true, showSizeChanger: true }}
+        pagination={{
+          pageSize: 10,
+          showQuickJumper: true,
+          showSizeChanger: true,
+          // current: pageInde,
+        onChange: handlePageChange,
+        }}
         data-testid={dataTestId}
       />
       <ProcessAlarmModal dataTestId="process-alarm" />

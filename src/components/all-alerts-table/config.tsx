@@ -25,41 +25,52 @@ export const generateColumns = ({
   {
     title: "Site",
     dataIndex: ["site", "name"],
+    width: 250,
+    //  sorter: (a, b) => parseInt(a.site.name) - parseInt(b.site.name),
+   
   },
   {
     title: "Time",
     dataIndex: "timeEvent",
-    sorter: true,
     width: 192,
     render: (date: string) => getFormattedDateTime(date),
+    sorter: (a, b) => {
+      return a.timeEvent.localeCompare(b.timeEvent);
+    },
   },
+  // Data Needs to be Checked
   {
-    title: "Vendor",
+    title: "System",
     dataIndex: "vendor",
+    width: 144,
+    sorter: (a, b) => a.vendor.length - b.vendor.length,
   },
   {
-    title: "Object",
+    title: "Device",
     dataIndex: ["obj", "name"],
+    width: 239,
   },
   {
-    title: "Type",
+    title: "Event Type",
     dataIndex: ["obj", "key"],
+    width: 300,
   },
   {
-    title: "Value",
+    title: "Event Desc",
     dataIndex: ["obj", "value"],
+    width: 300,
   },
   {
     title: "Actions",
     dataIndex: "eventId",
     sorter: false,
-    width: 140,
+    width: 200,
     fixed: "right",
     render(_, event) {
       return (
         <Space size={2} split={<Divider type="vertical" />}>
-          <Link onClick={onMark}>Mark</Link>
-          <Link onClick={() => onProcess(event)}>Process</Link>
+          <Link onClick={onMark}>Clear</Link>
+          <Link onClick={() => onProcess(event)}>Acknowledge</Link>
         </Space>
       );
     },

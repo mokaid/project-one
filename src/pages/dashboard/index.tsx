@@ -1,4 +1,5 @@
-import type { FC } from "react";
+/* eslint-disable */
+import { type FC } from "react";
 import { Col, Row } from "antd";
 
 import { AllAlerts } from "../../components/all-alerts";
@@ -10,7 +11,10 @@ import { TopAlertsBySite } from "../../widgets/top-alerts-by-site";
 
 import styles from "./index.module.css";
 
+
+
 export const Dashboard: FC = () => {
+
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
