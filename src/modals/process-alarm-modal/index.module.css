@@ -9,3 +9,11 @@
   background-color: transparent !important;
 }
 
+
+
+.testingTextarea > textarea {
+  background-color: #0C183B !important;
+}
+.ant_radio_group .ant-radio-group-solid .css-dev-only-do-not-override-13exor3{
+background-color: red !important;
+}

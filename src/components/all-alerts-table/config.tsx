@@ -45,7 +45,6 @@ export const generateColumns = ({
     width: 144,
     sorter: (a, b) => a.vendor.length - b.vendor.length,
   },
-    // Data Needs to be Checked
   {
     title: "Device",
     dataIndex: ["obj", "name"],
@@ -54,16 +53,18 @@ export const generateColumns = ({
   {
     title: "Event Type",
     dataIndex: ["obj", "key"],
+    width: 300,
   },
   {
     title: "Event Desc",
     dataIndex: ["obj", "value"],
+    width: 300,
   },
   {
     title: "Actions",
     dataIndex: "eventId",
     sorter: false,
-    // width: 200,
+    width: 200,
     fixed: "right",
     render(_, event) {
       return (

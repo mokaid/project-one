@@ -13,6 +13,8 @@ import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
 import { getDateProps } from "../../utils/form-helpers/get-date-props";
 import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-select-props";
 
+import styles from './index.module.css'
+
 type Props = {
   dataTestId?: string;
 };
@@ -111,6 +113,7 @@ const siteOptions=[{
             placeholder="Select Site"
             allowClear={true}
             options={siteOptions}
+            className="select_input"
           />
         </Item>
         <Item<Fields>

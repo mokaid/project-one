@@ -10,6 +10,7 @@ import {
 
 import { generateColumns } from "./config";
 import { DeviceEvent } from "../../types/device-event";
+import { useSelector } from 'react-redux';
 
 type Props = {
   className?: string;
@@ -40,6 +41,9 @@ export const AllAlertsTable: FC<Props> = ({
   data: DeviceEvent;
 }) => {
   const dispatch = useAppDispatch();
+
+ const state = useSelector((state:any) => state)
+ console.log("state",state)
   const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
   useEffect(() => {
     setSourceData(data);
@@ -57,8 +61,22 @@ export const AllAlertsTable: FC<Props> = ({
     onProcess: handleProcessAlarm,
     onMark() {},
   });
-
- 
+  const handlePageChange = (page) => {
+    if (page === 10) {
+      // Modify the pageSize and other parameters for the API request
+    //   const modifiedBody = {
+    //     ...body,
+    //     pageSize: 100,
+    //     pageIndex: page,
+    //     // Other modifications as needed
+    //   };
+    //   // Make your API request with the modifiedBody
+    //   // Example: makeApiRequest(modifiedBody);
+    // }
+    // setPageIndex(page);
+  };
+  // console.log("Page:",page % 5 === 0 && page % === )
+}
 
   return (
     <>
@@ -75,6 +93,8 @@ export const AllAlertsTable: FC<Props> = ({
           pageSize: 10,
           showQuickJumper: true,
           showSizeChanger: true,
+          // current: pageInde,
+        onChange: handlePageChange,
         }}
         data-testid={dataTestId}
       />
