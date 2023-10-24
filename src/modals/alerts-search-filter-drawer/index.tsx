@@ -72,10 +72,10 @@ const siteOptions=[{
       title="Filter"
       extra={
         <Space>
-          <Button type="default" onClick={handleReset}>
+          <Button type="default" onClick={handleReset} style={{background:"transparent",borderRadius:"1px",borderColor:"#1B3687"}}>
             Reset
           </Button>
-          <Button type="primary" onClick={form.submit}>
+          <Button type="primary" onClick={form.submit} style={{borderRadius:"1px"}}>
             Apply
           </Button>
         </Space>

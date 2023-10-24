@@ -4,20 +4,8 @@
   gap: 1rem;
 
 }
-.ant-drawer > .ant-drawer-content{
-  background: #0C183B !important;
-}
-.ant-radio-checked .ant-radio-inner{
-  border-color: red !important ;
+
+.ant_input, .css-dev-only-do-not-override-13exor3{
+  background-color: transparent !important;
 }
 
-.ant-radio-checked .ant-radio-inner:after{
-  background-color: red;
-}
-
-.ant-radio:hover .ant-radio-inner {
-  border-color: red ;
-}
-.ant_input{
-  background-color: white !important;
-}

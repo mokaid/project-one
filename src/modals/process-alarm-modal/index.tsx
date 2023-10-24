@@ -109,7 +109,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
             <Radio.Group options={processStatusOptions} />
           </Item>
           <Item<Fields> label="Case Number" name="caseNumber">
-            <Input  maxLength={32} placeholder="Netsuite Case Number" />
+            <Input  maxLength={32} placeholder="Netsuite Case Number" className={styles.ant_input} />
           </Item>
           <Item<Fields> label="Notes" name="remarks">
             <TextArea
@@ -117,6 +117,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
               maxLength={256}
               showCount={true}
               placeholder="Process notes"
+              className={styles.ant_input}
             />
           </Item>
         </Form>

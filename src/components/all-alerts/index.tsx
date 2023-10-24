@@ -38,12 +38,12 @@ export const AllAlerts: FC = () => {
   const [searchData, setSearchData] = useState<DeviceEvent | null>(null);
   const [filter, setFilter] = useState<string | null>(null);
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
-  const [pageIndex, setPageIndex] = useState(1); // You can set it to your desired initial value
+  const [pageIndex, setPageIndex] = useState<number>(1); // You can set it to your desired initial value
 
 
 
   const body = {
-    // pageSize: 100,
+    pageSize: 100,
     startTime:"",
     endTime:"",
     startNum:0,
