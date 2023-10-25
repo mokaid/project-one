@@ -13,7 +13,7 @@ import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
 import { getDateProps } from "../../utils/form-helpers/get-date-props";
 import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-select-props";
 
-import styles from './index.module.css'
+import styles from "./index.module.css";
 
 type Props = {
   dataTestId?: string;
@@ -29,7 +29,7 @@ type Fields = {
   vendor: unknown[];
   system: unknown[];
   device: unknown[];
-  eventDetails: unknown[]
+  eventDetails: unknown[];
 };
 
 const { Item } = Form;
@@ -63,10 +63,12 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
   const handleSubmit = async (values: Fields) => {
     console.log("values", values);
   };
-const siteOptions=[{
-  label:"TEST",
-  value:"TEST"
-}]
+  const siteOptions = [
+    {
+      label: "TEST",
+      value: "TEST",
+    },
+  ];
   return (
     <Drawer
       open={show}
@@ -74,10 +76,22 @@ const siteOptions=[{
       title="Filter"
       extra={
         <Space>
-          <Button type="default" onClick={handleReset} style={{background:"transparent",borderRadius:"1px",borderColor:"#1B3687"}}>
+          <Button
+            type="default"
+            onClick={handleReset}
+            style={{
+              background: "transparent",
+              borderRadius: "1px",
+              borderColor: "#1B3687",
+            }}
+          >
             Reset
           </Button>
-          <Button type="primary" onClick={form.submit} style={{borderRadius:"1px"}}>
+          <Button
+            type="primary"
+            onClick={form.submit}
+            style={{ borderRadius: "1px" }}
+          >
             Apply
           </Button>
         </Space>
@@ -85,8 +99,7 @@ const siteOptions=[{
       destroyOnClose={true}
       onClose={handleClose}
       data-testid={dataTestId}
-      style={{background:" #0C183B"}}
-      
+      style={{ background: " #0C183B" }}
     >
       <Form<Fields>
         form={form}
@@ -125,6 +138,7 @@ const siteOptions=[{
           <RangePicker
             showTime={{ format: "HH:mm" }}
             format={APP_DATE_TIME_FORMAT}
+            className="date_input"
           />
         </Item>
         <Item<Fields>
@@ -136,6 +150,7 @@ const siteOptions=[{
             mode="multiple"
             placeholder="Select System"
             allowClear={true}
+            className="select_input"
           />
         </Item>
         <Item<Fields>
@@ -147,6 +162,7 @@ const siteOptions=[{
             mode="multiple"
             placeholder="Select device"
             allowClear={true}
+            className="select_input"
           />
         </Item>
         <Item<Fields>
@@ -158,6 +174,7 @@ const siteOptions=[{
             mode="multiple"
             placeholder="Select Event Type"
             allowClear={true}
+            className="select_input"
           />
         </Item>
         <Item<Fields>
@@ -169,6 +186,7 @@ const siteOptions=[{
             mode="multiple"
             placeholder="Select Event Details"
             allowClear={true}
+            className="select_input"
           />
         </Item>
       </Form>

@@ -20,6 +20,7 @@ export function BaseSelect<T = unknown>({
   options = [],
   validating = false,
   optionFilterProp = "label",
+  className,
   ...props
 }: BaseSelectProps<T>) {
   const showValue = useMemo(() => {
@@ -43,6 +44,7 @@ export function BaseSelect<T = unknown>({
       optionFilterProp={optionFilterProp}
       value={showValue ? value : undefined}
       showSearch={true}
+      className={className}
       notFoundContent={
         loading ? (
           <Spin className={styles.loader} size="small" />

@@ -1,5 +1,5 @@
 import { type FC, useCallback, useState, useEffect } from "react";
-import { Table, type TableProps } from "antd";
+import { Spin, Table, type TableProps } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
@@ -10,7 +10,7 @@ import {
 
 import { generateColumns } from "./config";
 import { DeviceEvent } from "../../types/device-event";
-import { useSelector } from 'react-redux';
+import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
   className?: string;
@@ -37,18 +37,26 @@ export const AllAlertsTable: FC<Props> = ({
   className,
   dataTestId,
   data,
+  pageIndex,
+  pageSize,
+  totalAlerts,
+  handlePageChange,
+  isLoading,
 }: {
   data: DeviceEvent;
+  pageIndex: number;
+  pageSize: number;
+  totalAlerts: number;
+  handlePageChange: () => void;
+  isLoading: boolean;
 }) => {
   const dispatch = useAppDispatch();
 
- const state = useSelector((state:any) => state)
- console.log("state",state)
   const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
   useEffect(() => {
     setSourceData(data);
   }, [data]);
-
+  console.log("isLoading", isLoading);
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
       dispatch(setSelectedEvents([selectedEvent]));
@@ -61,40 +69,32 @@ export const AllAlertsTable: FC<Props> = ({
     onProcess: handleProcessAlarm,
     onMark() {},
   });
-  const handlePageChange = (page) => {
-    if (page === 10) {
-      // Modify the pageSize and other parameters for the API request
-    //   const modifiedBody = {
-    //     ...body,
-    //     pageSize: 100,
-    //     pageIndex: page,
-    //     // Other modifications as needed
-    //   };
-    //   // Make your API request with the modifiedBody
-    //   // Example: makeApiRequest(modifiedBody);
-    // }
-    // setPageIndex(page);
-  };
-  // console.log("Page:",page % 5 === 0 && page % === )
-}
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   return (
     <>
       <Table
         rowKey="eventId"
+        // headerBg="#fff"
         className={className}
         scroll={{ x: 1200 }}
         dataSource={sourceData}
+        // headerBg={"#0000FF"}
         sticky={true}
         columns={columns}
         rowSelection={rowSelection}
         showSorterTooltip={false}
+        loading={{
+          indicator: <Spin indicator={antIcon} />,
+          spinning: isLoading,
+        }}
         pagination={{
-          pageSize: 10,
+          pageSize,
           showQuickJumper: true,
           showSizeChanger: true,
-          // current: pageInde,
-        onChange: handlePageChange,
+          total: Math.ceil(totalAlerts / pageSize),
+          current: pageIndex,
+          onChange: handlePageChange,
         }}
         data-testid={dataTestId}
       />

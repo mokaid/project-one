@@ -24,4 +24,47 @@ html {
 #root {
   height: 100%;
 }
+.alerts_table .ant-table-thead tr th {
+  background: #232f49 !important;
+}
+.alerts_table .ant-table {
+  background: #1b2438 !important;
+}
+.alerts_table
+.ant-table-body table tbody tr td .ant-table-expanded-row-fixed 
+  { 
+  background: #1b2438 !important;
+}
+.alerts_table .ant-table-row td {
+  background: #1b2438 !important;
+}
 
+.select_input .ant-select-selector {
+  background-color: transparent !important;
+  border: 1px solid #1b3687 !important;
+}
+.select_input .ant-select-arrow {
+  color: #1b3687 !important;
+}
+.ant-select-dropdown {
+  background-color: #0c183b;
+  color: white;
+}
+.date_input {
+  background: transparent;
+}
+/* .ant-picker-dropdown .ant-picker-range-wrapper{
+  background: blue !important;
+} */
+.ant-picker-dropdown .ant-picker-panel-container {
+  background: #0c183b !important;
+}
+/* ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first */
+/* 
+.alerts_table .ant-table {
+  background: red !important;
+}
+
+.alerts_table .ant-table-cell {
+  background-color: aquamarine !important;
+} */
