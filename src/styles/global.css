@@ -23,22 +23,65 @@ html {
 
 #root {
   height: 100%;
+
 }
 .alerts_table .ant-table-thead tr th {
   background: #232f49 !important;
 }
+/* .alerts_table .ant-table .ant-table-header{
+  position: static !important;
+
+}  */
 .alerts_table .ant-table {
   background: #1b2438 !important;
 }
-.alerts_table
-.ant-table-body table tbody tr td .ant-table-expanded-row-fixed 
-  { 
+.alerts_table .ant-table .ant-table-header{
+  z-index: 4;
+}
+.alerts_table .ant-table .ant-table-body{
+  position: sticky;
+  z-index: 3;
+}
+.alerts_table .ant-table-body table tbody tr td .ant-table-expanded-row-fixed {
   background: #1b2438 !important;
 }
 .alerts_table .ant-table-row td {
   background: #1b2438 !important;
 }
+.alerts_table .ant-pagination .ant-pagination-item{
+  background:#1B2438 !important;
+  border-color: #333333 !important;
+}
+.alerts_table .ant-pagination .ant-pagination-item-active{
+  background:#1B2438 !important;
+  border-color: #329CFF !important;
+}
+.alerts_table .ant-pagination .ant-pagination-item a{
+  color: white !important;
+}
+.alerts_table .ant-pagination .ant-pagination-item-active a{
+  color: #329CFF !important;
+}
+.alerts_table .ant-pagination .ant-pagination-prev
+,.alerts_table .ant-pagination .ant-pagination-next
+{
+  background:#1B2438 !important;
+  
+  
+}
+.alerts_table .ant-pagination .ant-pagination-prev
+.ant-pagination-item-link , .alerts_table .ant-pagination .ant-pagination-next .ant-pagination-item-link{
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
 
+.alerts_table .ant-pagination .ant-pagination-options .ant-select .ant-select-selector{
+  background-color: #1B2438 !important;
+}
+.alerts_table .ant-pagination .ant-pagination-options  .ant-pagination-options-quick-jumper input{
+  background-color: #1B2438 !important;
+}
 .select_input .ant-select-selector {
   background-color: transparent !important;
   border: 1px solid #1b3687 !important;
@@ -53,18 +96,34 @@ html {
 .date_input {
   background: transparent;
 }
-/* .ant-picker-dropdown .ant-picker-range-wrapper{
-  background: blue !important;
-} */
+
 .ant-picker-dropdown .ant-picker-panel-container {
   background: #0c183b !important;
 }
-/* ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first */
-/* 
-.alerts_table .ant-table {
-  background: red !important;
-}
 
-.alerts_table .ant-table-cell {
-  background-color: aquamarine !important;
-} */
+.search_input .ant-input-affix-wrapper {
+  background: #1b2438 !important;
+  border-start-start-radius: 2px !important;
+  border-end-start-radius: 2px !important;
+  height: 40px !important;
+}
+.search_input .ant-input-group .ant-input,
+.search_input .ant-input-group .ant-btn {
+  background: #1b2438 !important;
+  border-end-end-radius: 2px !important;
+  border-start-end-radius: 2px !important;
+  
+ 
+}
+.search_input .ant-input-group .ant-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px !important;
+}
+.filter_btn {
+  background: #1b2438 !important;
+  border-color: #1b3687;
+  border-radius: 2px !important;
+  height: 40px !important;
+}

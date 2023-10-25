@@ -107,14 +107,16 @@ export const AllAlerts: FC = () => {
                     placeholder="Search"
                     allowClear={true}
                     onChange={debouncedResults}
+                    className="search_input"
+                   
                   />
                 </Item>
               </Form>
 
-              <Button icon={<FilterOutlined />} onClick={handleFilterClick}>
+              <Button className="filter_btn" icon={<FilterOutlined />} onClick={handleFilterClick}>
                 Filter
               </Button>
-              <Button icon={<CheckCircleOutlined />} disabled={true}>
+              <Button className="filter_btn" style={{background:"#1B3687 !important"}} icon={<CheckCircleOutlined />} disabled={true}>
                 Mark All
               </Button>
             </Space>

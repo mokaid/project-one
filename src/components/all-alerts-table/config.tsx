@@ -27,7 +27,7 @@ export const generateColumns = ({
     dataIndex: ["site", "name"],
     width: 250,
     //  sorter: (a, b) => parseInt(a.site.name) - parseInt(b.site.name),
-   
+    sorter: (a, b) => a.site.name - b.site.name,
   },
   {
     title: "Time",
@@ -49,16 +49,19 @@ export const generateColumns = ({
     title: "Device",
     dataIndex: ["obj", "name"],
     width: 239,
+    sorter:true
   },
   {
     title: "Event Type",
     dataIndex: ["obj", "key"],
     width: 300,
+    sorter:true
   },
   {
     title: "Event Desc",
     dataIndex: ["obj", "value"],
     width: 300,
+    sorter:true
   },
   {
     title: "Actions",
