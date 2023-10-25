@@ -42,7 +42,6 @@ export const AllAlerts: FC = () => {
   const [pageSize, setPageSize] = useState(10); // Start with a page size of 10
   const [totalAlerts, setTotalAlerts] = useState(0); // Start with a page size of 10
 
-
   useEffect(() => {
     const body = {
       pageSize,
@@ -71,12 +70,6 @@ export const AllAlerts: FC = () => {
   };
 
   const filteredData = () => {
-    // console.log("searchString", filter);
-    // if (filter !== "" && filter !== null) {
-    //   return searchData.filter((event: DeviceEvent) =>
-    //     event.vendor.includes(filter),
-    //   );
-    // }
     return searchData;
   };
   const handlePageChange = (page: number, pageSize: number) => {
@@ -84,7 +77,7 @@ export const AllAlerts: FC = () => {
     setPageSize(pageSize);
     console.log("page", page, pageSize);
   };
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setFilter(e.target.value);
   };
   const debouncedResults = useMemo(() => {
@@ -137,6 +130,7 @@ export const AllAlerts: FC = () => {
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
             isLoading={isLoading}
+            className={"alerts_table"}
           />
         </Col>
       </Row>

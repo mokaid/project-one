@@ -47,7 +47,7 @@ export const AllAlertsTable: FC<Props> = ({
   pageIndex: number;
   pageSize: number;
   totalAlerts: number;
-  handlePageChange: ()=> void;
+  handlePageChange: () => void;
   isLoading: boolean;
 }) => {
   const dispatch = useAppDispatch();
@@ -75,15 +75,17 @@ export const AllAlertsTable: FC<Props> = ({
     <>
       <Table
         rowKey="eventId"
+        // headerBg="#fff"
         className={className}
         scroll={{ x: 1200 }}
         dataSource={sourceData}
+        // headerBg={"#0000FF"}
         sticky={true}
         columns={columns}
         rowSelection={rowSelection}
         showSorterTooltip={false}
         loading={{
-          indicator: <Spin indicator={antIcon}/>,
+          indicator: <Spin indicator={antIcon} />,
           spinning: isLoading,
         }}
         pagination={{
@@ -95,7 +97,6 @@ export const AllAlertsTable: FC<Props> = ({
           onChange: handlePageChange,
         }}
         data-testid={dataTestId}
-       
       />
       <ProcessAlarmModal dataTestId="process-alarm" />
     </>
