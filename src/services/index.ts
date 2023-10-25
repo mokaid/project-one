@@ -17,14 +17,14 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     getAllEvents: builder.mutation({
-      query: (body:any) => ({
-        url:'query-events',
-        method: 'POST',
-        body
+      query: (body: any) => ({
+        url: "query-events",
+        method: "POST",
+        body,
       }),
       transformResponse: (response: { data: any }, meta, arg) => response.data,
     }),
   }),
 });
 
-export const {useGetAllEventsMutation} = api
+export const { useGetAllEventsMutation } = api;

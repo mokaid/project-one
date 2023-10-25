@@ -42,7 +42,6 @@ export const AllAlerts: FC = () => {
   const [pageSize, setPageSize] = useState(10); // Start with a page size of 10
   const [totalAlerts, setTotalAlerts] = useState(0); // Start with a page size of 10
 
-
   useEffect(() => {
     const body = {
       pageSize,
@@ -84,12 +83,13 @@ export const AllAlerts: FC = () => {
     setPageSize(pageSize);
     console.log("page", page, pageSize);
   };
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setFilter(e.target.value);
   };
   const debouncedResults = useMemo(() => {
     return debouce(handleChange, 300);
   }, []);
+
   return (
     <>
       <Row gutter={[24, 24]}>

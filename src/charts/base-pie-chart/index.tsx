@@ -1,6 +1,14 @@
 import { type FC } from "react";
 import { theme } from "antd";
-import { Cell, Legend, Pie, PieChart, type PieProps, Tooltip } from "recharts";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  type PieProps,
+  Tooltip,
+  Label,
+} from "recharts";
 
 import { CustomLegend } from "../custom-legend";
 import { CustomTooltip } from "../custom-tooltip";
@@ -9,6 +17,7 @@ export type BasePieChartProps = Pick<PieProps, "data" | "dataKey"> & {
   colors: string[];
   width?: number;
   height?: number;
+  centerText?: string;
 };
 
 export const BasePieChart: FC<BasePieChartProps> = ({
@@ -17,6 +26,7 @@ export const BasePieChart: FC<BasePieChartProps> = ({
   dataKey,
   width,
   height,
+  centerText,
 }) => {
   const {
     token: { colorBgContainer },
@@ -33,12 +43,22 @@ export const BasePieChart: FC<BasePieChartProps> = ({
         cornerRadius={5}
         startAngle={90}
         endAngle={480}
+        innerRadius={55}
       >
-        {data.map((_entry, index) => {
-          const key = `cell-${index}`;
+        <>
+          <Label
+            value={centerText}
+            position="center"
+            fontSize={30}
+            fill="white"
+            fontWeight="500"
+          />
+          {data.map((_entry, index) => {
+            const key = `cell-${index}`;
 
-          return <Cell key={key} fill={colors[index % colors.length]} />;
-        })}
+            return <Cell key={key} fill={colors[index % colors.length]} />;
+          })}
+        </>
       </Pie>
       <Tooltip content={<CustomTooltip />} />
       <Legend align="center" content={<CustomLegend />} />

@@ -1,6 +1,6 @@
 import { type FC, useCallback } from "react";
-import { theme } from "antd";
-import { Bar, LabelList, XAxis, YAxis } from "recharts";
+import { Spin, theme } from "antd";
+import { Bar, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import { ContentType } from "recharts/types/component/Label";
 
 import { BaseBarChart } from "../../charts/base-bar-chart";
@@ -9,12 +9,18 @@ import {
   type ChartContainerProps,
 } from "../../charts/chart-container";
 
-import { data } from "./mock";
+import { HorizontalBarGraphDataType } from "../../types/graph-data";
+import { LoadingOutlined } from "@ant-design/icons";
+import styles from "./index.module.css";
 
 type Props = Pick<
   ChartContainerProps,
   "title" | "tooltipText" | "className" | "dataTestId"
->;
+> & {
+  color: string;
+  data: HorizontalBarGraphDataType[];
+  isLoading: boolean;
+};
 
 type RenderLabelParams<T extends ContentType = ContentType> = T extends (
   ...args: infer P
@@ -27,9 +33,12 @@ export const TopAlertsBySite: FC<Props> = ({
   title,
   tooltipText,
   dataTestId,
+  color,
+  data,
+  isLoading,
 }) => {
   const {
-    token: { colorText, geekblue3 },
+    token: { colorText },
   } = theme.useToken();
 
   const renderLabel = useCallback(
@@ -42,6 +51,7 @@ export const TopAlertsBySite: FC<Props> = ({
           y={Number(y) + Number(height) / 2}
           fill={colorText}
           dominantBaseline="middle"
+          fontSize={12}
         >
           {value}
         </text>
@@ -57,19 +67,30 @@ export const TopAlertsBySite: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
-      <BaseBarChart layout="vertical" data={data}>
-        <XAxis type="number" />
-        <YAxis hide={true} dataKey="name" type="category" scale="auto" />
-
-        <Bar dataKey="count" barSize={16} fill={geekblue3}>
-          <LabelList
-            dataKey="name"
-            position="insideLeft"
-            fill="white"
-            content={renderLabel}
+      {(!isLoading && data.length) === 0 ? (
+        <div className={styles.loaderDiv}>No data</div>
+      ) : isLoading ? (
+        <div className={styles.loaderDiv}>
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24 }} spin={true} />}
           />
-        </Bar>
-      </BaseBarChart>
+        </div>
+      ) : (
+        <BaseBarChart layout="vertical" data={data}>
+          <CartesianGrid stroke="white" />
+          <XAxis type="number" dataKey="xAxisValue" fill="white" />
+          <YAxis hide={true} dataKey="name" type="category" scale="auto" />
+
+          <Bar dataKey="count" barSize={20} fill={color}>
+            <LabelList
+              dataKey="name"
+              position="insideLeft"
+              fill="white"
+              content={renderLabel}
+            />
+          </Bar>
+        </BaseBarChart>
+      )}
     </ChartContainer>
   );
 };

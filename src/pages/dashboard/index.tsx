@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { type FC } from "react";
+import { useEffect, type FC, useState } from "react";
 import { Col, Row } from "antd";
 
 import { AllAlerts } from "../../components/all-alerts";
@@ -10,10 +10,120 @@ import { AlertsMap } from "../../widgets/alerts-map";
 import { TopAlertsBySite } from "../../widgets/top-alerts-by-site";
 
 import styles from "./index.module.css";
-
-
+import { useGetAllEventsMutation } from "../../services";
+import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
+import {
+  HorizontalBarGraphDataType,
+  PieGraphDataType,
+} from "../../types/graph-data";
+import { DeviceEvent } from "../../types/device-event";
+import {
+  priorityChartColors,
+  siteChartBarColor,
+  systemChartColors,
+  weeklyAlertChartBarColor,
+} from "../../utils/constants";
 
 export const Dashboard: FC = () => {
+  const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
+  const [weeklyAlertsbyPriority, setWeeklyAlertsbyPriority] = useState<
+    PieGraphDataType[]
+  >([]);
+  const [weeklyAlertsbySystem, setWeeklyAlertsbySystem] = useState<
+    PieGraphDataType[]
+  >([]);
+  const [weeklyTopAlertsBySite, setWeeklyTopAlertsBySite] = useState<
+    HorizontalBarGraphDataType[]
+  >([]);
+  const [allWeeklyAlerts, setAllWeeklyAlerts] = useState<
+    HorizontalBarGraphDataType[]
+  >([]);
+
+  const [totalWeeklyAlerts, setTotalWeeklyAlerts] = useState<Number>(0);
+
+  const date = new Date();
+
+  const setDataIntoStates = (data: DeviceEvent[]) => {
+    setTotalWeeklyAlerts(data.length);
+    let count = { low: 0, medium: 0, high: 0 };
+    let vendors: PieGraphDataType[] = [];
+    let sites: HorizontalBarGraphDataType[] = [];
+    let weeklyAlerts: HorizontalBarGraphDataType[] = [];
+
+    data.forEach((ev: DeviceEvent) => {
+      if (ev.level > 3) {
+        count.high = count.high + 1;
+      } else if (ev.level < 3) {
+        count.low = count.low + 1;
+      } else {
+        count.medium = count.medium + 1;
+      }
+
+      const findVendor = vendors.find((item) => item.name === ev.vendor);
+      if (!findVendor) {
+        vendors.push({ name: ev.vendor, value: 1 });
+      } else {
+        let newVendors = vendors.filter((item) => item.name !== ev.vendor);
+        vendors = [
+          ...newVendors,
+          { name: ev.vendor, value: findVendor.value + 1 },
+        ];
+      }
+
+      const findSite = sites.find((item) => item.name === ev.site.name);
+      if (!findSite) {
+        sites.push({ name: ev.site.name, count: 1 });
+      } else {
+        let newsites = sites.filter((item) => item.name !== ev.site.name);
+        sites = [
+          ...newsites,
+          { name: ev.site.name, count: findSite.count + 1 },
+        ];
+      }
+
+      const findAlert = weeklyAlerts.find((item) => item.name === ev.obj.value);
+      if (!findAlert) {
+        weeklyAlerts.push({ name: ev.obj.value, count: 1 });
+      } else {
+        let newweeklyAlerts = weeklyAlerts.filter(
+          (item) => item.name !== ev.obj.value,
+        );
+        weeklyAlerts = [
+          ...newweeklyAlerts,
+          { name: ev.obj.value, count: findAlert.count + 1 },
+        ];
+      }
+    });
+    setWeeklyAlertsbyPriority([
+      { name: "Low", value: count.low },
+      { name: "Medium", value: count.medium },
+      { name: "High", value: count.high },
+    ]);
+    setWeeklyAlertsbySystem(vendors);
+    setWeeklyTopAlertsBySite(
+      sites.map((item, ind) => ({
+        ...item,
+        xAxisValue: Math.ceil((1000 / sites.length) * (ind + 1)),
+      })),
+    );
+    setAllWeeklyAlerts(
+      weeklyAlerts.map((item, ind) => ({
+        ...item,
+        xAxisValue: Math.ceil((1000 / weeklyAlerts.length) * (ind + 1)),
+      })),
+    );
+  };
+
+  useEffect(() => {
+    const body = {
+      startTime: formatDate(getLastWeekDate(date)),
+      endTime: formatDate(date),
+    };
+    (async () => {
+      const res = await getAllEvents(body);
+      setDataIntoStates(res?.data?.data.event);
+    })();
+  }, []);
 
   return (
     <Row gutter={[24, 24]}>
@@ -22,11 +132,20 @@ export const Dashboard: FC = () => {
       </Col>
 
       <Col span={6}>
-        <AlertsByType
+        {/* <AlertsByType
           title="All Weekly Alerts"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
           dataTestId="all-weekly-alerts"
+        /> */}
+        <TopAlertsBySite
+          title="All Weekly Alerts"
+          tooltipText="TODO: Add tooltip text"
+          className={styles.widget}
+          dataTestId="all-weekly-alerts"
+          color={weeklyAlertChartBarColor}
+          data={allWeeklyAlerts}
+          isLoading={isLoading}
         />
       </Col>
       <Col span={6}>
@@ -35,15 +154,33 @@ export const Dashboard: FC = () => {
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
           dataTestId="weekly-priority-alerts-chart"
+          centerText={totalWeeklyAlerts.toString()}
+          data={weeklyAlertsbyPriority}
+          isLoading={isLoading}
+          colors={priorityChartColors}
         />
       </Col>
       <Col span={6}>
-        <AlertsByVendor
+        <AlertsByPriority
+          title="Weekly Alerts by System"
+          tooltipText="TODO: Add tooltip text"
+          className={styles.widget}
+          dataTestId="weekly-alerts-by-system"
+          centerText={totalWeeklyAlerts.toString()}
+          data={weeklyAlertsbySystem}
+          isLoading={isLoading}
+          colors={
+            weeklyAlertsbySystem.length <= systemChartColors.length
+              ? systemChartColors
+              : systemChartColors
+          }
+        />
+        {/* <AlertsByVendor
           title="Weekly Alerts by Vendor"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
           dataTestId="weekly-alerts-by-vendor"
-        />
+        /> */}
       </Col>
       <Col span={6}>
         <TopAlertsBySite
@@ -51,6 +188,9 @@ export const Dashboard: FC = () => {
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
           dataTestId="top-10-alerts-by-site-chart"
+          color={siteChartBarColor}
+          data={weeklyTopAlertsBySite}
+          isLoading={isLoading}
         />
       </Col>
 
