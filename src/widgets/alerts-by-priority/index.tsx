@@ -5,25 +5,30 @@ import {
   ChartContainer,
   type ChartContainerProps,
 } from "../../charts/chart-container";
+import { PieGraphDataType } from "../../types/graph-data";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import styles from "./index.module.css";
 
 type Props = Pick<
   ChartContainerProps,
   "title" | "tooltipText" | "className" | "dataTestId"
->;
-
-const data = [
-  { name: "Low", value: 400 },
-  { name: "Medium", value: 100 },
-  { name: "High", value: 30 },
-];
-
-const COLORS = ["#5CDB1D", "#FBB62D", "#F63A44"];
+> & {
+  centerText?: string;
+  data: PieGraphDataType[];
+  isLoading: boolean;
+  colors: string[];
+};
 
 export const AlertsByPriority: FC<Props> = ({
   className,
   title,
   tooltipText,
   dataTestId,
+  centerText,
+  data,
+  isLoading,
+  colors,
 }) => {
   return (
     <ChartContainer
@@ -32,7 +37,22 @@ export const AlertsByPriority: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
-      <BasePieChart data={data} colors={COLORS} dataKey="value" />
+      {(!isLoading && data.length) === 0 ? (
+        <div className={styles.loaderDiv}>No data</div>
+      ) : isLoading ? (
+        <div className={styles.loaderDiv}>
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24 }} spin={true} />}
+          />
+        </div>
+      ) : (
+        <BasePieChart
+          data={data}
+          centerText={centerText}
+          colors={colors}
+          dataKey="value"
+        />
+      )}
     </ChartContainer>
   );
 };
