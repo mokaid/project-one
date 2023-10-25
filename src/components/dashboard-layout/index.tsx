@@ -64,7 +64,7 @@ export const DashboardLayout: FC = () => {
           trigger={null}
         >
           <Logo collapsed={collapsed} className={styles.logo} />
-          <DashboardNavigation />
+          <DashboardNavigation className={styles.menu}  />
           <SiderTrigger
             className={styles.trigger}
             collapsed={collapsed}

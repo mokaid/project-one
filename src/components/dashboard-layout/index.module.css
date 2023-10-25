@@ -11,6 +11,7 @@
   padding: 0 1.5rem;
   width: 100%;
   z-index: 2;
+  background: #1B2438 !important;
 }
 
 .controls {
@@ -20,6 +21,7 @@
 .content {
   padding: 1.5rem;
   overflow: initial;
+  background: #060b19 !important;
 }
 
 .logo {
@@ -43,6 +45,7 @@
   top: 50vh;
   left: 100%;
   transform: translateY(-50%);
+  /* background: #060b19 !important; */
 }
 
 .sider {
@@ -53,8 +56,11 @@
   height: 100vh;
   overflow: visible;
   z-index: 100;
+  background: #1B2438 !important;
 }
-
+.menu{
+  background: #1B2438 !important;
+}
 .fakeSider {
   visibility: hidden;
   z-index: -1;

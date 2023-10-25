@@ -43,6 +43,7 @@ export const Navigation: FC<NavigationProps> = ({
       items={navItems}
       selectedKeys={[location.pathname]}
       data-testid={dataTestId}
+      style={{background:"#060b19 !important"}}
     />
   );
 };
