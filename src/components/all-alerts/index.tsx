@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect } from "react";
+import { type FC, useState, useEffect, useMemo } from "react";
 
 import { useDispatch } from "react-redux";
 import {
@@ -16,8 +16,8 @@ import styles from "./index.module.css";
 
 import { DeviceEvent } from "../../types/device-event";
 
-import { Spin } from "antd";
 import { useGetAllEventsMutation } from "../../services";
+import debouce from "lodash.debounce";
 
 type Fields = {
   search: string;
@@ -36,57 +36,66 @@ export const AllAlerts: FC = () => {
   const [form] = Form.useForm<Fields>();
   // set Search Data and initially all Data
   const [searchData, setSearchData] = useState<DeviceEvent | null>(null);
-  const [filter, setFilter] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string | "">("");
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
-  const [pageIndex, setPageIndex] = useState<number>(1); // You can set it to your desired initial value
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(10); // Start with a page size of 10
+  const [totalAlerts, setTotalAlerts] = useState(0); // Start with a page size of 10
 
 
-
-  const body = {
-    pageSize: 100,
-    startTime:"",
-    endTime:"",
-    startNum:0,
-    processed:-1,
-    sites:[],
-    vendors:[],
-    itemKeys:[],
-    itemLevels:[],
-    keyword:"",
-    orderBy:1,
-    pageIndex:pageIndex,
-  };
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   useEffect(() => {
+    const body = {
+      pageSize,
+      startTime: "",
+      endTime: "",
+      startNum: (pageIndex - 1) * pageSize,
+      processed: -1,
+      sites: [],
+      vendors: [],
+      itemKeys: [],
+      itemLevels: [],
+      keyword: filter,
+      orderBy: 1,
+      pageIndex: pageIndex,
+    };
     (async () => {
       const data = await getAllEvents(body);
-      console.log("getAllEvents", data.data.data.event);
+      console.log("getAllEvents", data);
       setSearchData(data.data.data.event);
+      setTotalAlerts(data.data.data.totalCount);
     })();
-  }, []);
+  }, [pageIndex, pageSize, filter]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
 
   const filteredData = () => {
-    console.log("searchString", filter);
-    if (filter !== "" && filter !== null) {
-      return searchData.filter((event: DeviceEvent) =>
-        event.vendor.includes(filter),
-      );
-    }
+    // console.log("searchString", filter);
+    // if (filter !== "" && filter !== null) {
+    //   return searchData.filter((event: DeviceEvent) =>
+    //     event.vendor.includes(filter),
+    //   );
+    // }
     return searchData;
   };
-
+  const handlePageChange = (page: number, pageSize: number) => {
+    setPageIndex(page);
+    setPageSize(pageSize);
+    console.log("page", page, pageSize);
+  };
+  const handleChange = (e:any) => {
+    setFilter(e.target.value);
+  };
+  const debouncedResults = useMemo(() => {
+    return debouce(handleChange, 300);
+  }, []);
   return (
     <>
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <header className={styles.header}>
-            <Title level={4}>
-              All Alerts — {searchData ? searchData.length : "0"}
-            </Title>
+            <Title level={4}>All Alerts — {totalAlerts}</Title>
 
             <Space size="middle" align="center">
               <Form
@@ -104,9 +113,7 @@ export const AllAlerts: FC = () => {
                   <Search
                     placeholder="Search"
                     allowClear={true}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setFilter(e.target.value)
-                    }
+                    onChange={debouncedResults}
                   />
                 </Item>
               </Form>
@@ -122,14 +129,15 @@ export const AllAlerts: FC = () => {
         </Col>
 
         <Col span={24}>
-          {/* {filteredData && (
-         
-          )} */}
-          {filteredData() && !isLoading ? (
-            <AllAlertsTable dataTestId="all-alerts-table" data={filteredData}  />
-          ) : (
-            <Spin indicator={antIcon} />
-          )}
+          <AllAlertsTable
+            dataTestId="all-alerts-table"
+            data={filteredData}
+            pageIndex={pageIndex}
+            pageSize={pageSize}
+            totalAlerts={totalAlerts}
+            handlePageChange={handlePageChange}
+            isLoading={isLoading}
+          />
         </Col>
       </Row>
 

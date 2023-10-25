@@ -64,7 +64,7 @@ export const generateColumns = ({
     title: "Actions",
     dataIndex: "eventId",
     sorter: false,
-    width: 200,
+    width: 190,
     fixed: "right",
     render(_, event) {
       return (
