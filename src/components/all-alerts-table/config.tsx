@@ -8,7 +8,7 @@ import { AlarmLevelTag } from "../alarm-level-tag";
 const { Link } = Typography;
 
 type ColumnParams = {
-  onMark: () => void;
+  onMark: (event: DeviceEvent) => void;
   onProcess: (event: DeviceEvent) => void;
 };
 
@@ -20,14 +20,14 @@ export const generateColumns = ({
     title: "Priority",
     dataIndex: "level",
     width: 100,
+    sorter: (a, b) =>{return( a.level - b.level)},
     render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
   },
   {
     title: "Site",
     dataIndex: ["site", "name"],
     width: 250,
-    //  sorter: (a, b) => parseInt(a.site.name) - parseInt(b.site.name),
-    sorter: (a, b) => a.site.name - b.site.name,
+    sorter: (a, b) =>{ return( a.site.name.length - b.site.name.length)},
   },
   {
     title: "Time",
@@ -49,19 +49,19 @@ export const generateColumns = ({
     title: "Device",
     dataIndex: ["obj", "name"],
     width: 239,
-    sorter:true
+    sorter: (a, b) => a.obj.name.length - b.obj.name.length,
   },
   {
     title: "Event Type",
     dataIndex: ["obj", "key"],
     width: 300,
-    sorter:true
+    sorter: (a, b) => a.obj.key.length - b.obj.key.length,
   },
   {
     title: "Event Desc",
     dataIndex: ["obj", "value"],
     width: 300,
-    sorter:true
+    sorter: (a, b) => a.obj.value.length - b.obj.value.length,
   },
   {
     title: "Actions",
@@ -72,7 +72,7 @@ export const generateColumns = ({
     render(_, event) {
       return (
         <Space size={2} split={<Divider type="vertical" />}>
-          <Link onClick={onMark}>Clear</Link>
+          <Link onClick={()=>onMark(event)}>Clear</Link>
           <Link onClick={() => onProcess(event)}>Acknowledge</Link>
         </Space>
       );

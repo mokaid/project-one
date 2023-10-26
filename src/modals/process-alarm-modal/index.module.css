@@ -14,6 +14,7 @@
 .testingTextarea > textarea {
   background-color: #0C183B !important;
 }
-.ant_radio_group .ant-radio-group-solid .css-dev-only-do-not-override-13exor3{
-background-color: red !important;
+/* .ant-radio .ant-radio-input .ant-radio-inner */
+.ant_radio_group .ant-radio-wrapper .ant-radio-inner {
+background: red !important;
 }

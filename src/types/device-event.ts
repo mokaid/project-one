@@ -44,6 +44,21 @@ export enum ProcessStatus {
   Accomplished = 2,
 }
 
+export type ReqDeviceEvent = {
+  pageSize?: number;
+  startTime?: string;
+  endTime?: string;
+  startNum?: number;
+  processed?: number;
+  sites?: [];
+  vendors?: [];
+  itemKeys?: [];
+  itemLevels?: [];
+  keyword?: string;
+  orderBy?: number;
+  pageIndex?: number;
+};
+
 export type AlarmLevel =
   (typeof ALARM_LEVEL_MAP)[AlarmLevelName] extends readonly [...infer A]
     ? A extends Array<infer L>

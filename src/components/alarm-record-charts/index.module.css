@@ -1,3 +1,4 @@
 .widget {
   height: 21.125rem;
+  border-radius: 16px !important;
 }

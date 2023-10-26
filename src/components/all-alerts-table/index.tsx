@@ -13,8 +13,14 @@ import { DeviceEvent } from "../../types/device-event";
 import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
-  className?: string;
-  dataTestId?: string;
+  className:string;
+  dataTestId:string;
+  data: DeviceEvent | null;
+  pageIndex: number;
+  pageSize: number;
+  totalAlerts: number;
+  handlePageChange: () => void;
+  isLoading: boolean;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,21 +48,13 @@ export const AllAlertsTable: FC<Props> = ({
   totalAlerts,
   handlePageChange,
   isLoading,
-}: {
-  data: DeviceEvent;
-  pageIndex: number;
-  pageSize: number;
-  totalAlerts: number;
-  handlePageChange: () => void;
-  isLoading: boolean;
-}) => {
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
   useEffect(() => {
     setSourceData(data);
   }, [data]);
-  console.log("isLoading", isLoading);
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
       dispatch(setSelectedEvents([selectedEvent]));
@@ -64,10 +62,14 @@ export const AllAlertsTable: FC<Props> = ({
     },
     [dispatch],
   );
+  const handleMark=(selectedEvent:DeviceEvent)=>{
+console.log("Device Event",selectedEvent)
+  }
 
+ 
   const columns = generateColumns({
     onProcess: handleProcessAlarm,
-    onMark() {},
+    onMark:handleMark
   });
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 

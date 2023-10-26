@@ -1,3 +1,11 @@
 .widget {
   height: 21.125rem;
+  background-color: #1B2438 !important;
+  border-radius: 16px !important;
+}
+.widget_alerts_map{
+  height: 21.125rem;
+  background-color: #1B2438 !important;
+  border-top-left-radius: 16px !important;
+  border-bottom-left-radius: 16px !important;
 }
