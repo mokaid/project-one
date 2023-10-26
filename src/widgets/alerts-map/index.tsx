@@ -57,7 +57,7 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
         contentClassName={styles.content}
         round={false}
       >
-        <Search placeholder="Search..." />
+        <Search placeholder="Search..." className={"serch_input_map"} />
 
         <ActionList className={styles.list}>
           {alerts.map(({ id, name, count }) => (

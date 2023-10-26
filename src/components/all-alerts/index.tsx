@@ -11,10 +11,15 @@ import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
 import { setShowEventsFilterModal } from "../../store/slices/events";
 import { AllAlertsTable } from "../all-alerts-table";
+import {
+  formatDate,
+  getLastWeekDate,
+  getTodayDate,
+} from "../../utils/general-helpers";
 
 import styles from "./index.module.css";
 
-import { DeviceEvent } from "../../types/device-event";
+import { DeviceEvent, ReqDeviceEvent } from "../../types/device-event";
 
 import { useGetAllEventsMutation } from "../../services";
 import debouce from "lodash.debounce";
@@ -34,19 +39,27 @@ const { Search } = Input;
 export const AllAlerts: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<Fields>();
-  // set Search Data and initially all Data
-  const [searchData, setSearchData] = useState<DeviceEvent | null>(null);
-  const [filter, setFilter] = useState<string | "">("");
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
+  const [queryEventData, setQueryEventData] = useState<DeviceEvent | null>(
+    null,
+  );
+  const [filter, setFilter] = useState<string | "">("");
   const [pageIndex, setPageIndex] = useState(1);
-  const [pageSize, setPageSize] = useState(10); // Start with a page size of 10
-  const [totalAlerts, setTotalAlerts] = useState(0); // Start with a page size of 10
+  const [pageSize, setPageSize] = useState(10);
+  const [totalAlerts, setTotalAlerts] = useState(0);
+  const date = new Date();
+  const [startDate, setStartDate] = useState<string>(
+    formatDate(getLastWeekDate(date)),
+  );
+  const [endDate, setEndDate] = useState<string>(
+    formatDate(getTodayDate(date)),
+  );
 
   useEffect(() => {
-    const body = {
+    const body: ReqDeviceEvent = {
       pageSize,
-      startTime: "",
-      endTime: "",
+      startTime: startDate,
+      endTime: endDate,
       startNum: (pageIndex - 1) * pageSize,
       processed: -1,
       sites: [],
@@ -60,7 +73,7 @@ export const AllAlerts: FC = () => {
     (async () => {
       const data = await getAllEvents(body);
       console.log("getAllEvents", data);
-      setSearchData(data.data.data.event);
+      setQueryEventData(data.data.data.event);
       setTotalAlerts(data.data.data.totalCount);
     })();
   }, [pageIndex, pageSize, filter]);
@@ -69,13 +82,10 @@ export const AllAlerts: FC = () => {
     dispatch(setShowEventsFilterModal(true));
   };
 
-  const filteredData = () => {
-    return searchData;
-  };
+ 
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
     setPageSize(pageSize);
-    console.log("page", page, pageSize);
   };
   const handleChange = (e: any) => {
     setFilter(e.target.value);
@@ -109,16 +119,24 @@ export const AllAlerts: FC = () => {
                     allowClear={true}
                     onChange={debouncedResults}
                     className="search_input"
-                   
                   />
                 </Item>
               </Form>
 
-              <Button className="filter_btn" icon={<FilterOutlined />} onClick={handleFilterClick}>
+              <Button
+                className="filter_btn"
+                icon={<FilterOutlined />}
+                onClick={handleFilterClick}
+              >
                 Filter
               </Button>
-              <Button className="filter_btn" style={{background:"#1B3687 !important"}} icon={<CheckCircleOutlined />} disabled={true}>
-                Mark All
+              <Button
+                className="filter_btn"
+                style={{ background: "#1B3687 !important" }}
+                icon={<CheckCircleOutlined />}
+                disabled={true}
+              >
+                Clear All
               </Button>
             </Space>
           </header>
@@ -127,7 +145,7 @@ export const AllAlerts: FC = () => {
         <Col span={24}>
           <AllAlertsTable
             dataTestId="all-alerts-table"
-            data={filteredData}
+            data={queryEventData}
             pageIndex={pageIndex}
             pageSize={pageSize}
             totalAlerts={totalAlerts}

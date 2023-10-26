@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import qs from "query-string";
 
 import { API_BASE_URL, QUERY_STRING_ARRAY_FORMAT } from "../const/common";
+import { ReqDeviceEvent } from "../types/device-event";
+import { ReqProcessEvent } from "../types/process-event";
 
 export const api = createApi({
   reducerPath: "api",
@@ -17,8 +19,16 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     getAllEvents: builder.mutation({
-      query: (body: any) => ({
+      query: (body: ReqDeviceEvent) => ({
         url: "query-events",
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: { data: any }, meta, arg) => response.data,
+    }),
+    processEvent: builder.mutation({
+      query: (body: ReqProcessEvent) => ({
+        url: "proccess-events",
         method: "POST",
         body,
       }),
@@ -27,4 +37,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetAllEventsMutation } = api;
+export const { useGetAllEventsMutation,useProcessEventMutation } = api;

@@ -13,8 +13,11 @@ import { SiderTrigger } from "../sider-trigger";
 import { SoundNotificationsSwitcher } from "../sound-notifications-switcher";
 import { ThemeSwitcher } from "../theme-switcher";
 import { UserPanel } from "../user-panel";
+import DateTime from "../headerDateTime";
 
 import styles from "./index.module.css";
+
+
 
 const { Header, Content, Sider } = Layout;
 
@@ -33,15 +36,18 @@ export const DashboardLayout: FC = () => {
     Cookies.set(SIDER_MENU_COLLAPSED_STATE_COOKIE, `${newCollapsed}`);
   };
 
+
   return (
     <ConfigProvider
       theme={{
         components: {
           Layout: {
-            headerBg: colorBgContainer,
-            triggerBg: colorBgContainer,
-            siderBg: colorBgContainer,
+            headerBg: `#1B2438 !important`,
+            triggerBg: `#1B2438 !important`,
+            // siderBg: `#1B2438 !important`,
+            algorithm: true,
           },
+         
         },
       }}
     >
@@ -79,6 +85,7 @@ export const DashboardLayout: FC = () => {
             style={{ backgroundColor: colorBgContainer }}
           >
             <Space align="center" className={styles.controls}>
+              <DateTime/>
               <ThemeSwitcher />
               <SoundNotificationsSwitcher />
               <FullScreenSwitcher />
@@ -95,3 +102,6 @@ export const DashboardLayout: FC = () => {
     </ConfigProvider>
   );
 };
+
+
+

@@ -15,10 +15,12 @@ import {
   setSelectedEvents,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
-import { ProcessStatus } from "../../types/device-event";
+import { DeviceEvent, ProcessStatus } from "../../types/device-event";
 import { getFormattedDateTime } from "../../utils/get-formatted-date-time";
 
 import styles from "./index.module.css";
+import { useProcessEventMutation } from "../../services";
+import { ReqProcessEvent } from "../../types/process-event";
 
 type Props = {
   dataTestId?: string;
@@ -46,11 +48,11 @@ const processStatusOptions = [
 ];
 
 export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
+  const [handleProcessEvents, { isLoading }] = useProcessEventMutation();
   const dispatch = useAppDispatch();
   const [form] = Form.useForm<Fields>();
   const show = useAppSelector(getShowProcessAlarmModalState);
   const [event] = useAppSelector(getSelectedEvents);
-
   const processTime = event ? getFormattedDateTime(event.process.time) : "N/A";
 
   const handleClose = () => {
@@ -70,7 +72,17 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
       caseNumber: caseNum,
     });
   }, [event]);
+const onSubmit=async()=>{
 
+const {caseNumber,processStatus,remarks}=form.getFieldsValue()
+const body:ReqProcessEvent={
+  event,
+  processStatus,
+  caseNumber:caseNumber,
+  remarks:remarks
+}
+// const data = await handleProcessEvents(body);
+}
   return (
     <Drawer
       open={show}
@@ -81,7 +93,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
           <Button type="default" style={{background:"transparent",borderRadius:"1px",borderColor:"#1B3687"}} onClick={handleClose}>
             Cancel
           </Button>
-          <Button type="primary" style={{borderRadius:"1px"}} onClick={form.submit}>
+          <Button type="primary" style={{borderRadius:"1px"}} onClick={()=>onSubmit()}>
             Confirm
           </Button>
         </Space>

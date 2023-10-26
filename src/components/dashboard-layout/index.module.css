@@ -11,7 +11,7 @@
   padding: 0 1.5rem;
   width: 100%;
   z-index: 2;
-  background: #1B2438 !important;
+  /* background: #1B2438 !important; */
 }
 
 .controls {
@@ -65,4 +65,5 @@
   visibility: hidden;
   z-index: -1;
   pointer-events: none;
+ 
 }

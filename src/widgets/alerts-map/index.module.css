@@ -9,6 +9,9 @@
 .alerts {
   width: calc(25% - 1rem);
   flex-shrink: 0;
+  background: #1B2438 !important;
+  border-top-left-radius: 16px !important;
+  border-bottom-left-radius: 16px !important;
 }
 
 .content {
@@ -21,7 +24,14 @@
   flex: 1 1 auto;
   max-height: 100%;
   overflow-y: auto;
+  background: #1B2438 !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.list::-webkit-scrollbar {
+  display: none;
+}
+
 
 .map {
   flex: 1 1 auto;
