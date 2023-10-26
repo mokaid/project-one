@@ -24,7 +24,9 @@
 .item {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
+  font-size: 12px;
 }
 
 .icon {
@@ -32,4 +34,5 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
+  margin-bottom: 2px;
 }

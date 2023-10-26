@@ -83,6 +83,7 @@ export const AllAlerts: FC = () => {
   const debouncedResults = useMemo(() => {
     return debouce(handleChange, 300);
   }, []);
+
   return (
     <>
       <Row gutter={[24, 24]}>
