@@ -1,5 +1,5 @@
 import { type FC, useCallback, useState, useEffect } from "react";
-import { Spin, Table, type TableProps } from "antd";
+import { Spin, Table, message, type TableProps } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
@@ -52,8 +52,10 @@ export const AllAlertsTable: FC<Props> = ({
   loading,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const [handleProcessEvents,{isLoading}] = useProcessEventMutation();
+  const [handleProcessEvents, {}] = useProcessEventMutation();
+  const [isLoading, setIsLoading] = useState(false);
   const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
   useEffect(() => {
     setSourceData(data);
   }, [data]);
@@ -64,16 +66,31 @@ export const AllAlertsTable: FC<Props> = ({
     },
     [dispatch],
   );
-  const handleMark = async(selectedEvent: DeviceEvent) => {
-    const event: any = [];
+  const handleMark = async (selectedEvent: DeviceEvent) => {
+    setIsLoading(true);
+    const event: Array<number> = [];
     event.push(...event, selectedEvent.eventId);
     console.log("event", event);
-    const body:ReqProcessEvent={
+    const body: ReqProcessEvent = {
       event,
-      processStatus:2
+      processStatus: 2,
+    };
+    const res = await handleProcessEvents(body);
+    if (res) {
+      setIsLoading(false)
+      if(res.data){
+        messageApi.open({
+          type: "success",
+          content: "Process status updated",
+        });
+      }
+      else{
+        messageApi.open({
+          type: "error",
+          content: "Process status update failed",
+        });
+      }
     }
-const res = await handleProcessEvents(body)
-console.log("res",res)
   };
 
   const columns = generateColumns({
@@ -84,6 +101,7 @@ console.log("res",res)
 
   return (
     <>
+    {contextHolder}
       <Table
         rowKey="eventId"
         // headerBg="#fff"
@@ -97,7 +115,7 @@ console.log("res",res)
         showSorterTooltip={false}
         loading={{
           indicator: <Spin indicator={antIcon} />,
-          spinning: loading,
+          spinning: loading || isLoading,
         }}
         pagination={{
           pageSize,
@@ -109,6 +127,7 @@ console.log("res",res)
         }}
         data-testid={dataTestId}
       />
+
       <ProcessAlarmModal dataTestId="process-alarm" />
     </>
   );

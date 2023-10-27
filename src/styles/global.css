@@ -152,3 +152,7 @@ html {
   border-radius: 2px !important;
   height: 40px !important;
 }
+.ant_radio_group .ant-radio-inner{
+  background-color: transparent;
+  border-color: rgba(100, 103, 113, 1);
+}
