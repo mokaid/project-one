@@ -75,13 +75,17 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
 const onSubmit=async()=>{
 
 const {caseNumber,processStatus,remarks}=form.getFieldsValue()
+const eventIds:any=[]
+eventIds.push(...eventIds,event.eventId)
 const body:ReqProcessEvent={
-  event,
+  event:eventIds,
   processStatus,
   caseNumber:caseNumber,
   remarks:remarks
 }
-// const data = await handleProcessEvents(body);
+console.log("body",body)
+const res = await handleProcessEvents(body);
+console.log("res",res)
 }
   return (
     <Drawer

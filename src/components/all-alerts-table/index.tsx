@@ -11,16 +11,18 @@ import {
 import { generateColumns } from "./config";
 import { DeviceEvent } from "../../types/device-event";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useProcessEventMutation } from "../../services";
+import { ReqProcessEvent } from "../../types/process-event";
 
 type Props = {
-  className:string;
-  dataTestId:string;
+  className: string;
+  dataTestId: string;
   data: DeviceEvent | null;
   pageIndex: number;
   pageSize: number;
   totalAlerts: number;
   handlePageChange: () => void;
-  isLoading: boolean;
+  loading: boolean;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,10 +49,10 @@ export const AllAlertsTable: FC<Props> = ({
   pageSize,
   totalAlerts,
   handlePageChange,
-  isLoading,
+  loading,
 }: Props) => {
   const dispatch = useAppDispatch();
-
+  const [handleProcessEvents,{isLoading}] = useProcessEventMutation();
   const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
   useEffect(() => {
     setSourceData(data);
@@ -62,14 +64,21 @@ export const AllAlertsTable: FC<Props> = ({
     },
     [dispatch],
   );
-  const handleMark=(selectedEvent:DeviceEvent)=>{
-console.log("Device Event",selectedEvent)
-  }
+  const handleMark = async(selectedEvent: DeviceEvent) => {
+    const event: any = [];
+    event.push(...event, selectedEvent.eventId);
+    console.log("event", event);
+    const body:ReqProcessEvent={
+      event,
+      processStatus:2
+    }
+const res = await handleProcessEvents(body)
+console.log("res",res)
+  };
 
- 
   const columns = generateColumns({
     onProcess: handleProcessAlarm,
-    onMark:handleMark
+    onMark: handleMark,
   });
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -88,7 +97,7 @@ console.log("Device Event",selectedEvent)
         showSorterTooltip={false}
         loading={{
           indicator: <Spin indicator={antIcon} />,
-          spinning: isLoading,
+          spinning: loading,
         }}
         pagination={{
           pageSize,

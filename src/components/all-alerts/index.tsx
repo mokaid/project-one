@@ -150,7 +150,7 @@ export const AllAlerts: FC = () => {
             pageSize={pageSize}
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
-            isLoading={isLoading}
+            loading={isLoading}
             className={"alerts_table"}
           />
         </Col>

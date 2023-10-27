@@ -1,7 +1,6 @@
-import { DeviceEvent } from "./device-event";
 
 export type ReqProcessEvent={
-    event:DeviceEvent;
+    event:[];
     processStatus:number;
     remarks?:string;
     caseNumber?:string

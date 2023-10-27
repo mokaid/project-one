@@ -28,7 +28,7 @@ export const api = createApi({
     }),
     processEvent: builder.mutation({
       query: (body: ReqProcessEvent) => ({
-        url: "proccess-events",
+        url: "process-events",
         method: "POST",
         body,
       }),
