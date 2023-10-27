@@ -21,7 +21,7 @@ export const generateColumns = ({
     dataIndex: "level",
     width: 100,
     sorter: (a, b) =>{return( a.level - b.level)},
-    render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
+    render: (level: AlarmLevel) =><div style={{display:"flex",justifyContent:"center"}}> <AlarmLevelTag level={level} /></div>,
   },
   {
     title: "Site",

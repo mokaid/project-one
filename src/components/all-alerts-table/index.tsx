@@ -1,5 +1,5 @@
 import { type FC, useCallback, useState, useEffect } from "react";
-import { Spin, Table, type TableProps } from "antd";
+import { Spin, Table, message, type TableProps } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
@@ -11,16 +11,18 @@ import {
 import { generateColumns } from "./config";
 import { DeviceEvent } from "../../types/device-event";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useProcessEventMutation } from "../../services";
+import { ReqProcessEvent } from "../../types/process-event";
 
 type Props = {
-  className:string;
-  dataTestId:string;
+  className: string;
+  dataTestId: string;
   data: DeviceEvent | null;
   pageIndex: number;
   pageSize: number;
   totalAlerts: number;
   handlePageChange: () => void;
-  isLoading: boolean;
+  loading: boolean;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,11 +49,13 @@ export const AllAlertsTable: FC<Props> = ({
   pageSize,
   totalAlerts,
   handlePageChange,
-  isLoading,
+  loading,
 }: Props) => {
   const dispatch = useAppDispatch();
-
+  const [handleProcessEvents, {}] = useProcessEventMutation();
+  const [isLoading, setIsLoading] = useState(false);
   const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
   useEffect(() => {
     setSourceData(data);
   }, [data]);
@@ -62,19 +66,42 @@ export const AllAlertsTable: FC<Props> = ({
     },
     [dispatch],
   );
-  const handleMark=(selectedEvent:DeviceEvent)=>{
-console.log("Device Event",selectedEvent)
-  }
+  const handleMark = async (selectedEvent: DeviceEvent) => {
+    setIsLoading(true);
+    const event: Array<number> = [];
+    event.push(...event, selectedEvent.eventId);
+    console.log("event", event);
+    const body: ReqProcessEvent = {
+      event,
+      processStatus: 2,
+    };
+    const res = await handleProcessEvents(body);
+    if (res) {
+      setIsLoading(false)
+      if(res.data){
+        messageApi.open({
+          type: "success",
+          content: "Process status updated",
+        });
+      }
+      else{
+        messageApi.open({
+          type: "error",
+          content: "Process status update failed",
+        });
+      }
+    }
+  };
 
- 
   const columns = generateColumns({
     onProcess: handleProcessAlarm,
-    onMark:handleMark
+    onMark: handleMark,
   });
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   return (
     <>
+    {contextHolder}
       <Table
         rowKey="eventId"
         // headerBg="#fff"
@@ -88,7 +115,7 @@ console.log("Device Event",selectedEvent)
         showSorterTooltip={false}
         loading={{
           indicator: <Spin indicator={antIcon} />,
-          spinning: isLoading,
+          spinning: loading || isLoading,
         }}
         pagination={{
           pageSize,
@@ -100,6 +127,7 @@ console.log("Device Event",selectedEvent)
         }}
         data-testid={dataTestId}
       />
+
       <ProcessAlarmModal dataTestId="process-alarm" />
     </>
   );

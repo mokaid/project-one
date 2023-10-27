@@ -17,7 +17,7 @@ export const generateColumns = ({
   {
     title: "Priority",
     dataIndex: "level",
-    width: 100,
+    width: 130,
     render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
   },
   {

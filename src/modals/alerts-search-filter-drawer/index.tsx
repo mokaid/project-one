@@ -13,10 +13,10 @@ import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
 import { getDateProps } from "../../utils/form-helpers/get-date-props";
 import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-select-props";
 
-import styles from "./index.module.css";
 
 type Props = {
   dataTestId?: string;
+  handlePageFilter:(startDate:string,endDate:string)=>void;
 };
 
 type Fields = {
@@ -47,11 +47,11 @@ const initialValues: Fields = {
   eventDetails: [],
 };
 
-export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
+export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId,handlePageFilter }) => {
   const dispatch = useAppDispatch();
   const show = useAppSelector(getShowEventsFilterModalState);
   const [form] = Form.useForm<Fields>();
-
+ 
   const handleReset = () => {
     form.resetFields();
   };
@@ -60,8 +60,10 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
     dispatch(setShowEventsFilterModal(false));
   };
 
-  const handleSubmit = async (values: Fields) => {
+  const handleSubmit = (values: Fields) => {
     console.log("values", values);
+    handlePageFilter(values.datetime[0],values.datetime[1])
+    dispatch(setShowEventsFilterModal(false));
   };
   const siteOptions = [
     {
@@ -114,7 +116,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId }) => {
           name="priority"
           getValueProps={getCheckboxGroupProps}
         >
-          <Checkbox.Group options={ALARM_LEVEL_OPTIONS} />
+          <Checkbox.Group options={ALARM_LEVEL_OPTIONS} className="filter_checkbox" />
         </Item>
         <Item<Fields>
           label="Site"

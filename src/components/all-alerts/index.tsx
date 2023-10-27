@@ -54,7 +54,7 @@ export const AllAlerts: FC = () => {
   const [endDate, setEndDate] = useState<string>(
     formatDate(getTodayDate(date)),
   );
-
+  
   useEffect(() => {
     const body: ReqDeviceEvent = {
       pageSize,
@@ -76,13 +76,17 @@ export const AllAlerts: FC = () => {
       setQueryEventData(data.data.data.event);
       setTotalAlerts(data.data.data.totalCount);
     })();
-  }, [pageIndex, pageSize, filter]);
+  }, [pageIndex, pageSize, filter,startDate,endDate]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
 
  
+  const handlePageFilter = (startDate: string, endDate: string) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
     setPageSize(pageSize);
@@ -150,13 +154,13 @@ export const AllAlerts: FC = () => {
             pageSize={pageSize}
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
-            isLoading={isLoading}
+            loading={isLoading}
             className={"alerts_table"}
           />
         </Col>
       </Row>
 
-      <AlertsSearchFilterDrawer dataTestId="all-alerts-search-filter" />
+      <AlertsSearchFilterDrawer dataTestId="all-alerts-search-filter" handlePageFilter={handlePageFilter}  />
     </>
   );
 };
