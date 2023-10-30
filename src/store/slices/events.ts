@@ -8,6 +8,7 @@ type State = {
   selectedEvents: DeviceEvent[];
   Events: any[];
   selectedEventsId: any[];
+  globalPageSize: number;
 };
 
 const initialState: State = {
@@ -15,10 +16,9 @@ const initialState: State = {
   showEventsFilterModal: false,
   selectedEvents: [],
   Events: [],
-  selectedEventsId:[],
+  selectedEventsId: [],
+  globalPageSize: 10,
 };
-
-
 
 const eventsSlice = createSlice({
   name: "events",
@@ -33,29 +33,42 @@ const eventsSlice = createSlice({
     setSelectedEvents(state, action: PayloadAction<DeviceEvent[]>) {
       state.selectedEvents = action.payload;
     },
-    setEvents(state,action: PayloadAction<any>){
-      console.log("state",...state.Events,action.payload)
-      const data = [...state.Events, {
-        pageIndex: action.payload.pageIndex,
-        data: action.payload.data,
-        pageSize:action.payload.pageSize,
-      }]
-
-      const jsonObject = data.map(JSON.stringify);
+    setEvents(state, action: PayloadAction<any>) {
+      const data = [
+        ...state.Events,
+        {
+          pageIndex: action.payload.pageIndex,
+          data: action.payload.data,
+        },
+      ];
+      const jsonObject = data?.map(JSON.stringify);
       const uniqueSet = new Set(jsonObject);
-      const uniqueArray = Array.from(uniqueSet).map(JSON.parse)
-      
+      const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+
       state.Events = uniqueArray;
-      
     },
-    setSelectedEventsId(state,action:PayloadAction<any>){
-      const EventIds=[...state.selectedEventsId,...action.payload]
-      const jsonObject = EventIds.map(JSON.stringify);
-      const uniqueSet = new Set(jsonObject);
-      const uniqueArray = Array.from(uniqueSet).map(JSON.parse)
-state.selectedEventsId = uniqueArray;
+    setSelectedEventsId(state, action: PayloadAction<any>) {
+      const newSelection = action.payload;
 
-    }
+      newSelection.forEach((item: any) => {
+        const index = state.selectedEventsId.indexOf(item);
+
+        if (index === -1) {
+          state.selectedEventsId = [
+            ...state.selectedEventsId,
+            ...action.payload,
+          ];
+        } else {
+          state.selectedEventsId.splice(index, 1);
+        }
+      });
+    },
+    setGlobalPageSize(state, action: PayloadAction<number>) {
+      state.globalPageSize = action.payload;
+    },
+    clearAllEvents(state) {
+      state.Events = [];
+    },
   },
 });
 
@@ -66,5 +79,7 @@ export const {
   setShowEventsFilterModal,
   setSelectedEvents,
   setEvents,
-  setSelectedEventsId
+  setSelectedEventsId,
+  setGlobalPageSize,
+  clearAllEvents,
 } = eventsSlice.actions;

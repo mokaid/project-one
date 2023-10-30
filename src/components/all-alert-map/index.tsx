@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import {
   CheckCircleOutlined,
   FilterOutlined,
+  InfoCircleOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Space, Typography, message } from "antd";
@@ -49,7 +50,7 @@ const { Title } = Typography;
 const { Item } = Form;
 const { Search } = Input;
 
-export const AllAlerts: FC = () => {
+export const AllAlertsMap: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<Fields>();
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
@@ -158,9 +159,9 @@ const ClearAllEvents=async()=>{
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <header className={styles.header}>
-            <Title level={4}>All Alerts — {totalAlerts}</Title>
+            
 
-            <Space size="middle" align="center">
+            <Space size="middle" align="center" className="alert-map-header" >
               <Form
                 form={form}
                 layout="vertical"
@@ -171,6 +172,7 @@ const ClearAllEvents=async()=>{
                 autoCapitalize="off"
                 spellCheck="false"
                 data-testid="all-alerts-search-form"
+                style={{flex:1}}
               >
                 <Item<Fields> name="search" noStyle={true}>
                   <Search
@@ -193,10 +195,17 @@ const ClearAllEvents=async()=>{
                 className="filter_btn"
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
-                disabled={clearAll}
+                disabled={true}
                 onClick={()=>ClearAllEvents()}
               >
                 Clear All
+              </Button>
+              <Button
+                className="filter_btn"
+                icon={<InfoCircleOutlined />}
+                onClick={handleFilterClick}
+              >
+                Info
               </Button>
             </Space>
           </header>

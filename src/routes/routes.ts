@@ -13,3 +13,7 @@ export enum AlarmRoute {
   Record = "record",
   SelfRecovery = "self-recovery",
 }
+
+export enum AlertRoute{
+alertMap="alert-map"
+}

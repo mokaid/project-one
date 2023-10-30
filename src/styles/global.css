@@ -161,3 +161,17 @@ html {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
 }
+.loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.alert-map-header{
+  border: 1px solid black;
+  width: 100%;
+}
+
+.alert-map-header > div:first-child{
+  flex: 1;
+}
