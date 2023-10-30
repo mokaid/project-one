@@ -1,5 +1,5 @@
 import { type FC, useCallback } from "react";
-import { Spin, theme } from "antd";
+import { Empty, Spin, theme } from "antd";
 import { Bar, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import { ContentType } from "recharts/types/component/Label";
 
@@ -68,7 +68,7 @@ export const TopAlertsBySite: FC<Props> = ({
       dataTestId={dataTestId}
     >
       {(!isLoading && data.length) === 0 ? (
-        <div className={styles.loaderDiv}>No data</div>
+        <div className={styles.loaderDiv}> <Empty /></div>
       ) : isLoading ? (
         <div className={styles.loaderDiv}>
           <Spin

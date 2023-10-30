@@ -4,7 +4,8 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { AlarmRecord } from "../pages/alarm-record";
 import { Dashboard } from "../pages/dashboard";
 
-import { AlarmRoute, AppRoute } from "./routes";
+import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
+import { AlertMap } from "../pages/alert-map";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,17 @@ export const router = createBrowserRouter([
       {
         path: AppRoute.Dashboard,
         element: <Dashboard />,
+       
+      },
+      {
+        path: AlertRoute.alertMap,
+        element: <AlertMap />,
+        index: true,
+        handle: {
+          crumb: () => ({
+            title: "0001 Dubai Mall",
+          }),
+        },
       },
       {
         path: AppRoute.Alarm,

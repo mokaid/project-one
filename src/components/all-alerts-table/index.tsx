@@ -23,10 +23,8 @@ type Props = {
   pageSize: number;
   totalAlerts: number;
   handlePageChange: () => void;
-  setClearAll: (state:boolean) => void;
   loading: boolean;
 };
-
 
 export const AllAlertsTable: FC<Props> = ({
   className,
@@ -37,37 +35,40 @@ export const AllAlertsTable: FC<Props> = ({
   totalAlerts,
   handlePageChange,
   loading,
-  setClearAll
+
 }: Props) => {
   const dispatch = useDispatch();
-  const event = useAppSelector(getEvents)
-  const rowKey=  useAppSelector(getSelectedRowIds);
+  const event = useAppSelector(getEvents);
+  const rowKey = useAppSelector(getSelectedRowIds);
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [isLoading, setIsLoading] = useState(false);
-   const [messageApi, contextHolder] = message.useMessage();
-   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const rowSelection: TableProps<any>["rowSelection"] = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: unknown[]) => {
-      // console.log(
-      //   `selectedRowKeys: ${typeof selectedRowKeys}`,
-      //   "selectedRows: ",
-      //   selectedRows,
-      // );
-      dispatch(setSelectedEventsId(selectedRowKeys))
-  
-    
-    },
-    selectedRowKeys:rowKey, // Store or state value for selected row keys
+  const [messageApi, contextHolder] = message.useMessage();
 
-  
-  
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getCheckboxProps: (record: any) => ({
-      disabled: record.name === "Disabled User", // Column configuration not to be checked
-      name: record.name,
-    }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const rowSelection: TableProps<any>["rowSelection"] = {
+  //   onChange: (selectedRowKeys: React.Key[], selectedRows: unknown[]) => {
+  //     dispatch(setSelectedEventsId(selectedRowKeys));
+  //     console.log("Selected Row Keys",selectedRowKeys)
+
+  //   },
+  //   // selectedRowKeys: rowKey,
+
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   getCheckboxProps: (record: any) => ({
+  //     disabled: record.name === "Disabled User", // Column configuration not to be checked
+  //     name: record.name,
+  //   }),
+  // };
+  const onSelectChange = (selectedRowKeys: React.Key[]) => {
+    dispatch(setSelectedEventsId(selectedRowKeys));
+    console.log("Selected Row Keys:", rowKey);
   };
+  
+  const rowSelection = {
+    selectedRowKeys: rowKey,
+    onChange: onSelectChange,
+  };
+
 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
@@ -115,7 +116,7 @@ export const AllAlertsTable: FC<Props> = ({
         // headerBg="#fff"
         className={className}
         scroll={{ x: 1200 }}
-        dataSource={event.find(item => item.pageIndex === pageIndex)?.data}
+        dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
         // headerBg={"#0000FF"}
         sticky={true}
         columns={columns}
