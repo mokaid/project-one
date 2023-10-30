@@ -116,7 +116,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId,handlePageFilte
           name="priority"
           getValueProps={getCheckboxGroupProps}
         >
-          <Checkbox.Group options={ALARM_LEVEL_OPTIONS} className="filter_checkbox" />
+          <Checkbox.Group options={ALARM_LEVEL_OPTIONS} className={"filter_checkbox"} />
         </Item>
         <Item<Fields>
           label="Site"

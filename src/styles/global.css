@@ -156,3 +156,8 @@ html {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
 }
+
+.filter_checkbox .ant-checkbox-inner{
+  background-color: transparent;
+  border-color: rgba(100, 103, 113, 1);
+}
