@@ -7,7 +7,7 @@ import {
 } from "../../charts/chart-container";
 import { PieGraphDataType } from "../../types/graph-data";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
+import { Empty, Spin } from "antd";
 import styles from "./index.module.css";
 
 type Props = Pick<
@@ -38,7 +38,7 @@ export const AlertsByPriority: FC<Props> = ({
       dataTestId={dataTestId}
     >
       {(!isLoading && data.length) === 0 ? (
-        <div className={styles.loaderDiv}>No data</div>
+        <div className={styles.loaderDiv}> <Empty /></div>
       ) : isLoading ? (
         <div className={styles.loaderDiv}>
           <Spin

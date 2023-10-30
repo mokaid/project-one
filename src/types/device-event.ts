@@ -59,6 +59,13 @@ export type ReqDeviceEvent = {
   pageIndex?: number;
 };
 
+export type ReqQueryBySite={
+  startTime:string
+  endTime:string
+  processed?:number
+  top?:[]
+}
+
 export type AlarmLevel =
   (typeof ALARM_LEVEL_MAP)[AlarmLevelName] extends readonly [...infer A]
     ? A extends Array<infer L>

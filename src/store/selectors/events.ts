@@ -16,3 +16,6 @@ export const getEvents = (state: RootState) =>
 
 export const getSelectedRowIds = (state: RootState) =>
   getEventsState(state).selectedEventsId;
+
+export const getGlobalPageSize = (state: RootState) =>
+  getEventsState(state).globalPageSize;
