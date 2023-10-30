@@ -1,6 +1,5 @@
+import { Col, Row, type TabsProps } from "antd";
 import type { FC } from "react";
-import { CheckCircleOutlined, FilterOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Tabs, Typography, type TabsProps, Form, Input } from "antd";
 
 import { Breadcrumbs } from "../../breadcrumbs";
 import { AlarmRecordCharts } from "../../components/alarm-record-charts";
@@ -20,19 +19,11 @@ const items: TabsProps["items"] = [
   },
 ];
 
-  type Fields = {
-    search: string;
-  };
+
   
-  const initialValues: Fields = {
-    search: "",
-  };
   
-  const { Title } = Typography;
-  const { Item } = Form;
-  const { Search } = Input;
 export const AlertMap: FC = () => {
-    const [form] = Form.useForm<Fields>();
+    
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
