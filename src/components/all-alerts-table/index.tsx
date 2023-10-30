@@ -1,19 +1,20 @@
 import { type FC, useCallback, useState, useEffect } from "react";
 import { Spin, Table, message, type TableProps } from "antd";
 
-import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import {
   setSelectedEvents,
+  setSelectedEventsId,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
-
+import { useDispatch } from "react-redux";
 import { generateColumns } from "./config";
 import { DeviceEvent } from "../../types/device-event";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useProcessEventMutation } from "../../services";
 import { ReqProcessEvent } from "../../types/process-event";
-
+import { useAppSelector } from "../../hooks/use-app-selector";
+import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
 type Props = {
   className: string;
   dataTestId: string;
@@ -22,24 +23,10 @@ type Props = {
   pageSize: number;
   totalAlerts: number;
   handlePageChange: () => void;
+  setClearAll: (state:boolean) => void;
   loading: boolean;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const rowSelection: TableProps<any>["rowSelection"] = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: unknown[]) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",
-      selectedRows,
-    );
-  },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getCheckboxProps: (record: any) => ({
-    disabled: record.name === "Disabled User", // Column configuration not to be checked
-    name: record.name,
-  }),
-};
 
 export const AllAlertsTable: FC<Props> = ({
   className,
@@ -50,15 +37,38 @@ export const AllAlertsTable: FC<Props> = ({
   totalAlerts,
   handlePageChange,
   loading,
+  setClearAll
 }: Props) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
+  const event = useAppSelector(getEvents)
+  const rowKey=  useAppSelector(getSelectedRowIds);
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [isLoading, setIsLoading] = useState(false);
-  const [sourceData, setSourceData] = useState<DeviceEvent | null>(null);
-  const [messageApi, contextHolder] = message.useMessage();
-  useEffect(() => {
-    setSourceData(data);
-  }, [data]);
+   const [messageApi, contextHolder] = message.useMessage();
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rowSelection: TableProps<any>["rowSelection"] = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: unknown[]) => {
+      // console.log(
+      //   `selectedRowKeys: ${typeof selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows,
+      // );
+      dispatch(setSelectedEventsId(selectedRowKeys))
+  
+    
+    },
+    selectedRowKeys:rowKey, // Store or state value for selected row keys
+
+  
+  
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getCheckboxProps: (record: any) => ({
+      disabled: record.name === "Disabled User", // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
       dispatch(setSelectedEvents([selectedEvent]));
@@ -70,21 +80,19 @@ export const AllAlertsTable: FC<Props> = ({
     setIsLoading(true);
     const event: Array<number> = [];
     event.push(...event, selectedEvent.eventId);
-    console.log("event", event);
     const body: ReqProcessEvent = {
       event,
       processStatus: 2,
     };
     const res = await handleProcessEvents(body);
     if (res) {
-      setIsLoading(false)
-      if(res.data){
+      setIsLoading(false);
+      if (res.data) {
         messageApi.open({
           type: "success",
           content: "Process status updated",
         });
-      }
-      else{
+      } else {
         messageApi.open({
           type: "error",
           content: "Process status update failed",
@@ -101,13 +109,13 @@ export const AllAlertsTable: FC<Props> = ({
 
   return (
     <>
-    {contextHolder}
+      {contextHolder}
       <Table
         rowKey="eventId"
         // headerBg="#fff"
         className={className}
         scroll={{ x: 1200 }}
-        dataSource={sourceData}
+        dataSource={event.find(item => item.pageIndex === pageIndex)?.data}
         // headerBg={"#0000FF"}
         sticky={true}
         columns={columns}
@@ -126,6 +134,7 @@ export const AllAlertsTable: FC<Props> = ({
           onChange: handlePageChange,
         }}
         data-testid={dataTestId}
+        // preserveSelectedRowKeys={true}
       />
 
       <ProcessAlarmModal dataTestId="process-alarm" />

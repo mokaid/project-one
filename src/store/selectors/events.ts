@@ -10,3 +10,9 @@ export const getShowEventsFilterModalState = (state: RootState) =>
 
 export const getSelectedEvents = (state: RootState) =>
   getEventsState(state).selectedEvents;
+
+export const getEvents = (state: RootState) =>
+  getEventsState(state).Events;
+
+export const getSelectedRowIds = (state: RootState) =>
+  getEventsState(state).selectedEventsId;

@@ -9,7 +9,8 @@ import {
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 
 import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
-import { setShowEventsFilterModal } from "../../store/slices/events";
+import { setEvents, setShowEventsFilterModal } from "../../store/slices/events";
+
 import { AllAlertsTable } from "../all-alerts-table";
 import {
   formatDate,
@@ -23,6 +24,8 @@ import { DeviceEvent, ReqDeviceEvent } from "../../types/device-event";
 
 import { useGetAllEventsMutation } from "../../services";
 import debouce from "lodash.debounce";
+import { useAppSelector } from "../../hooks/use-app-selector";
+import { getEvents } from "../../store/selectors/events";
 
 type Fields = {
   search: string;
@@ -40,13 +43,11 @@ export const AllAlerts: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<Fields>();
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
-  const [queryEventData, setQueryEventData] = useState<DeviceEvent | null>(
-    null,
-  );
   const [filter, setFilter] = useState<string | "">("");
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
+  const [clearAll, setClearAll] = useState<boolean>(true);
   const date = new Date();
   const [startDate, setStartDate] = useState<string>(
     formatDate(getLastWeekDate(date)),
@@ -54,8 +55,9 @@ export const AllAlerts: FC = () => {
   const [endDate, setEndDate] = useState<string>(
     formatDate(getTodayDate(date)),
   );
-  
+  const events = useAppSelector(getEvents);
   useEffect(() => {
+    console.log("pageIndex",pageIndex)
     const body: ReqDeviceEvent = {
       pageSize,
       startTime: startDate,
@@ -70,19 +72,33 @@ export const AllAlerts: FC = () => {
       orderBy: 1,
       pageIndex: pageIndex,
     };
+    
+    const doExist = events.find(item => item.pageIndex === pageIndex);
     (async () => {
-      const data = await getAllEvents(body);
-      console.log("getAllEvents", data);
-      setQueryEventData(data.data.data.event);
-      setTotalAlerts(data.data.data.totalCount);
-    })();
-  }, [pageIndex, pageSize, filter,startDate,endDate]);
+      // console.log("getAllEvents", data);
+      // setQueryEventData(data.data.data.event);
+   
 
-  const handleFilterClick = () => {
-    dispatch(setShowEventsFilterModal(true));
-  };
+      // if (events[pageIndex - 1]?.pageIndex !== pageIndex) {
+      if (!doExist) {
+        const data = await getAllEvents(body);
+        dispatch(
+          setEvents({
+            pageIndex: pageIndex,
+            data: data.data.data.event
+          }),
+        );
+        setTotalAlerts(data.data.data.totalCount);
+      }
+    })();
+  }, [pageIndex, pageSize, filter, startDate, endDate, events]);
 
  
+  const handleFilterClick = () => {
+    // dispatch(setShowEventsFilterModal(true));
+    console.log("Events", events);
+  };
+
   const handlePageFilter = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
@@ -138,7 +154,7 @@ export const AllAlerts: FC = () => {
                 className="filter_btn"
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
-                disabled={true}
+                disabled={clearAll}
               >
                 Clear All
               </Button>
@@ -149,18 +165,22 @@ export const AllAlerts: FC = () => {
         <Col span={24}>
           <AllAlertsTable
             dataTestId="all-alerts-table"
-            data={queryEventData}
+            // data={queryEventData}
             pageIndex={pageIndex}
             pageSize={pageSize}
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
             loading={isLoading}
             className={"alerts_table"}
+            setClearAll={setClearAll}
           />
         </Col>
       </Row>
 
-      <AlertsSearchFilterDrawer dataTestId="all-alerts-search-filter" handlePageFilter={handlePageFilter}  />
+      <AlertsSearchFilterDrawer
+        dataTestId="all-alerts-search-filter"
+        handlePageFilter={handlePageFilter}
+      />
     </>
   );
 };
