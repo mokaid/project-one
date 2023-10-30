@@ -49,18 +49,16 @@ const eventsSlice = createSlice({
     },
     setSelectedEventsId(state, action: PayloadAction<any>) {
       const newSelection = action.payload;
-    
-      // Check if each new selection is already in the existing selectedEventsId
-      newSelection.forEach((item:any) => {
-        const index = state.selectedEventsId.indexOf(item);
-    
-        if (index === -1) {
-          // If not in the selectedEventsId, add it
 
-          // state.selectedEventsId.push(item);
-          state.selectedEventsId=[...state.selectedEventsId,...action.payload]
+      newSelection.forEach((item: any) => {
+        const index = state.selectedEventsId.indexOf(item);
+
+        if (index === -1) {
+          state.selectedEventsId = [
+            ...state.selectedEventsId,
+            ...action.payload,
+          ];
         } else {
-          // If already in the selectedEventsId, remove it
           state.selectedEventsId.splice(index, 1);
         }
       });

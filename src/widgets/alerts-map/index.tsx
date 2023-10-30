@@ -81,7 +81,8 @@ const navigate = useNavigate()
         <ActionList className={styles.list}>
           {(!isLoading && alertData.length) === 0 ? (
             <div className="loader">
-            <Empty />
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+         
             </div>
           ) : isLoading ? (
             <div className="loader">
