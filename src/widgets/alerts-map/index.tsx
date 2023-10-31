@@ -17,7 +17,6 @@ import { useQueryeventsiteMutation } from "../../services";
 import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
 import { useNavigate } from "react-router-dom";
 
-
 type Props = {
   className?: string;
   dataTestId?: string;
@@ -30,12 +29,22 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     id: "google-map-script",
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
   });
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   useQueryeventsiteMutation;
   const [getAllEvents, { isLoading }] = useQueryeventsiteMutation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredAlertData, setFilteredAlertData] = useState([]);
   const [alertData, setAlertData] = useState<[]>([]);
+
+  useEffect(() => {
+    const filteredData = alertData.filter((alert) =>
+      alert.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+    setFilteredAlertData(filteredData);
+  }, [alertData, searchQuery]);
+
   const date = new Date();
   useEffect(() => {
     const body = {
@@ -76,13 +85,17 @@ const navigate = useNavigate()
         contentClassName={styles.content}
         round={false}
       >
-        <Search placeholder="Search..." className={"serch_input_map"} />
+        <Search
+          placeholder="Search..."
+          className={"serch_input_map"}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
 
         <ActionList className={styles.list}>
-          {(!isLoading && alertData.length) === 0 ? (
+          {(!isLoading && filteredAlertData.length) === 0 ? (
             <div className="loader">
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-         
             </div>
           ) : isLoading ? (
             <div className="loader">
@@ -94,12 +107,15 @@ const navigate = useNavigate()
             </div>
           ) : (
             <>
-              {alertData?.map(({ id, name, count }) => (
-                <ActionList.Item key={id} extra={count} onClick={()=>navigate("/alert-map")} >
+              {filteredAlertData?.map(({ id, name, count }) => (
+                <ActionList.Item
+                  key={id}
+                  extra={count}
+                  onClick={() => navigate("/alert-map")}
+                >
                   <Badge status="success" /> {name}
                 </ActionList.Item>
               ))}
-              
             </>
           )}
         </ActionList>
