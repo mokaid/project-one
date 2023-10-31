@@ -35,7 +35,6 @@ export const AllAlertsTable: FC<Props> = ({
   totalAlerts,
   handlePageChange,
   loading,
-
 }: Props) => {
   const dispatch = useDispatch();
   const event = useAppSelector(getEvents);
@@ -60,15 +59,13 @@ export const AllAlertsTable: FC<Props> = ({
   //   }),
   // };
   const onSelectChange = (selectedRowKeys: React.Key[]) => {
-    dispatch(setSelectedEventsId(selectedRowKeys));
-    console.log("Selected Row Keys:", rowKey);
+    dispatch(setSelectedEventsId({ selectedRowKeys, pageIndex }));
   };
-  
+
   const rowSelection = {
     selectedRowKeys: rowKey,
     onChange: onSelectChange,
   };
-
 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
@@ -130,7 +127,8 @@ export const AllAlertsTable: FC<Props> = ({
           pageSize,
           showQuickJumper: true,
           showSizeChanger: true,
-          total: Math.ceil(totalAlerts / pageSize),
+          // total: Math.ceil(totalAlerts / pageSize),
+          total: totalAlerts,
           current: pageIndex,
           onChange: handlePageChange,
         }}

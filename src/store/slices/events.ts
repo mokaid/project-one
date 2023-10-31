@@ -8,6 +8,7 @@ type State = {
   selectedEvents: DeviceEvent[];
   Events: any[];
   selectedEventsId: any[];
+  selectedEventIdsByPage: any[];
   globalPageSize: number;
 };
 
@@ -48,20 +49,32 @@ const eventsSlice = createSlice({
       state.Events = uniqueArray;
     },
     setSelectedEventsId(state, action: PayloadAction<any>) {
-      const newSelection = action.payload;
+      const { pageIndex, selectedRowKeys } = action.payload;
+      const finalResult = {
+        ...state.selectedEventIdsByPage,
+        [pageIndex]: selectedRowKeys,
+      };
 
-      newSelection.forEach((item: any) => {
-        const index = state.selectedEventsId.indexOf(item);
+      state.selectedEventIdsByPage = finalResult;
+      const allSelectedItems = [].concat(
+        ...Object.values(state.selectedEventIdsByPage),
+      );
 
-        if (index === -1) {
-          state.selectedEventsId = [
-            ...state.selectedEventsId,
-            ...action.payload,
-          ];
-        } else {
-          state.selectedEventsId.splice(index, 1);
-        }
-      });
+      state.selectedEventsId = allSelectedItems;
+      // const newSelection = selectedRowKeys;
+      // console.log(newSelection, "newSelection");
+      // newSelection.forEach((item: any) => {
+      //   const index = state.selectedEventsId.indexOf(item);
+      //   console.log(index, "index");
+
+      //   if (index === -1) {
+      //     state.selectedEventsId = [...state.selectedEventsId, item];
+      //   }
+      // else {
+      //   state.selectedEventsId.splice(index, 1);
+      //   console.log(state.selectedEventsId.splice(index, 1), "uoooo");
+      // }
+      // });
     },
     setGlobalPageSize(state, action: PayloadAction<number>) {
       state.globalPageSize = action.payload;

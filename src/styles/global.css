@@ -23,7 +23,6 @@ html {
 
 #root {
   height: 100%;
-
 }
 
 .alerts_table .ant-table-thead tr th {
@@ -33,17 +32,16 @@ html {
 .alerts_table .ant-table {
   background: #1b2438 !important;
 }
-.alerts_table .ant-table  .ant-checkbox-inner{
-  background-color: #1B2438 !important;
-
+.alerts_table .ant-table .ant-checkbox-inner {
+  background-color: #1b2438 !important;
 }
 /* .alerts_table .ant-table .ant-checkbox-inner{
 
 } */
-.alerts_table .ant-table .ant-table-header{
+.alerts_table .ant-table .ant-table-header {
   z-index: 4;
 }
-.alerts_table .ant-table .ant-table-body{
+.alerts_table .ant-table .ant-table-body {
   position: sticky;
   z-index: 3;
 }
@@ -53,39 +51,44 @@ html {
 .alerts_table .ant-table-row td {
   background: #1b2438 !important;
 }
-.alerts_table .ant-pagination .ant-pagination-item{
-  background:#1B2438 !important;
+.alerts_table .ant-pagination .ant-pagination-item {
+  background: #1b2438 !important;
   border-color: #333333 !important;
 }
-.alerts_table .ant-pagination .ant-pagination-item-active{
-  background:#1B2438 !important;
-  border-color: #329CFF !important;
+.alerts_table .ant-pagination .ant-pagination-item-active {
+  background: #1b2438 !important;
+  border-color: #329cff !important;
 }
-.alerts_table .ant-pagination .ant-pagination-item a{
+.alerts_table .ant-pagination .ant-pagination-item a {
   color: white !important;
 }
-.alerts_table .ant-pagination .ant-pagination-item-active a{
-  color: #329CFF !important;
+.alerts_table .ant-pagination .ant-pagination-item-active a {
+  color: #329cff !important;
 }
-.alerts_table .ant-pagination .ant-pagination-prev
-,.alerts_table .ant-pagination .ant-pagination-next
-{
-  background:#1B2438 !important;
-  
-  
+.alerts_table .ant-pagination .ant-pagination-prev,
+.alerts_table .ant-pagination .ant-pagination-next {
+  background: #1b2438 !important;
 }
-.alerts_table .ant-pagination .ant-pagination-prev
-.ant-pagination-item-link , .alerts_table .ant-pagination .ant-pagination-next .ant-pagination-item-link{
+.alerts_table .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.alerts_table .ant-pagination .ant-pagination-next .ant-pagination-item-link {
   display: flex !important;
   justify-content: center;
   align-items: center;
 }
 
-.alerts_table .ant-pagination .ant-pagination-options .ant-select .ant-select-selector{
-  background-color: #1B2438 !important;
+.alerts_table
+  .ant-pagination
+  .ant-pagination-options
+  .ant-select
+  .ant-select-selector {
+  background-color: #1b2438 !important;
 }
-.alerts_table .ant-pagination .ant-pagination-options  .ant-pagination-options-quick-jumper input{
-  background-color: #1B2438 !important;
+.alerts_table
+  .ant-pagination
+  .ant-pagination-options
+  .ant-pagination-options-quick-jumper
+  input {
+  background-color: #1b2438 !important;
 }
 .select_input .ant-select-selector {
   background-color: transparent !important;
@@ -117,10 +120,8 @@ html {
   background: #1b2438 !important;
   border-end-end-radius: 2px !important;
   border-start-end-radius: 2px !important;
-  
- 
 }
-.search_input .ant-input-group .ant-btn{
+.search_input .ant-input-group .ant-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,10 +138,8 @@ html {
   background: #1b2438 !important;
   border-end-end-radius: 2px !important;
   border-start-end-radius: 2px !important;
-  
- 
 }
-.serch_input_map .ant-input-group .ant-btn{
+.serch_input_map .ant-input-group .ant-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,26 +151,26 @@ html {
   border-radius: 2px !important;
   height: 40px !important;
 }
-.ant_radio_group .ant-radio-inner{
+.ant_radio_group .ant-radio-inner {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
 }
 
-.filter_checkbox .ant-checkbox-inner{
+.filter_checkbox .ant-checkbox-inner {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
 }
-.loader{
+.loader {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
-.alert-map-header{
+.alert-map-header {
   border: 1px solid black;
   width: 100%;
 }
 
-.alert-map-header > div:first-child{
+.alert-map-header > div:first-child {
   flex: 1;
 }

@@ -6,7 +6,16 @@ import {
   FilterOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row, Space, Typography, message } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Space,
+  Typography,
+  message,
+} from "antd";
 
 import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
 import {
@@ -28,7 +37,10 @@ import styles from "./index.module.css";
 
 import { DeviceEvent, ReqDeviceEvent } from "../../types/device-event";
 
-import { useGetAllEventsMutation, useProcessEventMutation } from "../../services";
+import {
+  useGetAllEventsMutation,
+  useProcessEventMutation,
+} from "../../services";
 import debouce from "lodash.debounce";
 import { useAppSelector } from "../../hooks/use-app-selector";
 import {
@@ -67,9 +79,9 @@ export const AllAlerts: FC = () => {
   );
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
-  const selectedRow=useAppSelector(getSelectedRowIds)
+  const selectedRow = useAppSelector(getSelectedRowIds);
   useEffect(() => {
-      const body: ReqDeviceEvent = {
+    const body: ReqDeviceEvent = {
       pageSize,
       startTime: startDate,
       endTime: endDate,
@@ -83,17 +95,20 @@ export const AllAlerts: FC = () => {
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    if(selectedRow.length > 0 && selectedRow.length === 0 ){
-      setClearAll(true)
-    }else{
-      setClearAll(false)
-    console.log("Length zero")
+    let pageSizeChange = false;
+    if (selectedRow.length > 0 && selectedRow.length === 0) {
+      setClearAll(true);
+    } else {
+      setClearAll(false);
     }
     if (storePageSize !== pageSize) {
       setPageIndex(1);
       dispatch(clearAllEvents());
+      pageSizeChange = true;
     }
-    const doExist = events.find((item) => item.pageIndex === pageIndex);
+    const doExist = !pageSizeChange
+      ? events.find((item) => item.pageIndex === pageIndex)
+      : undefined;
 
     (async () => {
       if (!doExist) {
@@ -130,31 +145,31 @@ export const AllAlerts: FC = () => {
   }, []);
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [messageApi, contextHolder] = message.useMessage();
-const ClearAllEvents=async()=>{
-  // setIsLoading(true);
-  const event: Array<number> = selectedRow;
-  const body: any = {
-    event,
-    processStatus: 2,
-  };
-  const res = await handleProcessEvents(body);
-  if (res) {
-    if (res.data) {
-      messageApi.open({
-        type: "success",
-        content: "Process status updated",
-      });
-    } else {
-      messageApi.open({
-        type: "error",
-        content: "Process status update failed",
-      });
+  const ClearAllEvents = async () => {
+    // setIsLoading(true);
+    const event: Array<number> = selectedRow;
+    const body: any = {
+      event,
+      processStatus: 2,
+    };
+    const res = await handleProcessEvents(body);
+    if (res) {
+      if (res.data) {
+        messageApi.open({
+          type: "success",
+          content: "Process status updated",
+        });
+      } else {
+        messageApi.open({
+          type: "error",
+          content: "Process status update failed",
+        });
+      }
     }
-  }
-}
+  };
   return (
     <>
-    {contextHolder}
+      {contextHolder}
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <header className={styles.header}>
@@ -194,7 +209,7 @@ const ClearAllEvents=async()=>{
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
                 disabled={clearAll}
-                onClick={()=>ClearAllEvents()}
+                onClick={() => ClearAllEvents()}
               >
                 Clear All
               </Button>

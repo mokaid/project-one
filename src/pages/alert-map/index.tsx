@@ -19,19 +19,15 @@ const items: TabsProps["items"] = [
   },
 ];
 
-
-  
-  
 export const AlertMap: FC = () => {
-    
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
         <Breadcrumbs />
       </Col>
       <Col span={24}>
-          <AllAlertsMap/>
-        </Col>
+        <AllAlertsMap />
+      </Col>
       {/* <Col span={24}>
       <Table
         rowKey="eventId"
