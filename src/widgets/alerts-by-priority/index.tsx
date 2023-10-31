@@ -15,9 +15,9 @@ type Props = Pick<
   "title" | "tooltipText" | "className" | "dataTestId"
 > & {
   centerText?: string;
-  data: PieGraphDataType[];
-  isLoading: boolean;
-  colors: string[];
+  data?: PieGraphDataType[];
+  isLoading?: boolean;
+  colors?: string[];
 };
 
 export const AlertsByPriority: FC<Props> = ({
@@ -28,7 +28,7 @@ export const AlertsByPriority: FC<Props> = ({
   centerText,
   data,
   isLoading,
-  colors,
+  colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000", "#0000FF"],
 }) => {
   return (
     <ChartContainer
@@ -37,8 +37,8 @@ export const AlertsByPriority: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
-      {(!isLoading && data.length) === 0 ? (
-        <div className={styles.loaderDiv}> <Empty /></div>
+      {(!isLoading && data?.length) === 0 ? (
+        <div className={styles.loaderDiv}> <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
       ) : isLoading ? (
         <div className={styles.loaderDiv}>
           <Spin

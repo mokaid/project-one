@@ -40,10 +40,11 @@ export const Navigation: FC<NavigationProps> = ({
       mode={mode}
       onSelect={handleSelect}
       className={className}
+      // children={null}
       items={navItems}
       selectedKeys={[location.pathname]}
       data-testid={dataTestId}
-      style={{background:"#060b19 !important"}}
+      style={{background:"#0F1E4C !important"}}
     />
   );
 };

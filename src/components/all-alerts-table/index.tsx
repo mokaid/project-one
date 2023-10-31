@@ -63,7 +63,7 @@ export const AllAlertsTable: FC<Props> = ({
     dispatch(setSelectedEventsId(selectedRowKeys));
     console.log("Selected Row Keys:", rowKey);
   };
-  
+
   const rowSelection = {
     selectedRowKeys: rowKey,
     onChange: onSelectChange,
