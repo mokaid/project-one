@@ -25,9 +25,9 @@ import {
   setGlobalPageSize,
   setSelectedEventsId,
   setShowEventsFilterModal,
+  setShowSiteInfoModal,
 } from "../../store/slices/events";
 
-import { AllAlertsTable } from "../all-alerts-table";
 import {
   formatDate,
   getLastWeekDate,
@@ -49,6 +49,8 @@ import {
   getGlobalPageSize,
   getSelectedRowIds,
 } from "../../store/selectors/events";
+import { AllAlertsMapTable } from "../alert-map-table";
+import { SiteInfoModal } from "../../modals/site-info-modal";
 
 type Fields = {
   search: string;
@@ -125,7 +127,10 @@ export const AllAlertsMap: FC = () => {
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
-
+  const handleSiteInfo = () => {
+    dispatch(setShowSiteInfoModal(true));
+    console.log("Site info Clicked");
+  };
   const handlePageFilter = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
@@ -143,7 +148,6 @@ export const AllAlertsMap: FC = () => {
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [messageApi, contextHolder] = message.useMessage();
   const ClearAllEvents = async () => {
-    // setIsLoading(true);
     const event: Array<number> = selectedRow;
     const body: any = {
       event,
@@ -212,7 +216,7 @@ export const AllAlertsMap: FC = () => {
               <Button
                 className="filter_btn"
                 icon={<InfoCircleOutlined />}
-                onClick={handleFilterClick}
+                onClick={() => handleSiteInfo()}
               >
                 Info
               </Button>
@@ -221,7 +225,7 @@ export const AllAlertsMap: FC = () => {
         </Col>
 
         <Col span={24}>
-          <AllAlertsTable
+          <AllAlertsMapTable
             dataTestId="all-alerts-table"
             // data={queryEventData}
             pageIndex={pageIndex}
@@ -238,6 +242,7 @@ export const AllAlertsMap: FC = () => {
         dataTestId="all-alerts-search-filter"
         handlePageFilter={handlePageFilter}
       />
+      <SiteInfoModal handlePageFilter={handleSiteInfo} />
     </>
   );
 };

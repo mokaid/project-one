@@ -2,27 +2,31 @@ import type { FC } from "react";
 import { Button, Checkbox, DatePicker, Drawer, Form, Space } from "antd";
 
 import { BaseSelect } from "../../components/base-select";
-import { ALARM_LEVEL_OPTIONS } from "../../const/alarm";
+import { ALARM_LEVEL_OPTIONS,ALARM_LEVEL_MAP } from "../../const/alarm";
 import { APP_DATE_TIME_FORMAT } from "../../const/common";
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { useAppSelector } from "../../hooks/use-app-selector";
 import { getShowEventsFilterModalState } from "../../store/selectors/events";
-import { setShowEventsFilterModal } from "../../store/slices/events";
+import {
+  clearAllEvents,
+  setShowEventsFilterModal,
+} from "../../store/slices/events";
 import { getCheckboxGroupProps } from "../../utils/form-helpers/get-checkbox-group-props";
 import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
 import { getDateProps } from "../../utils/form-helpers/get-date-props";
 import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-select-props";
 
-
 type Props = {
   dataTestId?: string;
-  handlePageFilter:(startDate:string,endDate:string)=>void;
+  handlePageFilterDate: (startDate: string, endDate: string) => void;
+  handlePageFilterLevels: (data:number[]) => void;
+  setRender: (state:boolean) => void;
 };
 
 type Fields = {
   datetime: string[];
   object: unknown[];
-  priority: unknown[];
+  priority: number[];
   site: unknown[];
   type: unknown[];
   value: unknown[];
@@ -47,13 +51,21 @@ const initialValues: Fields = {
   eventDetails: [],
 };
 
-export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId,handlePageFilter }) => {
+export const AlertsSearchFilterDrawer: FC<Props> = ({
+  dataTestId,
+  handlePageFilterDate,
+  handlePageFilterLevels,
+  setRender
+
+}) => {
   const dispatch = useAppDispatch();
   const show = useAppSelector(getShowEventsFilterModalState);
   const [form] = Form.useForm<Fields>();
- 
+
   const handleReset = () => {
     form.resetFields();
+    handleSubmit(initialValues)
+    dispatch(setShowEventsFilterModal(false));
   };
 
   const handleClose = () => {
@@ -61,8 +73,16 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId,handlePageFilte
   };
 
   const handleSubmit = (values: Fields) => {
-    console.log("values", values);
-    handlePageFilter(values.datetime[0],values.datetime[1])
+    console.log("values", values.priority);
+    
+    setRender(true)
+    if (values.datetime.length !== 0) {
+      console.log("Date Changed!");
+      handlePageFilterDate(values.datetime[0], values.datetime[1]);
+    }
+    if (values.priority.length !== 0) {
+      handlePageFilterLevels(values.priority)
+    }
     dispatch(setShowEventsFilterModal(false));
   };
   const siteOptions = [
@@ -116,7 +136,10 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({ dataTestId,handlePageFilte
           name="priority"
           getValueProps={getCheckboxGroupProps}
         >
-          <Checkbox.Group options={ALARM_LEVEL_OPTIONS} className={"filter_checkbox"} />
+          <Checkbox.Group
+            options={ALARM_LEVEL_OPTIONS}
+            className={"filter_checkbox"}
+          />
         </Item>
         <Item<Fields>
           label="Site"

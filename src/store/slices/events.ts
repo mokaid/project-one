@@ -4,6 +4,7 @@ import type { DeviceEvent } from "../../types/device-event";
 
 type State = {
   showProcessAlarmModal: boolean;
+  showSiteInfoModal: boolean;
   showEventsFilterModal: boolean;
   selectedEvents: DeviceEvent[];
   Events: any[];
@@ -30,6 +31,9 @@ const eventsSlice = createSlice({
     },
     setShowEventsFilterModal(state, action: PayloadAction<boolean>) {
       state.showEventsFilterModal = action.payload;
+    },
+    setShowSiteInfoModal(state, action: PayloadAction<boolean>) {
+      state.showSiteInfoModal = action.payload;
     },
     setSelectedEvents(state, action: PayloadAction<DeviceEvent[]>) {
       state.selectedEvents = action.payload;
@@ -95,4 +99,5 @@ export const {
   setSelectedEventsId,
   setGlobalPageSize,
   clearAllEvents,
+  setShowSiteInfoModal
 } = eventsSlice.actions;

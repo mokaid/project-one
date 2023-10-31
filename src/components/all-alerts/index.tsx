@@ -77,9 +77,12 @@ export const AllAlerts: FC = () => {
   const [endDate, setEndDate] = useState<string>(
     formatDate(getTodayDate(date)),
   );
+  const [itemLevels, setItemLevels] = useState<any[]>([]);
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
   const selectedRow = useAppSelector(getSelectedRowIds);
+
+  const [render, setRender] = useState<boolean>(false);
   useEffect(() => {
     const body: ReqDeviceEvent = {
       pageSize,
@@ -90,18 +93,18 @@ export const AllAlerts: FC = () => {
       sites: [],
       vendors: [],
       itemKeys: [],
-      itemLevels: [],
+      itemLevels: itemLevels,
       keyword: filter,
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    let pageSizeChange = false;
+    let pageSizeChange = render;
     if (selectedRow.length > 0 && selectedRow.length === 0) {
       setClearAll(true);
     } else {
       setClearAll(false);
     }
-    if (storePageSize !== pageSize) {
+    if (storePageSize !== pageSize || render) {
       setPageIndex(1);
       dispatch(clearAllEvents());
       pageSizeChange = true;
@@ -113,6 +116,7 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
+        console.log("Data Get Events", data);
         dispatch(
           setEvents({
             pageIndex: pageIndex,
@@ -123,15 +127,25 @@ export const AllAlerts: FC = () => {
         setTotalAlerts(data.data.data.totalCount);
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate]);
+  }, [pageIndex, pageSize, filter, startDate, endDate, render, itemLevels]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
 
-  const handlePageFilter = (startDate: string, endDate: string) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
+  const handlePageFilterDate = (startD: string, endD: string) => {
+    setStartDate(startD);
+    setEndDate(endD);
+    console.log("Date Changed!", startD, endD);
+  };
+  const handlePageFilterLevels = (data: number[]) => {
+    const finalResult = {
+      ...itemLevels,
+      ...data,
+    };
+    const FilteredData = finalResult;
+    const allSelectedItems = [].concat(...Object.values(FilteredData));
+    setItemLevels(allSelectedItems);
   };
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
@@ -233,7 +247,9 @@ export const AllAlerts: FC = () => {
 
       <AlertsSearchFilterDrawer
         dataTestId="all-alerts-search-filter"
-        handlePageFilter={handlePageFilter}
+        handlePageFilterDate={handlePageFilterDate}
+        handlePageFilterLevels={handlePageFilterLevels}
+        setRender={setRender}
       />
     </>
   );

@@ -174,3 +174,9 @@ html {
 .alert-map-header > div:first-child {
   flex: 1;
 }
+.site-info-tag{
+  background: none !important;
+  border:1px solid rgba(82, 196, 26, 1) !important;
+  border-radius: 1px !important;
+  color: rgba(82, 196, 26, 1) ;
+}

@@ -19,6 +19,6 @@ export const ALARM_LEVEL_NAME_MAP: Record<AlarmLevelName, string> = {
 export const ALARM_LEVEL_OPTIONS = Object.values(AlarmLevelName).map(
   (level) => ({
     label: ALARM_LEVEL_NAME_MAP[level],
-    value: level,
+    value: ALARM_LEVEL_MAP[level],
   }),
 );

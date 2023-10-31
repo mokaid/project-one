@@ -5,6 +5,9 @@ const getEventsState = (state: RootState) => state.events;
 export const getShowProcessAlarmModalState = (state: RootState) =>
   getEventsState(state).showProcessAlarmModal;
 
+  export const getShowSiteInfoModalState = (state: RootState) =>
+  getEventsState(state).showSiteInfoModal;
+
 export const getShowEventsFilterModalState = (state: RootState) =>
   getEventsState(state).showEventsFilterModal;
 
