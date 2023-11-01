@@ -1,24 +1,23 @@
-import { type FC, useCallback, useState, useEffect } from "react";
-import { Spin, Table, message, type TableProps } from "antd";
+import { Spin, Table, message } from "antd";
+import { useCallback, useState, type FC } from "react";
 
-import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks/use-app-selector";
+import { ProcessAlarmMapModal } from "../../modals/alert-map-modal";
+import { useProcessEventMutation } from "../../services";
+import {
+  getAlertMapEvents,
+  getSelectedRowIds,
+} from "../../store/selectors/events";
 import {
   setSelectedEvents,
   setSelectedEventsId,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
-import { useDispatch } from "react-redux";
-import { generateColumns } from "./config";
 import { DeviceEvent } from "../../types/device-event";
-import { LoadingOutlined } from "@ant-design/icons";
-import { useProcessEventMutation } from "../../services";
 import { ReqProcessEvent } from "../../types/process-event";
-import { useAppSelector } from "../../hooks/use-app-selector";
-import {
-  getAlertMapEvents,
-  getSelectedRowIds,
-} from "../../store/selectors/events";
-import { ProcessAlarmMapModal } from "../../modals/alert-map-modal";
+import { generateColumns } from "./config";
 type Props = {
   className: string;
   dataTestId: string;
