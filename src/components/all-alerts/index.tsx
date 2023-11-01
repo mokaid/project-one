@@ -24,6 +24,7 @@ import {
   setGlobalPageSize,
   setSelectedEventsId,
   setShowEventsFilterModal,
+  setTotalAlertsGlobal,
 } from "../../store/slices/events";
 
 import { AllAlertsTable } from "../all-alerts-table";
@@ -47,6 +48,7 @@ import {
   getEvents,
   getGlobalPageSize,
   getSelectedRowIds,
+  getTotalAlerts,
 } from "../../store/selectors/events";
 
 type Fields = {
@@ -81,6 +83,7 @@ export const AllAlerts: FC = () => {
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
   const selectedRow = useAppSelector(getSelectedRowIds);
+  const total = useAppSelector(getTotalAlerts);
 
   const [render, setRender] = useState<boolean>(false);
   useEffect(() => {
@@ -98,13 +101,11 @@ export const AllAlerts: FC = () => {
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    let pageSizeChange = render;
-    if (selectedRow.length > 0 && selectedRow.length === 0) {
-      setClearAll(true);
-    } else {
-      setClearAll(false);
-    }
-    if (storePageSize !== pageSize || render) {
+    setTotalAlerts(total)
+    let pageSizeChange = false;
+
+    if (storePageSize !== pageSize ) {
+      console.log("Page Size Changed!")
       setPageIndex(1);
       dispatch(clearAllEvents());
       pageSizeChange = true;
@@ -116,7 +117,6 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
-        console.log("Data Get Events", data);
         dispatch(
           setEvents({
             pageIndex: pageIndex,
@@ -124,10 +124,10 @@ export const AllAlerts: FC = () => {
           }),
         );
         dispatch(setGlobalPageSize(pageSize));
-        setTotalAlerts(data.data.data.totalCount);
+        dispatch(setTotalAlertsGlobal(data.data.data.totalCount));
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate, render, itemLevels]);
+  }, [pageIndex, pageSize, filter, startDate, endDate, render, itemLevels,total]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));

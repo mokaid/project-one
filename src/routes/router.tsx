@@ -6,6 +6,10 @@ import { Dashboard } from "../pages/dashboard";
 
 import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
 import { AlertMap } from "../pages/alert-map";
+// import { useAppSelector } from "../hooks/use-app-selector";
+// import { getAlertMapId } from "../store/selectors/events";
+
+// const siteId = useAppSelector(getAlertMapId);
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +45,8 @@ export const router = createBrowserRouter([
         index: true,
         handle: {
           crumb: () => ({
-            title: "0001 Dubai Mall",
+            // title: siteId[0]?.data,
+          title:"Dubai"
           }),
         },
       },

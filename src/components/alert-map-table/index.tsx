@@ -14,7 +14,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useProcessEventMutation } from "../../services";
 import { ReqProcessEvent } from "../../types/process-event";
 import { useAppSelector } from "../../hooks/use-app-selector";
-import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
+import {
+  getAlertMapEvents,
+  getSelectedRowIds,
+} from "../../store/selectors/events";
 import { ProcessAlarmMapModal } from "../../modals/alert-map-modal";
 type Props = {
   className: string;
@@ -38,7 +41,7 @@ export const AllAlertsMapTable: FC<Props> = ({
   loading,
 }: Props) => {
   const dispatch = useDispatch();
-  const event = useAppSelector(getEvents);
+  const event = useAppSelector(getAlertMapEvents);
   const rowKey = useAppSelector(getSelectedRowIds);
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [isLoading, setIsLoading] = useState(false);
@@ -111,11 +114,9 @@ export const AllAlertsMapTable: FC<Props> = ({
       {contextHolder}
       <Table
         rowKey="eventId"
-        // headerBg="#fff"
         className={className}
         scroll={{ x: 1200 }}
         dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
-        // headerBg={"#0000FF"}
         sticky={true}
         columns={columns}
         rowSelection={rowSelection}
@@ -128,8 +129,7 @@ export const AllAlertsMapTable: FC<Props> = ({
           pageSize,
           showQuickJumper: true,
           showSizeChanger: true,
-          // total: Math.ceil(totalAlerts / pageSize),
-          total: totalAlerts,
+          total: Math.ceil(totalAlerts / pageSize),
           current: pageIndex,
           onChange: handlePageChange,
         }}

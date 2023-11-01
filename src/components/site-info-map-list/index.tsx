@@ -46,36 +46,36 @@ export const SiteInfoListMap: FC<Props> = ({
       { label: "Reclear", value: "N/A" },
       { label: "Start Date and Time", value: "23 Aug 2023 12:00 PM" },
       { label: "End Date and Time", value: "06 Sep 2023 12:00 AM" },
-      // { label: "Contact 1", value: (<Space><Card/></Space>) },
-      // { label: "Contact 2", value: "Hello" },
-      // { label: "Site Address", value: "N/A" },
-      // { label: "Contact 1", value: "N/A" },
-      // { label: "Contact 2", value: "N/A" },
     ],
     [],
   );
   return (
     <>
-    <DescriptionList
-      className={className}
-      title="Site Info"
-      items={items}
-      dataTestId={dataTestId}
+      <DescriptionList
+        className={className}
+        title="Site Info"
+        items={items}
+        dataTestId={dataTestId}
       />
-<p style={{color:`rgba(255, 255, 255, 0.45)`}}>Contact 1:</p>
-      <ContactCard/>
-      <p style={{color:`rgba(255, 255, 255, 0.45)`}}>Contact 2:</p>
-      <ContactCard/>
-      </>
+
+      <ContactCard index={1} />
+
+      <ContactCard index={2} />
+    </>
   );
 };
 
-const ContactCard=()=>{
-  return(
-    <Card>
-    <p>Samvel Nazaryan</p>
-    <p>+971 58 1000 000</p>
-    <p>s.nazaryan@convergint.com</p>
-  </Card>
-  )
-}
+const ContactCard = ({ index }: { index: number }) => {
+  return (
+    <>
+      <p style={{ color: `rgba(255, 255, 255, 0.45)`, margin: 0 }}>
+        Contact {index}
+      </p>
+      <Card className="contact_card">
+        <p>Samvel Nazaryan</p>
+        <p>+971 58 1000 000</p>
+        <p>s.nazaryan@convergint.com</p>
+      </Card>
+    </>
+  );
+};

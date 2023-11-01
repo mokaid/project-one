@@ -50,7 +50,7 @@ export type ReqDeviceEvent = {
   endTime?: string;
   startNum?: number;
   processed?: number;
-  sites?: [];
+  sites?: string[] | undefined;
   vendors?: [];
   itemKeys?: [];
   itemLevels?: number[];

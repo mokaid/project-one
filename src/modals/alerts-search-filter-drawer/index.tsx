@@ -80,9 +80,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
       console.log("Date Changed!");
       handlePageFilterDate(values.datetime[0], values.datetime[1]);
     }
-    if (values.priority.length !== 0) {
-      handlePageFilterLevels(values.priority)
-    }
+    handlePageFilterLevels(values.priority)
     dispatch(setShowEventsFilterModal(false));
   };
   const siteOptions = [
