@@ -74,6 +74,7 @@ export const AllAlertsMap: FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
   const [clearAll, setClearAll] = useState<boolean>(false);
+  const [itemLevels, setItemLevels] = useState<any[]>([]);
   const date = new Date();
   const [startDate, setStartDate] = useState<string>(
     formatDate(getLastWeekDate(date)),
@@ -81,13 +82,16 @@ export const AllAlertsMap: FC = () => {
   const [endDate, setEndDate] = useState<string>(
     formatDate(getTodayDate(date)),
   );
+  const [render, setRender] = useState<boolean>(false);
   const events = useAppSelector(getAlertMapEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
   const location=useLocation()
   const queryParams= new URLSearchParams(location.search);
   const getSiteId=queryParams.get('siteId')
   const siteId = useAppSelector(getAlertMapId)
-const total=useAppSelector(getTotalAlertsSite)
+ const total=useAppSelector(getTotalAlertsSite)
+
+
 
   useEffect(() => {
     const body: ReqDeviceEvent = {
@@ -99,7 +103,7 @@ const total=useAppSelector(getTotalAlertsSite)
       sites: [getSiteId?.toString()],
       vendors: [],
       itemKeys: [],
-      itemLevels: [],
+      itemLevels: itemLevels,
       keyword: filter,
       orderBy: 1,
       pageIndex: pageIndex,
@@ -108,7 +112,7 @@ const total=useAppSelector(getTotalAlertsSite)
     setTotalAlerts(total)
     dispatch(setAlertMapId(getSiteId));
 
-    if (storePageSize !== pageSize || getSiteId !== siteId.toString() ) {
+    if (storePageSize !== pageSize || getSiteId !== siteId.toString() || render ) {
       setPageIndex(1);
       dispatch(clearAllMapAlerts());
       pageSizeChange = true;
@@ -129,27 +133,65 @@ const total=useAppSelector(getTotalAlertsSite)
         );
         dispatch(setTotalAlertsSiteGlobal(data.data.data.totalCount))
         dispatch(setGlobalPageSize(pageSize));
+        setRender(false);
+        if (data.error) {
+          messageApi.open({
+            type: "error",
+            content: data.error.data.message,
+          });
+        }
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate]);
+  }, [pageIndex, pageSize, filter, startDate, endDate,render,total]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
   const handleSiteInfo = () => {
     dispatch(setShowSiteInfoModal(true));
-    console.log("Site info Clicked");
+
   };
-  const handlePageFilter = (startDate: string, endDate: string) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
+  const handlePageFilterDate = (
+    startD: string,
+    endD: string,
+    data: number[],
+  ) => {
+    setRender(true);
+    console.log("data", data);
+    if (startD !== undefined) {
+      setStartDate(startD);
+    }
+    if (endD !== undefined) {
+      setEndDate(endD);
+    }
+    if (data.length !== 0 && data !== undefined) {
+      const finalResult = {
+        ...itemLevels,
+        ...data,
+      };
+      const FilteredData = finalResult;
+      const allSelectedItems = [].concat(...Object.values(FilteredData));
+      setItemLevels(allSelectedItems);
+      console.log("allSelectedItems", allSelectedItems);
+    } else {
+      setItemLevels([]);
+    }
   };
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
     setPageSize(pageSize);
   };
   const handleChange = (e: any) => {
-    setFilter(e.target.value);
+    if (
+      e.target.value !== null ||
+      e.target.value !== undefined ||
+      e.target.value !== ""
+    ) {
+      setFilter(e.target.value);
+      setRender(true);
+    } else {
+      setFilter("");
+    }
   };
   const debouncedResults = useMemo(() => {
     return debouce(handleChange, 300);
@@ -249,7 +291,7 @@ const total=useAppSelector(getTotalAlertsSite)
 
       <AlertsSearchFilterDrawer
         dataTestId="all-alerts-search-filter"
-        handlePageFilter={handlePageFilter}
+        handlePageFilterDate={handlePageFilterDate}
       />
       <SiteInfoModal handlePageFilter={handleSiteInfo} />
     </>
