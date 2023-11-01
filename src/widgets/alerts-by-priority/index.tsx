@@ -37,7 +37,9 @@ export const AlertsByPriority: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
+
       {(!isLoading && data?.length) === 0 ? (
+
         <div className={styles.loaderDiv}> <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
       ) : isLoading ? (
         <div className={styles.loaderDiv}>

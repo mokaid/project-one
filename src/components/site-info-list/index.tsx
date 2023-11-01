@@ -9,7 +9,7 @@ type Props = {
   dataTestId?: string;
 };
 
-export const SiteInfoList: FC<Props> = ({ site, className, dataTestId }) => {
+export const SiteInfoList: FC<Props> = ({ site, className, dataTestId,data }) => {
   // TODO: Get rest info from BE
   const items = useMemo<DescriptionListItem[]>(
     () => [
@@ -21,12 +21,11 @@ export const SiteInfoList: FC<Props> = ({ site, className, dataTestId }) => {
     ],
     [site],
   );
-
   return (
     <DescriptionList
       className={className}
       title="Site Info"
-      items={items}
+      items={data ? data : items}
       dataTestId={dataTestId}
     />
   );

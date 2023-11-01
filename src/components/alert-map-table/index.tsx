@@ -15,6 +15,7 @@ import { useProcessEventMutation } from "../../services";
 import { ReqProcessEvent } from "../../types/process-event";
 import { useAppSelector } from "../../hooks/use-app-selector";
 import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
+import { ProcessAlarmMapModal } from "../../modals/alert-map-modal";
 type Props = {
   className: string;
   dataTestId: string;
@@ -26,7 +27,7 @@ type Props = {
   loading: boolean;
 };
 
-export const AllAlertsTable: FC<Props> = ({
+export const AllAlertsMapTable: FC<Props> = ({
   className,
   dataTestId,
   data,
@@ -136,7 +137,7 @@ export const AllAlertsTable: FC<Props> = ({
         // preserveSelectedRowKeys={true}
       />
 
-      <ProcessAlarmModal dataTestId="process-alarm" />
+      <ProcessAlarmMapModal dataTestId="process-alarm" />
     </>
   );
 };

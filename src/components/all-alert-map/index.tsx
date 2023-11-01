@@ -7,7 +7,16 @@ import {
   InfoCircleOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row, Space, Typography, message } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Space,
+  Typography,
+  message,
+} from "antd";
 
 import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
 import {
@@ -16,9 +25,9 @@ import {
   setGlobalPageSize,
   setSelectedEventsId,
   setShowEventsFilterModal,
+  setShowSiteInfoModal,
 } from "../../store/slices/events";
 
-import { AllAlertsTable } from "../all-alerts-table";
 import {
   formatDate,
   getLastWeekDate,
@@ -29,7 +38,10 @@ import styles from "./index.module.css";
 
 import { DeviceEvent, ReqDeviceEvent } from "../../types/device-event";
 
-import { useGetAllEventsMutation, useProcessEventMutation } from "../../services";
+import {
+  useGetAllEventsMutation,
+  useProcessEventMutation,
+} from "../../services";
 import debouce from "lodash.debounce";
 import { useAppSelector } from "../../hooks/use-app-selector";
 import {
@@ -37,6 +49,8 @@ import {
   getGlobalPageSize,
   getSelectedRowIds,
 } from "../../store/selectors/events";
+import { AllAlertsMapTable } from "../alert-map-table";
+import { SiteInfoModal } from "../../modals/site-info-modal";
 
 type Fields = {
   search: string;
@@ -68,9 +82,9 @@ export const AllAlertsMap: FC = () => {
   );
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
-  const selectedRow=useAppSelector(getSelectedRowIds)
+  const selectedRow = useAppSelector(getSelectedRowIds);
   useEffect(() => {
-      const body: ReqDeviceEvent = {
+    const body: ReqDeviceEvent = {
       pageSize,
       startTime: startDate,
       endTime: endDate,
@@ -84,11 +98,10 @@ export const AllAlertsMap: FC = () => {
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    if(selectedRow.length > 0 && selectedRow.length === 0 ){
-      setClearAll(true)
-    }else{
-      setClearAll(false)
-    console.log("Length zero")
+    if (selectedRow.length > 0 && selectedRow.length === 0) {
+      setClearAll(true);
+    } else {
+      setClearAll(false);
     }
     if (storePageSize !== pageSize) {
       setPageIndex(1);
@@ -114,7 +127,10 @@ export const AllAlertsMap: FC = () => {
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
-
+  const handleSiteInfo = () => {
+    dispatch(setShowSiteInfoModal(true));
+    console.log("Site info Clicked");
+  };
   const handlePageFilter = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
@@ -131,37 +147,34 @@ export const AllAlertsMap: FC = () => {
   }, []);
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [messageApi, contextHolder] = message.useMessage();
-const ClearAllEvents=async()=>{
-  // setIsLoading(true);
-  const event: Array<number> = selectedRow;
-  const body: any = {
-    event,
-    processStatus: 2,
-  };
-  const res = await handleProcessEvents(body);
-  if (res) {
-    if (res.data) {
-      messageApi.open({
-        type: "success",
-        content: "Process status updated",
-      });
-    } else {
-      messageApi.open({
-        type: "error",
-        content: "Process status update failed",
-      });
+  const ClearAllEvents = async () => {
+    const event: Array<number> = selectedRow;
+    const body: any = {
+      event,
+      processStatus: 2,
+    };
+    const res = await handleProcessEvents(body);
+    if (res) {
+      if (res.data) {
+        messageApi.open({
+          type: "success",
+          content: "Process status updated",
+        });
+      } else {
+        messageApi.open({
+          type: "error",
+          content: "Process status update failed",
+        });
+      }
     }
-  }
-}
+  };
   return (
     <>
-    {contextHolder}
+      {contextHolder}
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <header className={styles.header}>
-            
-
-            <Space size="middle" align="center" className="alert-map-header" >
+            <Space size="middle" align="center" className="alert-map-header">
               <Form
                 form={form}
                 layout="vertical"
@@ -172,11 +185,11 @@ const ClearAllEvents=async()=>{
                 autoCapitalize="off"
                 spellCheck="false"
                 data-testid="all-alerts-search-form"
-                style={{flex:1}}
+                style={{ flex: 1 }}
               >
                 <Item<Fields> name="search" noStyle={true}>
                   <Search
-                    placeholder="Search"
+                    placeholder="Search..."
                     allowClear={true}
                     onChange={debouncedResults}
                     className="search_input"
@@ -196,14 +209,14 @@ const ClearAllEvents=async()=>{
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
                 disabled={true}
-                onClick={()=>ClearAllEvents()}
+                onClick={() => ClearAllEvents()}
               >
                 Clear All
               </Button>
               <Button
                 className="filter_btn"
                 icon={<InfoCircleOutlined />}
-                onClick={handleFilterClick}
+                onClick={() => handleSiteInfo()}
               >
                 Info
               </Button>
@@ -212,7 +225,7 @@ const ClearAllEvents=async()=>{
         </Col>
 
         <Col span={24}>
-          <AllAlertsTable
+          <AllAlertsMapTable
             dataTestId="all-alerts-table"
             // data={queryEventData}
             pageIndex={pageIndex}
@@ -229,6 +242,7 @@ const ClearAllEvents=async()=>{
         dataTestId="all-alerts-search-filter"
         handlePageFilter={handlePageFilter}
       />
+      <SiteInfoModal handlePageFilter={handleSiteInfo} />
     </>
   );
 };

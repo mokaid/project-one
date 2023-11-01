@@ -53,7 +53,7 @@ export type ReqDeviceEvent = {
   sites?: [];
   vendors?: [];
   itemKeys?: [];
-  itemLevels?: [];
+  itemLevels?: number[];
   keyword?: string;
   orderBy?: number;
   pageIndex?: number;

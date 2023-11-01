@@ -11,4 +11,4 @@ export const systemChartColors = [
 
 export const siteChartBarColor = "#096DD9";
 
-export const weeklyAlertChartBarColor = "#13C2C2";
+export const weeklyAlertChartBarColor = "rgba(19, 194, 194, 0.4)";

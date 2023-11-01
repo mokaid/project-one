@@ -16,7 +16,8 @@ const itemRender: BreadcrumbProps["itemRender"] = (route, _params, items) => {
   return last ? (
     <span>{route.title}</span>
   ) : (
-    <Link to={route.href!}>{first ? <HomeOutlined /> : route.title}</Link>
+    // <Link to={route.href!}>{first ? <HomeOutlined /> : route.title}</Link>
+    <Link to={route.href!}>{first ? "Home" : route.title}</Link>
   );
 };
 
