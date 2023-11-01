@@ -101,11 +101,11 @@ export const AllAlerts: FC = () => {
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    setTotalAlerts(total)
-    let pageSizeChange = false;
+    setTotalAlerts(total);
+    let pageSizeChange = render;
 
-    if (storePageSize !== pageSize ) {
-      console.log("Page Size Changed!")
+    if (storePageSize !== pageSize) {
+      console.log("Page Size Changed!");
       setPageIndex(1);
       dispatch(clearAllEvents());
       pageSizeChange = true;
@@ -127,15 +127,28 @@ export const AllAlerts: FC = () => {
         dispatch(setTotalAlertsGlobal(data.data.data.totalCount));
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate, render, itemLevels,total]);
+  }, [
+    pageIndex,
+    pageSize,
+    filter,
+    startDate,
+    endDate,
+    render,
+    itemLevels,
+    total,
+  ]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
 
   const handlePageFilterDate = (startD: string, endD: string) => {
-    setStartDate(startD);
-    setEndDate(endD);
+    if (startD !== undefined) {
+      setStartDate(startD);
+    }
+    if (endD !== undefined) {
+      setEndDate(endD);
+    }
     console.log("Date Changed!", startD, endD);
   };
   const handlePageFilterLevels = (data: number[]) => {
@@ -146,6 +159,7 @@ export const AllAlerts: FC = () => {
     const FilteredData = finalResult;
     const allSelectedItems = [].concat(...Object.values(FilteredData));
     setItemLevels(allSelectedItems);
+    console.log("Priority");
   };
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
