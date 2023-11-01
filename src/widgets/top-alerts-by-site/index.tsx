@@ -17,9 +17,9 @@ type Props = Pick<
   ChartContainerProps,
   "title" | "tooltipText" | "className" | "dataTestId"
 > & {
-  color: string;
-  data: HorizontalBarGraphDataType[];
-  isLoading: boolean;
+  color?: string;
+  data?: HorizontalBarGraphDataType[];
+  isLoading?: boolean;
 };
 
 type RenderLabelParams<T extends ContentType = ContentType> = T extends (
@@ -67,7 +67,7 @@ export const TopAlertsBySite: FC<Props> = ({
       tooltipText={tooltipText}
       dataTestId={dataTestId}
     >
-      {(!isLoading && data.length) === 0 ? (
+      {(!isLoading && data?.length) === 0 ? (
         <div className={styles.loaderDiv}>
           {" "}
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

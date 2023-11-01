@@ -1,24 +1,56 @@
-import { type FC, useCallback } from "react";
-import { Table } from "antd";
+import { type FC, useCallback, useState } from "react";
+import { Spin, Table } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import {
   setSelectedEvents,
+  setSelectedEventsId,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
 import type { DeviceEvent } from "../../types/device-event";
 
 import { generateColumns } from "./config";
 import { data } from "./mock";
+import { useAppSelector } from "../../hooks/use-app-selector";
+import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
+import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
-  className?: string;
-  dataTestId?: string;
+  className: string;
+  dataTestId: string;
+  data: DeviceEvent | null;
+  pageIndex: number;
+  pageSize: number;
+  totalAlerts: number;
+  handlePageChange: () => void;
+  loading: boolean;
 };
 
-export const AlarmRecordTable: FC<Props> = ({ className, dataTestId }) => {
+export const AlarmRecordTable: FC<Props> = ({
+  className,
+  dataTestId,
+  data,
+  pageIndex,
+  pageSize,
+  totalAlerts,
+  handlePageChange,
+  loading, }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useAppDispatch();
+  const event = useAppSelector(getEvents);
+  const rowKey = useAppSelector(getSelectedRowIds);
+
+  const onSelectChange = (selectedRowKeys: React.Key[]) => {
+    dispatch(setSelectedEventsId(selectedRowKeys));
+    console.log("Selected Row Keys:", rowKey);
+  };
+
+  const rowSelection = {
+    selectedRowKeys: rowKey,
+    onChange: onSelectChange,
+  };
 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
@@ -32,18 +64,26 @@ export const AlarmRecordTable: FC<Props> = ({ className, dataTestId }) => {
     onProcess: handleProcessAlarm,
   });
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   return (
     <>
-      <Table<DeviceEvent>
+      <Table
         rowKey="eventId"
         className={className}
         scroll={{ x: 1200 }}
-        dataSource={data}
+        dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
         sticky={true}
         columns={columns}
         showSorterTooltip={false}
+        rowSelection={rowSelection}
         pagination={{ showQuickJumper: true, showSizeChanger: true }}
         data-testid={dataTestId}
+        loading={{
+          indicator: <Spin indicator={antIcon} />,
+          spinning: loading || isLoading,
+        }}
+
       />
 
       <ProcessAlarmModal />
