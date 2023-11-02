@@ -118,6 +118,23 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
+        console.log("Data", data);
+        if (data?.error) {
+          messageApi.open({
+            type: "error",
+            content: "Request Timeout",
+          });
+          console.log("Data Error");
+        }
+        //  if(data?.data?.data){
+        //   console.log("No error")
+        //  }else{
+        //   messageApi.open({
+        //     type: "error",
+        //     content: "Request Timeout",
+        //   });
+        //  }
+
         dispatch(
           setEvents({
             pageIndex: pageIndex,
@@ -127,15 +144,18 @@ export const AllAlerts: FC = () => {
         dispatch(setGlobalPageSize(pageSize));
         dispatch(setTotalAlertsGlobal(data.data.data.totalCount));
         setRender(false);
-        if (data.error) {
-          messageApi.open({
-            type: "error",
-            content: data.error.data.message,
-          });
-        }
       }
     })();
-  }, [pageIndex, pageSize, filter, render, total]);
+  }, [
+    pageIndex,
+    pageSize,
+    filter,
+    render,
+    total,
+    itemLevels,
+    startDate,
+    endDate,
+  ]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
@@ -147,6 +167,7 @@ export const AllAlerts: FC = () => {
     data: number[],
   ) => {
     setRender(true);
+    console.log("data in filter", data);
     if (startD !== undefined) {
       setStartDate(startD);
     }
@@ -172,13 +193,13 @@ export const AllAlerts: FC = () => {
     setPageSize(pageSize);
   };
   const handleChange = (e: any) => {
+    setRender(true);
     if (
       e.target.value !== null ||
       e.target.value !== undefined ||
       e.target.value !== ""
     ) {
       setFilter(e.target.value);
-      setRender(true);
     } else {
       setFilter("");
     }

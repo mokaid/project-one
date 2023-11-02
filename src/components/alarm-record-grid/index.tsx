@@ -11,7 +11,7 @@ export const AlarmRecordGrid: FC = () => {
         <AlarmRecordGridSearch />
       </Col>
       <Col span={24}>
-        <AlarmRecordTable />
+        <AlarmRecordTable className={"alerts_table"} />
       </Col>
     </Row>
   );
