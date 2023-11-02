@@ -1,11 +1,9 @@
-import { type FC, useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState, type FC } from "react";
 
-import { useDispatch } from "react-redux";
 import {
   CheckCircleOutlined,
   FilterOutlined,
-  InfoCircleOutlined,
-  LoadingOutlined,
+  InfoCircleOutlined
 } from "@ant-design/icons";
 import {
   Button,
@@ -17,15 +15,17 @@ import {
   Typography,
   message,
 } from "antd";
+import { useDispatch } from "react-redux";
 
 import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
 import {
-  clearAllEvents,
-  setEvents,
+  clearAllMapAlerts,
+  setAlertMapEvents,
+  setAlertMapId,
   setGlobalPageSize,
-  setSelectedEventsId,
   setShowEventsFilterModal,
   setShowSiteInfoModal,
+  setTotalAlertsSiteGlobal
 } from "../../store/slices/events";
 
 import {
@@ -36,22 +36,23 @@ import {
 
 import styles from "./index.module.css";
 
-import { DeviceEvent, ReqDeviceEvent } from "../../types/device-event";
+import { ReqDeviceEvent } from "../../types/device-event";
 
+import debouce from "lodash.debounce";
+import { useAppSelector } from "../../hooks/use-app-selector";
+import { SiteInfoModal } from "../../modals/site-info-modal";
 import {
   useGetAllEventsMutation,
   useProcessEventMutation,
 } from "../../services";
-import debouce from "lodash.debounce";
-import { useAppSelector } from "../../hooks/use-app-selector";
 import {
-  getEvents,
+  getAlertMapEvents,
+  getAlertMapId,
   getGlobalPageSize,
-  getSelectedRowIds,
+  getTotalAlertsSite
 } from "../../store/selectors/events";
 import { AllAlertsMapTable } from "../alert-map-table";
-import { SiteInfoModal } from "../../modals/site-info-modal";
-
+import { useLocation } from "react-router-dom";
 type Fields = {
   search: string;
 };
@@ -73,6 +74,7 @@ export const AllAlertsMap: FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
   const [clearAll, setClearAll] = useState<boolean>(false);
+  const [itemLevels, setItemLevels] = useState<any[]>([]);
   const date = new Date();
   const [startDate, setStartDate] = useState<string>(
     formatDate(getLastWeekDate(date)),
@@ -80,9 +82,17 @@ export const AllAlertsMap: FC = () => {
   const [endDate, setEndDate] = useState<string>(
     formatDate(getTodayDate(date)),
   );
-  const events = useAppSelector(getEvents);
+  const [render, setRender] = useState<boolean>(false);
+  const events = useAppSelector(getAlertMapEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
-  const selectedRow = useAppSelector(getSelectedRowIds);
+  const location=useLocation()
+  const queryParams= new URLSearchParams(location.search);
+  const getSiteId=queryParams.get('siteId')
+  const siteId = useAppSelector(getAlertMapId)
+ const total=useAppSelector(getTotalAlertsSite)
+
+
+
   useEffect(() => {
     const body: ReqDeviceEvent = {
       pageSize,
@@ -90,57 +100,98 @@ export const AllAlertsMap: FC = () => {
       endTime: endDate,
       startNum: (pageIndex - 1) * pageSize,
       processed: -1,
-      sites: [],
+      sites: [getSiteId?.toString()],
       vendors: [],
       itemKeys: [],
-      itemLevels: [],
+      itemLevels: itemLevels,
       keyword: filter,
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    if (selectedRow.length > 0 && selectedRow.length === 0) {
-      setClearAll(true);
-    } else {
-      setClearAll(false);
-    }
-    if (storePageSize !== pageSize) {
+    let pageSizeChange = false;
+    setTotalAlerts(total)
+    dispatch(setAlertMapId(getSiteId));
+
+    if (storePageSize !== pageSize || getSiteId !== siteId.toString() || render ) {
       setPageIndex(1);
-      dispatch(clearAllEvents());
+      dispatch(clearAllMapAlerts());
+      pageSizeChange = true;
     }
-    const doExist = events.find((item) => item.pageIndex === pageIndex);
+    const doExist = !pageSizeChange
+      ? events.find((item) => item.pageIndex === pageIndex)
+      : undefined;
 
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
+        console.log("data in alerts map", data);
         dispatch(
-          setEvents({
+          setAlertMapEvents({
             pageIndex: pageIndex,
             data: data.data.data.event,
           }),
         );
+        dispatch(setTotalAlertsSiteGlobal(data.data.data.totalCount))
         dispatch(setGlobalPageSize(pageSize));
-        setTotalAlerts(data.data.data.totalCount);
+        setRender(false);
+        if (data.error) {
+          messageApi.open({
+            type: "error",
+            content: data.error.data.message,
+          });
+        }
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate]);
+  }, [pageIndex, pageSize, filter, startDate, endDate,render,total]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
   const handleSiteInfo = () => {
     dispatch(setShowSiteInfoModal(true));
-    console.log("Site info Clicked");
+
   };
-  const handlePageFilter = (startDate: string, endDate: string) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
+  const handlePageFilterDate = (
+    startD: string,
+    endD: string,
+    data: number[],
+  ) => {
+    setRender(true);
+    console.log("data", data);
+    if (startD !== undefined) {
+      setStartDate(startD);
+    }
+    if (endD !== undefined) {
+      setEndDate(endD);
+    }
+    if (data.length !== 0 && data !== undefined) {
+      const finalResult = {
+        ...itemLevels,
+        ...data,
+      };
+      const FilteredData = finalResult;
+      const allSelectedItems = [].concat(...Object.values(FilteredData));
+      setItemLevels(allSelectedItems);
+      console.log("allSelectedItems", allSelectedItems);
+    } else {
+      setItemLevels([]);
+    }
   };
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
     setPageSize(pageSize);
   };
   const handleChange = (e: any) => {
-    setFilter(e.target.value);
+    if (
+      e.target.value !== null ||
+      e.target.value !== undefined ||
+      e.target.value !== ""
+    ) {
+      setFilter(e.target.value);
+      setRender(true);
+    } else {
+      setFilter("");
+    }
   };
   const debouncedResults = useMemo(() => {
     return debouce(handleChange, 300);
@@ -240,7 +291,7 @@ export const AllAlertsMap: FC = () => {
 
       <AlertsSearchFilterDrawer
         dataTestId="all-alerts-search-filter"
-        handlePageFilter={handlePageFilter}
+        handlePageFilterDate={handlePageFilterDate}
       />
       <SiteInfoModal handlePageFilter={handleSiteInfo} />
     </>

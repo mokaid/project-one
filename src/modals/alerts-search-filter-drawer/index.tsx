@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Button, Checkbox, DatePicker, Drawer, Form, Space } from "antd";
 
 import { BaseSelect } from "../../components/base-select";
-import { ALARM_LEVEL_OPTIONS,ALARM_LEVEL_MAP } from "../../const/alarm";
+import { ALARM_LEVEL_OPTIONS, ALARM_LEVEL_MAP } from "../../const/alarm";
 import { APP_DATE_TIME_FORMAT } from "../../const/common";
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { useAppSelector } from "../../hooks/use-app-selector";
@@ -18,9 +18,11 @@ import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-se
 
 type Props = {
   dataTestId?: string;
-  handlePageFilterDate: (startDate: string, endDate: string) => void;
-  handlePageFilterLevels: (data:number[]) => void;
-  setRender: (state:boolean) => void;
+  handlePageFilterDate: (
+    startDate: string,
+    endDate: string,
+    levels: number[],
+  ) => void;
 };
 
 type Fields = {
@@ -54,9 +56,6 @@ const initialValues: Fields = {
 export const AlertsSearchFilterDrawer: FC<Props> = ({
   dataTestId,
   handlePageFilterDate,
-  handlePageFilterLevels,
-  setRender
-
 }) => {
   const dispatch = useAppDispatch();
   const show = useAppSelector(getShowEventsFilterModalState);
@@ -64,7 +63,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
 
   const handleReset = () => {
     form.resetFields();
-    handleSubmit(initialValues)
+    handleSubmit(initialValues);
     dispatch(setShowEventsFilterModal(false));
   };
 
@@ -73,16 +72,11 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
   };
 
   const handleSubmit = (values: Fields) => {
-    console.log("values", values.priority);
-    
-    setRender(true)
-    if (values.datetime.length !== 0) {
-      console.log("Date Changed!");
-      handlePageFilterDate(values.datetime[0], values.datetime[1]);
-    }
-    if (values.priority.length !== 0) {
-      handlePageFilterLevels(values.priority)
-    }
+    handlePageFilterDate(
+      values.datetime[0],
+      values.datetime[1],
+      values.priority,
+    );
     dispatch(setShowEventsFilterModal(false));
   };
   const siteOptions = [
@@ -118,7 +112,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
           </Button>
         </Space>
       }
-      destroyOnClose={true}
+      // destroyOnClose={true}
       onClose={handleClose}
       data-testid={dataTestId}
       style={{ background: " #0C183B" }}

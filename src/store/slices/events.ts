@@ -8,18 +8,28 @@ type State = {
   showEventsFilterModal: boolean;
   selectedEvents: DeviceEvent[];
   Events: any[];
+  alertMapEvents: any[];
   selectedEventsId: any[];
   selectedEventIdsByPage: any[];
   globalPageSize: number;
+  alertMapId: number;
+  totalAlerts: number;
+  totalAlertsSite: number;
 };
 
 const initialState: State = {
   showProcessAlarmModal: false,
   showEventsFilterModal: false,
+  showSiteInfoModal: false,
   selectedEvents: [],
   Events: [],
+  alertMapEvents: [],
   selectedEventsId: [],
+  selectedEventIdsByPage: [],
   globalPageSize: 10,
+  alertMapId: 0,
+  totalAlerts: 0,
+  totalAlertsSite: 0,
 };
 
 const eventsSlice = createSlice({
@@ -65,26 +75,42 @@ const eventsSlice = createSlice({
       );
 
       state.selectedEventsId = allSelectedItems;
-      // const newSelection = selectedRowKeys;
-      // console.log(newSelection, "newSelection");
-      // newSelection.forEach((item: any) => {
-      //   const index = state.selectedEventsId.indexOf(item);
-      //   console.log(index, "index");
-
-      //   if (index === -1) {
-      //     state.selectedEventsId = [...state.selectedEventsId, item];
-      //   }
-      // else {
-      //   state.selectedEventsId.splice(index, 1);
-      //   console.log(state.selectedEventsId.splice(index, 1), "uoooo");
-      // }
-      // });
+    },
+    clearAllSelectEvents(state) {
+      state.selectedEventsId = [];
+      state.selectedEventIdsByPage = [];
     },
     setGlobalPageSize(state, action: PayloadAction<number>) {
       state.globalPageSize = action.payload;
     },
+    setTotalAlertsGlobal(state, action: PayloadAction<number>) {
+      state.totalAlerts = action.payload;
+    },
+    setTotalAlertsSiteGlobal(state, action: PayloadAction<number>) {
+      state.totalAlertsSite = action.payload;
+    },
     clearAllEvents(state) {
       state.Events = [];
+    },
+    setAlertMapId(state, action: PayloadAction<any>) {
+      state.alertMapId = action.payload;
+    },
+    setAlertMapEvents(state, action: PayloadAction<any>) {
+      const data = [
+        ...state.alertMapEvents,
+        {
+          pageIndex: action.payload.pageIndex,
+          data: action.payload.data,
+        },
+      ];
+      const jsonObject = data?.map(JSON.stringify);
+      const uniqueSet = new Set(jsonObject);
+      const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+
+      state.alertMapEvents = uniqueArray;
+    },
+    clearAllMapAlerts(state) {
+      state.alertMapEvents = [];
     },
   },
 });
@@ -99,5 +125,11 @@ export const {
   setSelectedEventsId,
   setGlobalPageSize,
   clearAllEvents,
-  setShowSiteInfoModal
+  setShowSiteInfoModal,
+  setAlertMapId,
+  setAlertMapEvents,
+  clearAllMapAlerts,
+  clearAllSelectEvents,
+  setTotalAlertsGlobal,
+  setTotalAlertsSiteGlobal,
 } = eventsSlice.actions;

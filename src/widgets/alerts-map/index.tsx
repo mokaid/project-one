@@ -16,6 +16,8 @@ import styles from "./index.module.css";
 import { useQueryeventsiteMutation } from "../../services";
 import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearAllSelectEvents, setAlertMapId } from "../../store/slices/events";
 
 type Props = {
   className?: string;
@@ -30,6 +32,7 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   useQueryeventsiteMutation;
@@ -76,6 +79,10 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     map.setZoom(ALERTS_MAP_CONFIG.zoom!);
   };
+  const handleNavigate = async (id: string, name: string) => {
+    dispatch(clearAllSelectEvents());
+    navigate(`/alert-map?siteId=${id}&&title=${name}`);
+  };
 
   return (
     <div className={clsx(className, styles.container)} data-testid={dataTestId}>
@@ -111,7 +118,7 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
                 <ActionList.Item
                   key={id}
                   extra={count}
-                  onClick={() => navigate("/alert-map")}
+                  onClick={() => handleNavigate(id, name)}
                 >
                   <Badge status="success" /> {name}
                 </ActionList.Item>

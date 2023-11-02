@@ -37,7 +37,7 @@ export const AllAlertsTable: FC<Props> = ({
   loading,
 }: Props) => {
   const dispatch = useDispatch();
-  const event = useAppSelector(getEvents);
+  const event = useAppSelector(getEvents); //needs to be passed from parents
   const rowKey = useAppSelector(getSelectedRowIds);
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [isLoading, setIsLoading] = useState(false);

@@ -5,7 +5,7 @@ const getEventsState = (state: RootState) => state.events;
 export const getShowProcessAlarmModalState = (state: RootState) =>
   getEventsState(state).showProcessAlarmModal;
 
-  export const getShowSiteInfoModalState = (state: RootState) =>
+export const getShowSiteInfoModalState = (state: RootState) =>
   getEventsState(state).showSiteInfoModal;
 
 export const getShowEventsFilterModalState = (state: RootState) =>
@@ -14,11 +14,21 @@ export const getShowEventsFilterModalState = (state: RootState) =>
 export const getSelectedEvents = (state: RootState) =>
   getEventsState(state).selectedEvents;
 
-export const getEvents = (state: RootState) =>
-  getEventsState(state).Events;
+export const getEvents = (state: RootState) => getEventsState(state).Events;
 
 export const getSelectedRowIds = (state: RootState) =>
   getEventsState(state).selectedEventsId;
 
 export const getGlobalPageSize = (state: RootState) =>
   getEventsState(state).globalPageSize;
+
+export const getAlertMapEvents = (state: RootState) =>
+  getEventsState(state).alertMapEvents;
+
+export const getAlertMapId = (state: RootState) =>
+  getEventsState(state).alertMapId;
+
+export const getTotalAlerts = (state: RootState) =>
+  getEventsState(state).totalAlerts;
+export const getTotalAlertsSite = (state: RootState) =>
+  getEventsState(state).totalAlertsSite;

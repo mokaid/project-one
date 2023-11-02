@@ -6,6 +6,10 @@ import { Dashboard } from "../pages/dashboard";
 
 import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
 import { AlertMap } from "../pages/alert-map";
+// import { useAppSelector } from "../hooks/use-app-selector";
+// import { getAlertMapId } from "../store/selectors/events";
+
+// const siteId = useAppSelector(getAlertMapId);
 
 export const router = createBrowserRouter([
   {
@@ -33,16 +37,20 @@ export const router = createBrowserRouter([
       {
         path: AppRoute.Dashboard,
         element: <Dashboard />,
-       
       },
       {
         path: AlertRoute.alertMap,
         element: <AlertMap />,
         index: true,
         handle: {
-          crumb: () => ({
-            title: "0001 Dubai Mall",
-          }),
+          crumb: () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            // Return a dynamic breadcrumb title using the 'name' parameter
+
+            return {
+              title: searchParams.get("title") || "",
+            };
+          },
         },
       },
       {

@@ -24,6 +24,7 @@ import {
   setGlobalPageSize,
   setSelectedEventsId,
   setShowEventsFilterModal,
+  setTotalAlertsGlobal,
 } from "../../store/slices/events";
 
 import { AllAlertsTable } from "../all-alerts-table";
@@ -47,6 +48,7 @@ import {
   getEvents,
   getGlobalPageSize,
   getSelectedRowIds,
+  getTotalAlerts,
 } from "../../store/selectors/events";
 
 type Fields = {
@@ -65,7 +67,9 @@ export const AllAlerts: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<Fields>();
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
-  const [filter, setFilter] = useState<string | "">("");
+  const [handleProcessEvents, {}] = useProcessEventMutation();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [filter, setFilter] = useState<string | "">(""); //needs to be change naming convention
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
@@ -81,8 +85,9 @@ export const AllAlerts: FC = () => {
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
   const selectedRow = useAppSelector(getSelectedRowIds);
-
+  const total = useAppSelector(getTotalAlerts);
   const [render, setRender] = useState<boolean>(false);
+
   useEffect(() => {
     const body: ReqDeviceEvent = {
       pageSize,
@@ -98,12 +103,9 @@ export const AllAlerts: FC = () => {
       orderBy: 1,
       pageIndex: pageIndex,
     };
-    let pageSizeChange = render;
-    if (selectedRow.length > 0 && selectedRow.length === 0) {
-      setClearAll(true);
-    } else {
-      setClearAll(false);
-    }
+    setTotalAlerts(total);
+    let pageSizeChange = false;
+
     if (storePageSize !== pageSize || render) {
       setPageIndex(1);
       dispatch(clearAllEvents());
@@ -116,7 +118,6 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
-        console.log("Data Get Events", data);
         dispatch(
           setEvents({
             pageIndex: pageIndex,
@@ -124,43 +125,69 @@ export const AllAlerts: FC = () => {
           }),
         );
         dispatch(setGlobalPageSize(pageSize));
-        setTotalAlerts(data.data.data.totalCount);
+        dispatch(setTotalAlertsGlobal(data.data.data.totalCount));
+        setRender(false);
+        if (data.error) {
+          messageApi.open({
+            type: "error",
+            content: data.error.data.message,
+          });
+        }
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate, render, itemLevels]);
+  }, [pageIndex, pageSize, filter, render, total]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
 
-  const handlePageFilterDate = (startD: string, endD: string) => {
-    setStartDate(startD);
-    setEndDate(endD);
-    console.log("Date Changed!", startD, endD);
+  const handlePageFilterDate = (
+    startD: string,
+    endD: string,
+    data: number[],
+  ) => {
+    setRender(true);
+    if (startD !== undefined) {
+      setStartDate(startD);
+    }
+    if (endD !== undefined) {
+      setEndDate(endD);
+    }
+    if (data.length !== 0 && data !== undefined) {
+      const finalResult = {
+        ...itemLevels,
+        ...data,
+      };
+      const FilteredData = finalResult;
+      const allSelectedItems = [].concat(...Object.values(FilteredData));
+      setItemLevels(allSelectedItems);
+      console.log("allSelectedItems", allSelectedItems);
+    } else {
+      setItemLevels([]);
+    }
   };
-  const handlePageFilterLevels = (data: number[]) => {
-    const finalResult = {
-      ...itemLevels,
-      ...data,
-    };
-    const FilteredData = finalResult;
-    const allSelectedItems = [].concat(...Object.values(FilteredData));
-    setItemLevels(allSelectedItems);
-  };
+
   const handlePageChange = (page: number, pageSize: number) => {
     setPageIndex(page);
     setPageSize(pageSize);
   };
   const handleChange = (e: any) => {
-    setFilter(e.target.value);
+    if (
+      e.target.value !== null ||
+      e.target.value !== undefined ||
+      e.target.value !== ""
+    ) {
+      setFilter(e.target.value);
+      setRender(true);
+    } else {
+      setFilter("");
+    }
   };
   const debouncedResults = useMemo(() => {
     return debouce(handleChange, 300);
   }, []);
-  const [handleProcessEvents, {}] = useProcessEventMutation();
-  const [messageApi, contextHolder] = message.useMessage();
+
   const ClearAllEvents = async () => {
-    // setIsLoading(true);
     const event: Array<number> = selectedRow;
     const body: any = {
       event,
@@ -241,6 +268,7 @@ export const AllAlerts: FC = () => {
             handlePageChange={handlePageChange}
             loading={isLoading}
             className={"alerts_table"}
+            // data={AllEventsData}
           />
         </Col>
       </Row>
@@ -248,8 +276,6 @@ export const AllAlerts: FC = () => {
       <AlertsSearchFilterDrawer
         dataTestId="all-alerts-search-filter"
         handlePageFilterDate={handlePageFilterDate}
-        handlePageFilterLevels={handlePageFilterLevels}
-        setRender={setRender}
       />
     </>
   );
