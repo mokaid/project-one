@@ -13,8 +13,8 @@ type State = {
   selectedEventIdsByPage: any[];
   globalPageSize: number;
   alertMapId: number;
-  totalAlerts:number;
-  totalAlertsSite:number
+  totalAlerts: number;
+  totalAlertsSite: number;
 };
 
 const initialState: State = {
@@ -28,9 +28,8 @@ const initialState: State = {
   selectedEventIdsByPage: [],
   globalPageSize: 10,
   alertMapId: 0,
-  totalAlerts:0,
-  totalAlertsSite:0
-
+  totalAlerts: 0,
+  totalAlertsSite: 0,
 };
 
 const eventsSlice = createSlice({
@@ -77,6 +76,10 @@ const eventsSlice = createSlice({
 
       state.selectedEventsId = allSelectedItems;
     },
+    clearAllSelectEvents(state) {
+      state.selectedEventsId = [];
+      state.selectedEventIdsByPage = [];
+    },
     setGlobalPageSize(state, action: PayloadAction<number>) {
       state.globalPageSize = action.payload;
     },
@@ -90,7 +93,7 @@ const eventsSlice = createSlice({
       state.Events = [];
     },
     setAlertMapId(state, action: PayloadAction<any>) {
-      state.alertMapId = action.payload
+      state.alertMapId = action.payload;
     },
     setAlertMapEvents(state, action: PayloadAction<any>) {
       const data = [
@@ -126,6 +129,7 @@ export const {
   setAlertMapId,
   setAlertMapEvents,
   clearAllMapAlerts,
+  clearAllSelectEvents,
   setTotalAlertsGlobal,
-  setTotalAlertsSiteGlobal
+  setTotalAlertsSiteGlobal,
 } = eventsSlice.actions;

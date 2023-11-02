@@ -105,7 +105,6 @@ export const AllAlerts: FC = () => {
     };
     setTotalAlerts(total);
     let pageSizeChange = false;
-   
 
     if (storePageSize !== pageSize || render) {
       setPageIndex(1);
@@ -119,7 +118,6 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
-console.log("data",data)
         dispatch(
           setEvents({
             pageIndex: pageIndex,
@@ -149,7 +147,6 @@ console.log("data",data)
     data: number[],
   ) => {
     setRender(true);
-    console.log("data", data,);
     if (startD !== undefined) {
       setStartDate(startD);
     }

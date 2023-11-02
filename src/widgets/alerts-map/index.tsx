@@ -17,7 +17,7 @@ import { useQueryeventsiteMutation } from "../../services";
 import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setAlertMapId } from "../../store/slices/events";
+import { clearAllSelectEvents, setAlertMapId } from "../../store/slices/events";
 
 type Props = {
   className?: string;
@@ -79,7 +79,8 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     map.setZoom(ALERTS_MAP_CONFIG.zoom!);
   };
-  const handleNavigate = (id: string, name: string) => {
+  const handleNavigate = async (id: string, name: string) => {
+    dispatch(clearAllSelectEvents());
     navigate(`/alert-map?siteId=${id}&&title=${name}`);
   };
 
