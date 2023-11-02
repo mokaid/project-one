@@ -37,17 +37,20 @@ export const router = createBrowserRouter([
       {
         path: AppRoute.Dashboard,
         element: <Dashboard />,
-       
       },
       {
         path: AlertRoute.alertMap,
         element: <AlertMap />,
         index: true,
         handle: {
-          crumb: () => ({
-            // title: siteId[0]?.data,
-          title:"Dubai"
-          }),
+          crumb: () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            // Return a dynamic breadcrumb title using the 'name' parameter
+
+            return {
+              title: searchParams.get("title") || "",
+            };
+          },
         },
       },
       {

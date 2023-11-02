@@ -80,9 +80,9 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     map.setZoom(ALERTS_MAP_CONFIG.zoom!);
   };
   const handleNavigate = (id: string, name: string) => {
-   
-    navigate(`/alert-map?siteId=${id}`);
+    navigate(`/alert-map?siteId=${id}&&title=${name}`);
   };
+
   return (
     <div className={clsx(className, styles.container)} data-testid={dataTestId}>
       <Widget
