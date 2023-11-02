@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, type FC } from "react";
 import {
   CheckCircleOutlined,
   FilterOutlined,
-  InfoCircleOutlined
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -25,7 +25,7 @@ import {
   setGlobalPageSize,
   setShowEventsFilterModal,
   setShowSiteInfoModal,
-  setTotalAlertsSiteGlobal
+  setTotalAlertsSiteGlobal,
 } from "../../store/slices/events";
 
 import {
@@ -49,7 +49,7 @@ import {
   getAlertMapEvents,
   getAlertMapId,
   getGlobalPageSize,
-  getTotalAlertsSite
+  getTotalAlertsSite,
 } from "../../store/selectors/events";
 import { AllAlertsMapTable } from "../alert-map-table";
 import { useLocation } from "react-router-dom";
@@ -85,13 +85,11 @@ export const AllAlertsMap: FC = () => {
   const [render, setRender] = useState<boolean>(false);
   const events = useAppSelector(getAlertMapEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
-  const location=useLocation()
-  const queryParams= new URLSearchParams(location.search);
-  const getSiteId=queryParams.get('siteId')
-  const siteId = useAppSelector(getAlertMapId)
- const total=useAppSelector(getTotalAlertsSite)
-
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const getSiteId = queryParams.get("siteId");
+  const siteId = useAppSelector(getAlertMapId);
+  const total = useAppSelector(getTotalAlertsSite);
 
   useEffect(() => {
     const body: ReqDeviceEvent = {
@@ -109,10 +107,14 @@ export const AllAlertsMap: FC = () => {
       pageIndex: pageIndex,
     };
     let pageSizeChange = false;
-    setTotalAlerts(total)
+    setTotalAlerts(total);
     dispatch(setAlertMapId(getSiteId));
 
-    if (storePageSize !== pageSize || getSiteId !== siteId.toString() || render ) {
+    if (
+      storePageSize !== pageSize ||
+      getSiteId !== siteId.toString() ||
+      render
+    ) {
       setPageIndex(1);
       dispatch(clearAllMapAlerts());
       pageSizeChange = true;
@@ -131,7 +133,7 @@ export const AllAlertsMap: FC = () => {
             data: data.data.data.event,
           }),
         );
-        dispatch(setTotalAlertsSiteGlobal(data.data.data.totalCount))
+        dispatch(setTotalAlertsSiteGlobal(data.data.data.totalCount));
         dispatch(setGlobalPageSize(pageSize));
         setRender(false);
         if (data.error) {
@@ -142,14 +144,13 @@ export const AllAlertsMap: FC = () => {
         }
       }
     })();
-  }, [pageIndex, pageSize, filter, startDate, endDate,render,total]);
+  }, [pageIndex, pageSize, filter, startDate, endDate, render, total]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
   };
   const handleSiteInfo = () => {
     dispatch(setShowSiteInfoModal(true));
-
   };
   const handlePageFilterDate = (
     startD: string,
