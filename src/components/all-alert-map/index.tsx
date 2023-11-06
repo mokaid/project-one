@@ -49,6 +49,7 @@ import {
   getAlertMapEvents,
   getAlertMapId,
   getGlobalPageSize,
+  getSelectedRowIds,
   getTotalAlertsSite,
 } from "../../store/selectors/events";
 import { AllAlertsMapTable } from "../alert-map-table";
@@ -90,8 +91,10 @@ export const AllAlertsMap: FC = () => {
   const getSiteId = queryParams.get("siteId");
   const siteId = useAppSelector(getAlertMapId);
   const total = useAppSelector(getTotalAlertsSite);
-
+  const selectedIds = useAppSelector(getSelectedRowIds);
+  
   useEffect(() => {
+
     const body: ReqDeviceEvent = {
       pageSize,
       startTime: startDate,
@@ -145,6 +148,16 @@ export const AllAlertsMap: FC = () => {
       }
     })();
   }, [pageIndex, pageSize, filter, startDate, endDate, render, total]);
+
+
+
+  useEffect(()=>{
+    if(selectedIds.length !== 0){
+setClearAll(true)
+    }else{
+      setClearAll(false)
+    }
+  },[selectedIds])
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
@@ -260,7 +273,7 @@ export const AllAlertsMap: FC = () => {
                 className="filter_btn"
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
-                disabled={true}
+                disabled={!clearAll}
                 onClick={() => ClearAllEvents()}
               >
                 Clear All

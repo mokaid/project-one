@@ -16,37 +16,40 @@ export const generateColumns = ({
 }: ColumnParams): ColumnType<DeviceEvent>[] => [
   {
     title: "Priority",
+     sorter: true,
     dataIndex: "level",
     width: 130,
     render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
   },
   {
     title: "Site",
+     sorter: true,
     dataIndex: ["site", "name"],
   },
   {
     title: "Time",
+     sorter: true,
     dataIndex: "timeEvent",
     sorter: true,
     width: 192,
     render: (date: string) => getFormattedDateTime(date),
   },
   {
-    title: "Vendor",
+    title: "System",
+     sorter: true,
     dataIndex: "vendor",
   },
   {
-    title: "Object",
+    title: "Device",
+     sorter: true,
     dataIndex: ["obj", "name"],
   },
   {
-    title: "Type",
+    title: "Event Type",
+     sorter: true,
     dataIndex: ["obj", "key"],
   },
-  {
-    title: "Value",
-    dataIndex: ["obj", "value"],
-  },
+ 
   {
     title: "Actions",
     dataIndex: "eventId",

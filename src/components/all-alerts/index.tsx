@@ -84,7 +84,7 @@ export const AllAlerts: FC = () => {
   const [itemLevels, setItemLevels] = useState<any[]>([]);
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
-  const selectedRow = useAppSelector(getSelectedRowIds);
+  const selectedIds = useAppSelector(getSelectedRowIds);
   const total = useAppSelector(getTotalAlerts);
   const [render, setRender] = useState<boolean>(false);
 
@@ -156,6 +156,14 @@ export const AllAlerts: FC = () => {
     startDate,
     endDate,
   ]);
+
+  useEffect(() => {
+    if (selectedIds.length !== 0) {
+      setClearAll(true);
+    } else {
+      setClearAll(false);
+    }
+  }, [selectedIds]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
@@ -270,7 +278,7 @@ export const AllAlerts: FC = () => {
                 className="filter_btn"
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
-                disabled={clearAll}
+                disabled={!clearAll || isLoading}
                 onClick={() => ClearAllEvents()}
               >
                 Clear All
