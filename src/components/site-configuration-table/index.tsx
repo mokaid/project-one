@@ -2,7 +2,7 @@ import { type FC, useCallback, useState } from "react";
 import { Spin, Table } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
-import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
+// import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import {
   setSelectedEvents,
   setSelectedEventsId,
@@ -27,7 +27,7 @@ type Props = {
   loading: boolean;
 };
 
-export const AlarmRecordTable: FC<Props> = ({
+export const SiteConfigurationTable: FC<Props> = ({
   className,
   dataTestId,
   data,
@@ -86,7 +86,7 @@ export const AlarmRecordTable: FC<Props> = ({
         }}
       />
 
-      <ProcessAlarmModal />
+      {/* <ProcessAlarmModal /> */}
     </>
   );
 };

@@ -151,6 +151,39 @@ html {
   border-radius: 2px !important;
   height: 40px !important;
 }
+
+.primary_button {
+  /* background: #1b2438 !important;
+  border-color: #1b3687; */
+  border-radius: 2px !important;
+  height: 32px !important;
+  padding: 0px 15px !important;
+}
+
+.secondary_button {
+  background: #1b2438 !important;
+  border-color: #1b3687;
+  border-radius: 2px !important;
+  height: 32px !important;
+  padding: 0px 15px !important;
+}
+
+.dark_disabled_button {
+  border-radius: 2px !important;
+  height: 32px !important;
+  padding: 0px 15px !important;
+  border-color: #1b3687 !important;
+  color: #ffffff40 !important;
+}
+
+.light_disabled_button {
+  border-radius: 2px !important;
+  height: 32px !important;
+  padding: 0px 15px !important;
+  border-color: rgba(100, 103, 113, 1) !important;
+  color: rgba(100, 103, 113, 1) !important;
+}
+
 .ant_radio_group .ant-radio-inner {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
@@ -160,7 +193,7 @@ html {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
 }
-.loader {
+.loaderContainer {
   display: flex;
   justify-content: center;
   align-items: center;

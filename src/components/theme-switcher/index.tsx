@@ -25,7 +25,7 @@ export const ThemeSwitcher: FC<Props> = ({
       label={label}
       className={className}
       icon={<Icon component={IconComponent} />}
-      // onClick={toggleAppTheme}
+      onClick={toggleAppTheme}
       data-testid={dataTestId}
     />
   );
