@@ -3,14 +3,10 @@ import { Button, Col, Row, Space } from "antd";
 import { FC, useContext } from "react";
 import { Breadcrumbs } from "../../breadcrumbs";
 import { SiteConfigurationTable } from "../../components/site-configuration-table";
-import { ThemeContext } from "../../theme";
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
-import {
-  setShowEventsFilterModal,
-  setShowProcesslarmModal,
-} from "../../store/slices/events";
-import { AlertsSearchFilterDrawer } from "../../modals/alerts-search-filter-drawer";
-import { ProcessAlarmMapModal } from "../../modals/alert-map-modal";
+import { SiteConfigurationDrawer } from "../../modals/site-configuration-drawer";
+import { setShowSiteInfoModal } from "../../store/slices/events";
+import { ThemeContext } from "../../theme";
 
 export const SiteConfiguration: FC = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +14,11 @@ export const SiteConfiguration: FC = () => {
   const darkTheme = appTheme === "dark";
 
   const handleFilterClick = () => {
-    dispatch(setShowProcesslarmModal(true));
+    dispatch(setShowSiteInfoModal(true));
+  };
+
+  const handleSiteInfo = () => {
+    dispatch(setShowSiteInfoModal(true));
   };
 
   return (
@@ -66,7 +66,7 @@ export const SiteConfiguration: FC = () => {
           <SiteConfigurationTable className="alerts_table" />
         </Col>
       </Row>
-      <ProcessAlarmMapModal dataTestId="process-alarm" />
+      <SiteConfigurationDrawer handlePageFilter={handleSiteInfo} />
     </>
   );
 };
