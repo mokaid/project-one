@@ -1,4 +1,4 @@
-import {useState, useEffect, type FC } from "react";
+import { useState, useEffect, type FC } from "react";
 import { Col, Row } from "antd";
 
 import { AlertsByMonth } from "../../widgets/alerts-by-month";
@@ -8,9 +8,16 @@ import { TopAlertsBySite } from "../../widgets/top-alerts-by-site";
 
 import styles from "./index.module.css";
 import { useGetAllEventsMutation } from "../../services";
-import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
+import {
+  formatDate,
+  getCurrentYear,
+  getLastWeekDate,
+} from "../../utils/general-helpers";
 import { DeviceEvent } from "../../types/device-event";
-import { HorizontalBarGraphDataType, PieGraphDataType } from "../../types/graph-data";
+import {
+  HorizontalBarGraphDataType,
+  PieGraphDataType,
+} from "../../types/graph-data";
 import {
   priorityChartColors,
   siteChartBarColor,
@@ -35,23 +42,74 @@ export const AlarmRecordCharts: FC = () => {
   const [weeklyTopAlertsBySite, setWeeklyTopAlertsBySite] = useState<
     HorizontalBarGraphDataType[]
   >([]);
-
+  const [monthlyAlerts,setMonthlyAlerts]=useState<any>([])
 
   const [totalWeeklyAlerts, setTotalWeeklyAlerts] = useState<Number>(0);
 
-  
-  
-  
   const date = new Date();
 
-  const setDataIntoStates=(data: DeviceEvent[])=>{
+  const setDataIntoYearlyState = (data: DeviceEvent[]) => {
+    const date = new Date(data[0].timeEvent);
+    console.log("data in yearly state", date.getMonth());
+    let monthWiseData: any = [
+      {
+        name: "Jan 23",
+        high: 0,
+        low:0,
+        medium:0
+      },
+      {
+        name: "Feb 23",
+        high: 0,
+        low:0,
+        medium:0
+      },
+      {
+        name: "Mar 23",
+        high: 0,
+        low:0,
+        medium:0
+      },
+      {name: "Apr 23",
+        high: 0,
+        low:0,
+        medium:0
+      },
+      {name: "May 23", high: 0, low:0, medium:0 },
+      {name: "Jun 23", high: 0, low:0, medium:0 },
+      {name: "Jul 23", high: 0, low:0, medium:0 },
+      {name: "Aug 23", high: 0, low:0, medium:0 },
+      {name: "Sep 23", high: 0, low:0, medium:0 },
+      {name: "Oct 23", high: 0, low:0, medium:0 },
+      {name: "Nov 23", high: 0, low:0, medium:0 },
+      {name: "Dec 23", high: 0, low:0, medium:0 },
+    ];
+    data.forEach((ev: DeviceEvent) => {
+      const date = new Date(ev.timeEvent);
+      if (ev.level > 3) {
+        // count.high = count.high + 1;
+        monthWiseData[date.getMonth()].high =
+          monthWiseData[date.getMonth()].high + 1;
+      } else if (ev.level < 3) {
+        // count.low = count.low + 1;
+        monthWiseData[date.getMonth()].low =
+          monthWiseData[date.getMonth()].low + 1;
+      } else {
+        // count.medium = count.medium + 1;
+        monthWiseData[date.getMonth()].medium =
+          monthWiseData[date.getMonth()].medium + 1;
+      }
+    });
+    setMonthlyAlerts(monthWiseData)
+  };
+
+  const setDataIntoStates = (data: DeviceEvent[]) => {
     setTotalWeeklyAlerts(data.length);
     let weeklyAlerts: HorizontalBarGraphDataType[] = [];
     let vendors: PieGraphDataType[] = [];
     let devices: PieGraphDataType[] = [];
     let sites: HorizontalBarGraphDataType[] = [];
     let count = { low: 0, medium: 0, high: 0 };
-
 
     data.forEach((ev: DeviceEvent) => {
       if (ev.level > 3) {
@@ -105,8 +163,7 @@ export const AlarmRecordCharts: FC = () => {
           { name: ev.obj.key, count: findAlert.count + 1 },
         ];
       }
-      
-    })
+    });
     setAllWeeklyAlerts(
       weeklyAlerts.map((item, ind) => ({
         ...item,
@@ -126,20 +183,24 @@ export const AlarmRecordCharts: FC = () => {
         xAxisValue: Math.ceil((1000 / sites.length) * (ind + 1)),
       })),
     );
+  };
 
-    
-  }
-  
-  
   useEffect(() => {
     const body = {
       startTime: formatDate(getLastWeekDate(date)),
       endTime: formatDate(date),
     };
+    const monthlyalertsBody = {
+      startTime: formatDate(getCurrentYear(date)),
+      endTime: formatDate(date),
+    };
+
     (async () => {
       const res = await getAllEvents(body);
+      const monthlyAlerts = await getAllEvents(monthlyalertsBody);
+      setDataIntoYearlyState(monthlyAlerts?.data?.data.event);
       setDataIntoStates(res?.data?.data.event);
-      console.log("res",res?.data?.data.event)
+      console.log("res", res?.data?.data.event);
     })();
   }, []);
 
@@ -169,12 +230,17 @@ export const AlarmRecordCharts: FC = () => {
         />
       </Col>
       <Col span={8}>
-        <AlertsByMonth title="Alerts by Month"
+        <AlertsByMonth
+          title="Alerts by Month"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
-          dataTestId="weekly-alerts-by-month" />
+          dataTestId="weekly-alerts-by-month"
+          data={monthlyAlerts}
+          isLoading={isLoading}
+        />
       </Col>
-      <Col span={8}><AlertsByPriority
+      <Col span={8}>
+        <AlertsByPriority
           title="Alerts by System"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
@@ -187,9 +253,10 @@ export const AlarmRecordCharts: FC = () => {
               ? systemChartColors
               : systemChartColors
           }
-        /></Col>
+        />
+      </Col>
       <Col span={8}>
-      <TopAlertsBySite
+        <TopAlertsBySite
           title="Top 10 Weekly Alerts by Site"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
@@ -199,7 +266,8 @@ export const AlarmRecordCharts: FC = () => {
           isLoading={isLoading}
         />
       </Col>
-      <Col span={8}><AlertsByPriority
+      <Col span={8}>
+        <AlertsByPriority
           title="Alerts by Devices"
           tooltipText="TODO: Add tooltip text"
           className={styles.widget}
@@ -212,7 +280,8 @@ export const AlarmRecordCharts: FC = () => {
               ? systemChartColors
               : systemChartColors
           }
-        /></Col>
+        />
+      </Col>
     </Row>
   );
 };

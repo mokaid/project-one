@@ -9,12 +9,14 @@ type State = {
   selectedEvents: DeviceEvent[];
   Events: any[];
   alertMapEvents: any[];
+  alarmRecordEvents: any[];
   selectedEventsId: any[];
   selectedEventIdsByPage: any[];
   globalPageSize: number;
   alertMapId: number;
   totalAlerts: number;
   totalAlertsSite: number;
+  totalAlarmRecords: number;
 };
 
 const initialState: State = {
@@ -24,12 +26,14 @@ const initialState: State = {
   selectedEvents: [],
   Events: [],
   alertMapEvents: [],
+  alarmRecordEvents: [],
   selectedEventsId: [],
   selectedEventIdsByPage: [],
   globalPageSize: 10,
   alertMapId: 0,
   totalAlerts: 0,
   totalAlertsSite: 0,
+  totalAlarmRecords: 0,
 };
 
 const eventsSlice = createSlice({
@@ -89,6 +93,9 @@ const eventsSlice = createSlice({
     setTotalAlertsSiteGlobal(state, action: PayloadAction<number>) {
       state.totalAlertsSite = action.payload;
     },
+    setTotalAlarmRecord(state, action: PayloadAction<number>) {
+      state.totalAlarmRecords = action.payload;
+    },
     clearAllEvents(state) {
       state.Events = [];
     },
@@ -109,8 +116,26 @@ const eventsSlice = createSlice({
 
       state.alertMapEvents = uniqueArray;
     },
+    setAlarmRecordEvents(state, action: PayloadAction<any>) {
+      const data = [
+        ...state.alarmRecordEvents,
+        {
+          pageIndex: action.payload.pageIndex,
+          data: action.payload.data,
+        },
+      ];
+      const jsonObject = data?.map(JSON.stringify);
+      const uniqueSet = new Set(jsonObject);
+      const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+
+      state.alarmRecordEvents = uniqueArray;
+    },
+
     clearAllMapAlerts(state) {
       state.alertMapEvents = [];
+    },
+    clearAlarmRecordEvents(state) {
+      state.alarmRecordEvents = [];
     },
   },
 });
@@ -132,4 +157,7 @@ export const {
   clearAllSelectEvents,
   setTotalAlertsGlobal,
   setTotalAlertsSiteGlobal,
+  setAlarmRecordEvents,
+  clearAlarmRecordEvents,
+  setTotalAlarmRecord
 } = eventsSlice.actions;

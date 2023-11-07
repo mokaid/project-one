@@ -69,20 +69,30 @@ export const AlarmRecordTable: FC<Props> = ({
   return (
     <>
       <Table
-        rowKey="eventId"
-        className={className}
-        scroll={{ x: 1200 }}
-        dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
-        sticky={true}
-        columns={columns}
-        showSorterTooltip={false}
-        rowSelection={rowSelection}
-        pagination={{ showQuickJumper: true, showSizeChanger: true }}
-        data-testid={dataTestId}
-        loading={{
-          indicator: <Spin indicator={antIcon} />,
-          spinning: loading || isLoading,
-        }}
+          rowKey="eventId"
+          // headerBg="#fff"
+          className={className}
+          scroll={{ x: 1200 }}
+          dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
+          // headerBg={"#0000FF"}
+          sticky={true}
+          columns={columns}
+          rowSelection={rowSelection}
+          showSorterTooltip={false}
+          loading={{
+            indicator: <Spin indicator={antIcon} />,
+            spinning: loading || isLoading,
+          }}
+          pagination={{
+            pageSize,
+            showQuickJumper: true,
+            showSizeChanger: true,
+            // total: Math.ceil(totalAlerts / pageSize),
+            total: totalAlerts,
+            current: pageIndex,
+            onChange: handlePageChange,
+          }}
+          data-testid={dataTestId}
 
       />
 
