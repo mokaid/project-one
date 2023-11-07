@@ -69,7 +69,7 @@ export const AllAlerts: FC = () => {
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [messageApi, contextHolder] = message.useMessage();
-  const [filter, setFilter] = useState<string | "">(""); //needs to be change naming convention
+  const [filter, setFilter] = useState<string | "">(""); //search handler state
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
@@ -118,23 +118,12 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
-        console.log("Data", data);
         if (data?.error) {
           messageApi.open({
             type: "error",
             content: "Request Timeout",
           });
-          console.log("Data Error");
         }
-        //  if(data?.data?.data){
-        //   console.log("No error")
-        //  }else{
-        //   messageApi.open({
-        //     type: "error",
-        //     content: "Request Timeout",
-        //   });
-        //  }
-
         dispatch(
           setEvents({
             pageIndex: pageIndex,
