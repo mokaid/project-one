@@ -13,7 +13,11 @@ import type { DeviceEvent } from "../../types/device-event";
 import { generateColumns } from "./config";
 import { data } from "./mock";
 import { useAppSelector } from "../../hooks/use-app-selector";
-import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
+import {
+  getAlarmRecordEvents,
+  getEvents,
+  getSelectedRowIds,
+} from "../../store/selectors/events";
 import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
@@ -35,11 +39,12 @@ export const AlarmRecordTable: FC<Props> = ({
   pageSize,
   totalAlerts,
   handlePageChange,
-  loading, }) => {
+  loading,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
-  const event = useAppSelector(getEvents);
+  const event = useAppSelector(getAlarmRecordEvents);
   const rowKey = useAppSelector(getSelectedRowIds);
 
   const onSelectChange = (selectedRowKeys: React.Key[]) => {
@@ -69,34 +74,33 @@ export const AlarmRecordTable: FC<Props> = ({
   return (
     <>
       <Table
-          rowKey="eventId"
-          // headerBg="#fff"
-          className={className}
-          scroll={{ x: 1200 }}
-          dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
-          // headerBg={"#0000FF"}
-          sticky={true}
-          columns={columns}
-          rowSelection={rowSelection}
-          showSorterTooltip={false}
-          loading={{
-            indicator: <Spin indicator={antIcon} />,
-            spinning: loading || isLoading,
-          }}
-          pagination={{
-            pageSize,
-            showQuickJumper: true,
-            showSizeChanger: true,
-            // total: Math.ceil(totalAlerts / pageSize),
-            total: totalAlerts,
-            current: pageIndex,
-            onChange: handlePageChange,
-          }}
-          data-testid={dataTestId}
-
+        rowKey="eventId"
+        // headerBg="#fff"
+        className={className}
+        scroll={{ x: 1200 }}
+        dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
+        // headerBg={"#0000FF"}
+        sticky={true}
+        columns={columns}
+        rowSelection={rowSelection}
+        showSorterTooltip={false}
+        loading={{
+          indicator: <Spin indicator={antIcon} />,
+          spinning: loading || isLoading,
+        }}
+        pagination={{
+          pageSize,
+          showQuickJumper: true,
+          showSizeChanger: true,
+          // total: Math.ceil(totalAlerts / pageSize),
+          total: totalAlerts,
+          current: pageIndex,
+          onChange: handlePageChange,
+        }}
+        data-testid={dataTestId}
       />
 
-      <ProcessAlarmModal />
+      <ProcessAlarmModal dataTestId="process-alarm" />
     </>
   );
 };

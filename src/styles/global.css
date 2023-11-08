@@ -104,6 +104,12 @@ html {
 .date_input {
   background: transparent;
 }
+.date_input_alarm {
+  background: #1b2438 !important;
+  height: 38px !important;
+  border-radius: 2px !important;
+  border-color: rgba(27, 54, 135, 1) !important;
+}
 
 .ant-picker-dropdown .ant-picker-panel-container {
   background: #0c183b !important;

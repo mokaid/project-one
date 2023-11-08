@@ -1,0 +1,43 @@
+import { Button, Col, Row } from "antd";
+import { type FC } from "react";
+import { Breadcrumbs } from "../../breadcrumbs";
+import styles from "./index.module.css";
+import { SearchOutlined } from "@ant-design/icons";
+import { DatePicker } from "antd";
+import { APP_DATE_TIME_FORMAT } from "../../const/common";
+import { AlarmSelfRecoveryTable } from "../../components/alarm-self-recovery-table";
+
+const { RangePicker } = DatePicker;
+
+export const AlarmSelfRecovery: FC = () => {
+  return (
+    <Row gutter={[24, 24]}>
+      <Col span={24}>
+        <Breadcrumbs />
+      </Col>
+      <Col span={24}>
+        <div
+          className={styles.container}
+          data-testid="alarm-record-grid-search"
+        >
+          <RangePicker
+            showTime={{ format: "HH:mm" }}
+            format={APP_DATE_TIME_FORMAT}
+            className="date_input_alarm"
+            style={{ flex: 1 }}
+          />
+
+          <Button
+            size="large"
+            className="filter_btn"
+            icon={<SearchOutlined />}
+            //   onClick={handleFilterClick}
+          >
+            Search
+          </Button>
+        </div>
+      </Col>
+      <Col span={24}><AlarmSelfRecoveryTable  className={"alerts_table"}/></Col>
+    </Row>
+  );
+};

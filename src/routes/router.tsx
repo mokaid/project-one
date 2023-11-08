@@ -6,6 +6,8 @@ import { Dashboard } from "../pages/dashboard";
 
 import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
 import { AlertMap } from "../pages/alert-map";
+import { AlarmSelfRecovery } from "../pages/alarm-self-recovery";
+import { AlarmSelfRecoverySite } from "../pages/alarm-self-recovery-site";
 // import { useAppSelector } from "../hooks/use-app-selector";
 // import { getAlertMapId } from "../store/selectors/events";
 
@@ -78,7 +80,29 @@ export const router = createBrowserRouter([
           },
           {
             path: AlarmRoute.SelfRecovery,
-            element: "Alarm Self Recovery",
+            element: <AlarmSelfRecovery />,
+            handle: {
+              crumb: () => ({
+                title: "Self Recovery",
+              }),
+            },
+          },
+          {
+            path: AlarmRoute.SelfRecoverySite,
+            element: <AlarmSelfRecoverySite />,
+            index: true,
+            handle: {
+              crumb: () => {
+                const searchParams = new URLSearchParams(
+                  window.location.search,
+                );
+                // Return a dynamic breadcrumb title using the 'name' parameter
+
+                return {
+                  title: searchParams.get("title") || "",
+                };
+              },
+            },
           },
         ],
       },

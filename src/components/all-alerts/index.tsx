@@ -82,11 +82,11 @@ export const AllAlerts: FC = () => {
     formatDate(getTodayDate(date)),
   );
   const [itemLevels, setItemLevels] = useState<any[]>([]);
+  const [render, setRender] = useState<boolean>(false);
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
   const selectedIds = useAppSelector(getSelectedRowIds);
   const total = useAppSelector(getTotalAlerts);
-  const [render, setRender] = useState<boolean>(false);
 
   useEffect(() => {
     const body: ReqDeviceEvent = {
@@ -286,6 +286,7 @@ export const AllAlerts: FC = () => {
             handlePageChange={handlePageChange}
             loading={isLoading}
             className={"alerts_table"}
+            
             // data={AllEventsData}
           />
         </Col>
