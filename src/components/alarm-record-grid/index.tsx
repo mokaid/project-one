@@ -1,4 +1,4 @@
-import { useEffect, type FC, useState, useMemo } from "react";
+import { useEffect, type FC, useState, useMemo,useContext } from "react";
 import { Col, Row, message } from "antd";
 import { AlarmRecordTable } from "../alarm-record-table";
 import { FilterOutlined } from "@ant-design/icons";
@@ -32,6 +32,7 @@ import {
   getTotalAlarmRecords,
 } from "../../store/selectors/events";
 import debounce from "lodash.debounce";
+import { ThemeContext } from "../../theme";
 
 const { Search } = Input;
 
@@ -39,6 +40,8 @@ export const AlarmRecordGrid: FC = () => {
   const dispatch = useAppDispatch();
   const { initialValue, onClear, onSearch } = useSearch();
   const [messageApi, contextHolder] = message.useMessage();
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
 
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
   const [filter, setFilter] = useState<string | "">(""); //search handler state
@@ -196,12 +199,14 @@ export const AlarmRecordGrid: FC = () => {
               autoCorrect="off"
               spellCheck="false"
               defaultValue={initialValue}
-              className="search_input"
+              className={`${
+                darkTheme ? "search_input" : "search_input_light"
+              }`}
             />
 
             <Button
               size="large"
-              className="filter_btn"
+              className={`filter_btn ${darkTheme ? "filter_btn_bg":""}`}
               icon={<FilterOutlined />}
               onClick={handleFilterClick}
             >
@@ -216,7 +221,7 @@ export const AlarmRecordGrid: FC = () => {
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
             loading={isLoading}
-            className={"alerts_table"}
+            className={`${darkTheme ? "alerts_table" :"" }`}
           />
         </Col>
       </Row>

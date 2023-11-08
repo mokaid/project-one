@@ -11,9 +11,14 @@
   padding: 0 1.5rem;
   width: 100%;
   z-index: 2;
-  /* background: #1B2438 !important; */
+ 
 }
-
+.header_darkBg{
+  background: #1B2438 !important;
+}
+.header_lightBg{
+  background: white !important;
+}
 .controls {
   margin-inline-start: auto;
 }
@@ -22,6 +27,12 @@
   padding: 1.5rem;
   overflow: initial;
   background: #060b19 !important;
+}
+
+.light_content {
+  padding: 1.5rem;
+  overflow: initial;
+  background: white !important;
 }
 
 .logo {
@@ -56,14 +67,20 @@
   height: 100vh;
   overflow: visible;
   z-index: 100;
-  background: #1B2438 !important;
+ 
+ 
 }
-.menu{
-  background: #1B2438 !important;
+.sider_bg{
+  background: #1b2438 !important;
+}
+.sider_light{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.menu_bg {
+  background: #1b2438 !important;
 }
 .fakeSider {
   visibility: hidden;
   z-index: -1;
   pointer-events: none;
- 
 }

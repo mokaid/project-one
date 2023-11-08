@@ -1,4 +1,4 @@
-import { useState, useEffect, type FC } from "react";
+import { useState, useEffect, type FC , useContext } from "react";
 import { Col, Row } from "antd";
 
 import { AlertsByMonth } from "../../widgets/alerts-by-month";
@@ -24,9 +24,12 @@ import {
   systemChartColors,
   weeklyAlertChartBarColor,
 } from "../../utils/constants";
+import { ThemeContext } from "../../theme";
 
 export const AlarmRecordCharts: FC = () => {
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
   const [allWeeklyAlerts, setAllWeeklyAlerts] = useState<
     HorizontalBarGraphDataType[]
   >([]);
@@ -210,7 +213,7 @@ export const AlarmRecordCharts: FC = () => {
         <TopAlertsByType
           title="Alerts by Event Type"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
           dataTestId="all-weekly-alerts"
           color={weeklyAlertChartBarColor}
           data={allWeeklyAlerts}
@@ -221,7 +224,7 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByPriority
           title="Weekly Alerts by Priority"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
           dataTestId="weekly-priority-alerts-chart"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbyPriority}
@@ -233,7 +236,7 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByMonth
           title="Alerts by Month"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
           dataTestId="weekly-alerts-by-month"
           data={monthlyAlerts}
           isLoading={isLoading}
@@ -243,7 +246,7 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByPriority
           title="Alerts by System"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
           dataTestId="weekly-alerts-by-system"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbySystem}
@@ -259,7 +262,7 @@ export const AlarmRecordCharts: FC = () => {
         <TopAlertsBySite
           title="Top 10 Weekly Alerts by Site"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
           dataTestId="top-10-alerts-by-site-chart"
           color={siteChartBarColor}
           data={weeklyTopAlertsBySite}
@@ -270,7 +273,7 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByPriority
           title="Alerts by Devices"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
           dataTestId="weekly-alerts-by-system"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbyDevices}

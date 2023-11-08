@@ -1,4 +1,4 @@
-import { type FC, useCallback, useState, useEffect } from "react";
+import { type FC, useCallback, useState, useEffect,useContext } from "react";
 import { AimOutlined, LoadingOutlined } from "@ant-design/icons";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Badge, Empty, Input, Spin } from "antd";
@@ -18,6 +18,7 @@ import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearAllSelectEvents, setAlertMapId } from "../../store/slices/events";
+import { ThemeContext } from "../../theme";
 
 type Props = {
   className?: string;
@@ -33,7 +34,8 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
   const [map, setMap] = useState<google.maps.Map | null>(null);
   useQueryeventsiteMutation;
   const [getAllEvents, { isLoading }] = useQueryeventsiteMutation();
@@ -88,24 +90,24 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
     <div className={clsx(className, styles.container)} data-testid={dataTestId}>
       <Widget
         title="Alerts"
-        className={styles.alerts}
+        className={ `${styles.alerts} ${darkTheme ? styles.alerts_bg : styles.alert_light}`}
         contentClassName={styles.content}
         round={false}
       >
         <Search
           placeholder="Search..."
-          className={"serch_input_map"}
+          className={ `${darkTheme ? "serch_input_map" : "light_serch_input_map"}`}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <ActionList className={styles.list}>
+        <ActionList className={`${styles.list} ${darkTheme ? styles. list_bg : ""}`}>
           {(!isLoading && filteredAlertData.length) === 0 ? (
             <div className="loader">
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             </div>
           ) : isLoading ? (
-            <div className="loader">
+            <div className="loaderContainer">
               <Spin
                 indicator={
                   <LoadingOutlined style={{ fontSize: 24 }} spin={true} />

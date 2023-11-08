@@ -17,8 +17,6 @@ import DateTime from "../headerDateTime";
 
 import styles from "./index.module.css";
 
-
-
 const { Header, Content, Sider } = Layout;
 
 const initialCollapsed =
@@ -27,6 +25,7 @@ const initialCollapsed =
 export const DashboardLayout: FC = () => {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
   const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -36,18 +35,16 @@ export const DashboardLayout: FC = () => {
     Cookies.set(SIDER_MENU_COLLAPSED_STATE_COOKIE, `${newCollapsed}`);
   };
 
-
   return (
     <ConfigProvider
       theme={{
         components: {
           Layout: {
-            headerBg: `#1B2438 !important`,
-            triggerBg: `#1B2438 !important`,
+            // headerBg: `#1B2438 !important`,
+            // triggerBg: `#1B2438 !important`,
             // siderBg: `#1B2438 !important`,
             algorithm: true,
           },
-         
         },
       }}
     >
@@ -62,7 +59,7 @@ export const DashboardLayout: FC = () => {
         />
 
         <Sider
-          className={styles.sider}
+          className={`${styles.sider} ${darkTheme ? styles.sider_bg : styles.sider_light}`}
           theme={appTheme}
           collapsible={true}
           collapsed={collapsed}
@@ -70,7 +67,7 @@ export const DashboardLayout: FC = () => {
           trigger={null}
         >
           <Logo collapsed={collapsed} className={styles.logo} />
-          <DashboardNavigation className={styles.menu}  />
+          <DashboardNavigation className={`${darkTheme ? styles.menu_bg  : ""}`} />
           <SiderTrigger
             className={styles.trigger}
             collapsed={collapsed}
@@ -81,11 +78,11 @@ export const DashboardLayout: FC = () => {
 
         <Layout>
           <Header
-            className={styles.header}
+            className={`${styles.header} ${darkTheme ? styles.header_darkBg : styles.header_lightBg}`}
             style={{ backgroundColor: colorBgContainer }}
           >
             <Space align="center" className={styles.controls}>
-              <DateTime/>
+              <DateTime />
               <ThemeSwitcher />
               <SoundNotificationsSwitcher />
               <FullScreenSwitcher />
@@ -94,7 +91,10 @@ export const DashboardLayout: FC = () => {
             </Space>
           </Header>
 
-          <Content className={styles.content} data-testid="main-content">
+          <Content
+            className={darkTheme ? styles.content : styles.light_content}
+            data-testid="main-content"
+          >
             <Outlet />
           </Content>
         </Layout>
@@ -102,6 +102,3 @@ export const DashboardLayout: FC = () => {
     </ConfigProvider>
   );
 };
-
-
-

@@ -15,6 +15,6 @@ export enum AlarmRoute {
   SelfRecoverySite = "self-recovery-site",
 }
 
-export enum AlertRoute{
-alertMap="alert-map"
+export enum AlertRoute {
+  alertMap = "alert-map",
 }

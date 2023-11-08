@@ -3,15 +3,22 @@
   flex-flow: row nowrap;
   height: 400px;
   border-radius: 0.5rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .alerts {
   width: calc(25% - 1rem);
   flex-shrink: 0;
-  background: #1B2438 !important;
   border-top-left-radius: 16px !important;
   border-bottom-left-radius: 16px !important;
+
+}
+.alerts_bg{
+  background: #1B2438 !important;
+
+}
+.alert_light{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .content {
@@ -24,9 +31,12 @@
   flex: 1 1 auto;
   max-height: 100%;
   overflow-y: auto;
-  background: #1B2438 !important;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.list_bg{
+  background: #1B2438 !important;
+
 }
 .list::-webkit-scrollbar {
   display: none;

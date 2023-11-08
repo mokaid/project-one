@@ -1,10 +1,11 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useContext } from "react";
 import { FilterOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Tabs, type TabsProps } from "antd";
 
 import { Breadcrumbs } from "../../breadcrumbs";
 import { AlarmRecordCharts } from "../../components/alarm-record-charts";
 import { AlarmRecordGrid } from "../../components/alarm-record-grid";
+import { ThemeContext } from "../../theme";
 
 const items: TabsProps["items"] = [
   {
@@ -21,6 +22,8 @@ const items: TabsProps["items"] = [
 
 export const AlarmRecord: FC = () => {
   const [selectedTab, setSelectedTab] = useState("grid");
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
 
   const handleTabChange = (key: any) => {
     setSelectedTab(key);
@@ -34,7 +37,8 @@ export const AlarmRecord: FC = () => {
       <Col span={24}>
         <Tabs
           type="card"
-          className="tabs"
+          // className="tabs"
+          className={`${darkTheme ? "tabs" : "tabs_light"}`}
           items={items}
           activeKey={selectedTab}
           onChange={handleTabChange}
@@ -42,7 +46,12 @@ export const AlarmRecord: FC = () => {
             selectedTab === "chart"
               ? {
                   right: (
-                    <Button className="filter_btn" icon={<FilterOutlined />}>
+                    <Button
+                      className={`filter_btn ${
+                        darkTheme ? "filter_btn_bg" : ""
+                      }`}
+                      icon={<FilterOutlined />}
+                    >
                       Filter
                     </Button>
                   ),

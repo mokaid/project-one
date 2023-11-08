@@ -8,6 +8,9 @@ import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
 import { AlertMap } from "../pages/alert-map";
 import { AlarmSelfRecovery } from "../pages/alarm-self-recovery";
 import { AlarmSelfRecoverySite } from "../pages/alarm-self-recovery-site";
+import { SiteConfiguration } from "../pages/site-configuration";
+import { MaskedSource } from "../pages/masked-source";
+import { DisconnectedSites } from "../pages/disconnected-sites";
 // import { useAppSelector } from "../hooks/use-app-selector";
 // import { getAlertMapId } from "../store/selectors/events";
 
@@ -112,15 +115,20 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoute.SiteConfiguration,
-        element: "Site Configuration",
+        element: <SiteConfiguration />,
+        handle: {
+          crumb: () => ({
+            title: "Site Configuration",
+          }),
+        },
       },
       {
         path: AppRoute.MaskedSource,
-        element: "Masked Source",
+        element: <MaskedSource/>,
       },
       {
         path: AppRoute.DisconnectedSites,
-        element: "Disconnected Sites",
+        element: <DisconnectedSites/>,
       },
       {
         path: AppRoute.Notifications,
