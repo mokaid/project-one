@@ -15,46 +15,31 @@ export const generateColumns = ({
   onProcess,
 }: ColumnParams): ColumnType<DeviceEvent>[] => [
   {
-    title: "Priority",
-     sorter: true,
+    title: "Name",
     dataIndex: "level",
     width: 130,
     render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
   },
   {
-    title: "Site",
-     sorter: true,
+    title: "Id",
+    width: 240,
     dataIndex: ["site", "name"],
   },
   {
-    title: "Time",
-     sorter: true,
+    title: "Status",
+    width: 240,
     dataIndex: "timeEvent",
-    sorter: true,
-    width: 192,
     render: (date: string) => getFormattedDateTime(date),
   },
   {
-    title: "System",
-     sorter: true,
+    title: "Box Type",
+    width: 192,
     dataIndex: "vendor",
   },
   {
-    title: "Device",
-     sorter: true,
-    dataIndex: ["obj", "name"],
-  },
-  {
-    title: "Event Type",
-     sorter: true,
-    dataIndex: ["obj", "key"],
-  },
- 
-  {
     title: "Actions",
     dataIndex: "eventId",
-    sorter: false,
-    width: 85,
+    width: 192,
     fixed: "right",
     render(_, event) {
       return <Link onClick={() => onProcess(event)}>Process</Link>;

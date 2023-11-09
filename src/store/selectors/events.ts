@@ -25,10 +25,17 @@ export const getGlobalPageSize = (state: RootState) =>
 export const getAlertMapEvents = (state: RootState) =>
   getEventsState(state).alertMapEvents;
 
+export const getAlarmRecordEvents = (state: RootState) =>
+  getEventsState(state).alarmRecordEvents;
+
 export const getAlertMapId = (state: RootState) =>
   getEventsState(state).alertMapId;
 
 export const getTotalAlerts = (state: RootState) =>
   getEventsState(state).totalAlerts;
+
 export const getTotalAlertsSite = (state: RootState) =>
   getEventsState(state).totalAlertsSite;
+
+export const getTotalAlarmRecords = (state: RootState) =>
+  getEventsState(state).totalAlarmRecords;

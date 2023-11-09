@@ -69,7 +69,7 @@ export const AllAlerts: FC = () => {
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
   const [handleProcessEvents, {}] = useProcessEventMutation();
   const [messageApi, contextHolder] = message.useMessage();
-  const [filter, setFilter] = useState<string | "">(""); //needs to be change naming convention
+  const [filter, setFilter] = useState<string | "">(""); //search handler state
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
@@ -84,7 +84,7 @@ export const AllAlerts: FC = () => {
   const [itemLevels, setItemLevels] = useState<any[]>([]);
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
-  const selectedRow = useAppSelector(getSelectedRowIds);
+  const selectedIds = useAppSelector(getSelectedRowIds);
   const total = useAppSelector(getTotalAlerts);
   const [render, setRender] = useState<boolean>(false);
 
@@ -118,23 +118,12 @@ export const AllAlerts: FC = () => {
     (async () => {
       if (!doExist) {
         const data = await getAllEvents(body);
-        console.log("Data", data);
         if (data?.error) {
           messageApi.open({
             type: "error",
             content: "Request Timeout",
           });
-          console.log("Data Error");
         }
-        //  if(data?.data?.data){
-        //   console.log("No error")
-        //  }else{
-        //   messageApi.open({
-        //     type: "error",
-        //     content: "Request Timeout",
-        //   });
-        //  }
-
         dispatch(
           setEvents({
             pageIndex: pageIndex,
@@ -156,6 +145,14 @@ export const AllAlerts: FC = () => {
     startDate,
     endDate,
   ]);
+
+  useEffect(() => {
+    if (selectedIds.length !== 0) {
+      setClearAll(true);
+    } else {
+      setClearAll(false);
+    }
+  }, [selectedIds]);
 
   const handleFilterClick = () => {
     dispatch(setShowEventsFilterModal(true));
@@ -270,7 +267,7 @@ export const AllAlerts: FC = () => {
                 className="filter_btn"
                 style={{ background: "#1B3687 !important" }}
                 icon={<CheckCircleOutlined />}
-                disabled={clearAll}
+                disabled={!clearAll || isLoading}
                 onClick={() => ClearAllEvents()}
               >
                 Clear All

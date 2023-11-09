@@ -24,6 +24,12 @@
   background: #060b19 !important;
 }
 
+.light_content {
+  padding: 1.5rem;
+  overflow: initial;
+  background: white !important;
+}
+
 .logo {
   height: 2rem;
   width: 10.125rem;
@@ -56,14 +62,13 @@
   height: 100vh;
   overflow: visible;
   z-index: 100;
-  background: #1B2438 !important;
+  background: #1b2438 !important;
 }
-.menu{
-  background: #1B2438 !important;
+.menu {
+  background: #1b2438 !important;
 }
 .fakeSider {
   visibility: hidden;
   z-index: -1;
   pointer-events: none;
- 
 }

@@ -15,6 +15,7 @@ import { getCheckboxGroupProps } from "../../utils/form-helpers/get-checkbox-gro
 import { getDateFromEvent } from "../../utils/form-helpers/get-date-from-event";
 import { getDateProps } from "../../utils/form-helpers/get-date-props";
 import { getMultipleSelectProps } from "../../utils/form-helpers/get-multiple-select-props";
+import { ProcessStatus } from "../../types/device-event";
 
 type Props = {
   dataTestId?: string;
@@ -23,6 +24,7 @@ type Props = {
     endDate: string,
     levels: number[],
   ) => void;
+  alarmRecord?: boolean;
 };
 
 type Fields = {
@@ -36,12 +38,14 @@ type Fields = {
   system: unknown[];
   device: unknown[];
   eventDetails: unknown[];
+  status: unknown[];
 };
 
 const { Item } = Form;
 const { RangePicker } = DatePicker;
 const initialValues: Fields = {
   datetime: [],
+  status: [],
   object: [],
   priority: [],
   site: [],
@@ -52,10 +56,15 @@ const initialValues: Fields = {
   device: [],
   eventDetails: [],
 };
+const processStatusOptions = [
+  { label: "Pending", value: ProcessStatus.Pending },
+  { label: "Completed", value: ProcessStatus.Accomplished },
+];
 
 export const AlertsSearchFilterDrawer: FC<Props> = ({
   dataTestId,
   handlePageFilterDate,
+  alarmRecord,
 }) => {
   const dispatch = useAppDispatch();
   const show = useAppSelector(getShowEventsFilterModalState);
@@ -135,6 +144,18 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
             className={"filter_checkbox"}
           />
         </Item>
+        {alarmRecord && (
+          <Item<Fields>
+            label="Status"
+            name="status"
+            getValueProps={getCheckboxGroupProps}
+          >
+            <Checkbox.Group
+              options={processStatusOptions}
+              className={"filter_checkbox"}
+            />
+          </Item>
+        )}
         <Item<Fields>
           label="Site"
           name="site"

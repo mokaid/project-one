@@ -2,66 +2,70 @@ import type { FC } from "react";
 import { Bar, Legend, XAxis, YAxis } from "recharts";
 
 import { BaseBarChart } from "../../charts/base-bar-chart";
-import { ChartContainer } from "../../charts/chart-container";
+import {
+  ChartContainer,
+  ChartContainerProps,
+} from "../../charts/chart-container";
+import { Empty, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
-const data = [
-  {
-    name: "Page A",
-    low: 4000,
-    medium: 2400,
-    high: 2400,
-  },
-  {
-    name: "Page B",
-    low: 3000,
-    medium: 1398,
-    high: 2210,
-  },
-  {
-    name: "Page C",
-    low: 2000,
-    medium: 9800,
-    high: 2290,
-  },
-  {
-    name: "Page D",
-    low: 2780,
-    medium: 3908,
-    high: 2000,
-  },
-  {
-    name: "Page E",
-    low: 1890,
-    medium: 4800,
-    high: 2181,
-  },
-  {
-    name: "Page F",
-    low: 2390,
-    medium: 3800,
-    high: 2500,
-  },
-  {
-    name: "Page G",
-    low: 3490,
-    medium: 4300,
-    high: 2100,
-  },
-];
+import styles from "./index.module.css";
+
+type Props = Pick<
+  ChartContainerProps,
+  "title" | "tooltipText" | "className" | "dataTestId"
+> & {
+  centerText?: string;
+  data?: any[];
+  isLoading?: boolean;
+  colors?: string[];
+};
 
 const COLORS = ["#5CDB1D", "#FBB62D", "#F63A44"];
 
-export const AlertsByMonth: FC = () => {
+export const AlertsByMonth: FC<Props> = ({
+  className,
+  title,
+  tooltipText,
+  dataTestId,
+  data,
+  isLoading,
+}) => {
   return (
-    <ChartContainer>
-      <BaseBarChart data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Legend />
-        <Bar width={10} dataKey="low" stackId="a" fill={COLORS[1]} />
-        <Bar width={10} dataKey="medium" stackId="a" fill={COLORS[0]} />
-        <Bar width={10} dataKey="high" stackId="a" fill={COLORS[2]} />
-      </BaseBarChart>
+    <ChartContainer
+      className={className}
+      title={title}
+      tooltipText={tooltipText}
+      dataTestId={dataTestId}
+    >
+      {(!isLoading && data?.length) === 0 ? (
+        <div className={styles.loaderDiv}>
+          {" "}
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        </div>
+      ) : isLoading ? (
+        <div className={styles.loaderDiv}>
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24 }} spin={true} />}
+          />
+        </div>
+      ) : (
+        <BaseBarChart data={data}>
+          <XAxis
+            // interval={0}
+            dataKey="name"
+            // angle={0}
+            // minTickGap={-300}
+            // axisLine={false}
+          />
+          <YAxis />
+          <Legend />
+
+          <Bar width={10} dataKey="low" stackId="a" fill={COLORS[1]} />
+          <Bar width={10} dataKey="medium" stackId="a" fill={COLORS[0]} />
+          <Bar width={10} dataKey="high" stackId="a" fill={COLORS[2]} />
+        </BaseBarChart>
+      )}
     </ChartContainer>
   );
 };

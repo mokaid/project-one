@@ -11,6 +11,8 @@ type Props = {
   className?: string;
 };
 
+const routesWithoutHomeBreadcrumbs = ["/site-configuration"];
+
 const itemRender: BreadcrumbProps["itemRender"] = (
   route,
   _params,
@@ -20,13 +22,17 @@ const itemRender: BreadcrumbProps["itemRender"] = (
   const last = items.indexOf(route) === items.length - 1;
   const first = items.indexOf(route) === 0;
 
+  console.log("route", routesWithoutHomeBreadcrumbs.includes(route.href));
+
   return last ? (
     <span>{route.title}</span>
   ) : (
-    // <Link to={route.href!}>{first ? <HomeOutlined /> : route.title}</Link>
-    <Link to={route.href!} onClick={handleBreadcrumbClick}>
-      {first ? "Home" : route.title}
-    </Link>
+    routesWithoutHomeBreadcrumbs.includes(route.href) == false && (
+      // <Link to={route.href!}>{first ? <HomeOutlined /> : route.title}</Link>
+      <Link to={route.href!} onClick={handleBreadcrumbClick}>
+        {first ? "Home" : route.title}
+      </Link>
+    )
   );
 };
 

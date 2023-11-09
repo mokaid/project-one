@@ -47,7 +47,7 @@ export function BaseSelect<T = unknown>({
       className={className}
       notFoundContent={
         loading ? (
-          <Spin className={styles.loader} size="small" />
+          <Spin className={styles.loaderContainer} size="small" />
         ) : (
           notFoundContent
         )

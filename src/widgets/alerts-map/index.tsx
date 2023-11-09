@@ -105,7 +105,7 @@ export const AlertsMap: FC<Props> = ({ className, dataTestId }) => {
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             </div>
           ) : isLoading ? (
-            <div className="loader">
+            <div className="loaderContainer">
               <Spin
                 indicator={
                   <LoadingOutlined style={{ fontSize: 24 }} spin={true} />

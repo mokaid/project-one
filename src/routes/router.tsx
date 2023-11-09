@@ -6,6 +6,7 @@ import { Dashboard } from "../pages/dashboard";
 
 import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
 import { AlertMap } from "../pages/alert-map";
+import { SiteConfiguration } from "../pages/site-configuration";
 // import { useAppSelector } from "../hooks/use-app-selector";
 // import { getAlertMapId } from "../store/selectors/events";
 
@@ -88,7 +89,12 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoute.SiteConfiguration,
-        element: "Site Configuration",
+        element: <SiteConfiguration />,
+        handle: {
+          crumb: () => ({
+            title: "Site Configuration",
+          }),
+        },
       },
       {
         path: AppRoute.MaskedSource,

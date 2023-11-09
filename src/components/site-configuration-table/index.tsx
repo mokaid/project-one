@@ -2,7 +2,7 @@ import { type FC, useCallback, useState } from "react";
 import { Spin, Table } from "antd";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
-import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
+// import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import {
   setSelectedEvents,
   setSelectedEventsId,
@@ -27,7 +27,7 @@ type Props = {
   loading: boolean;
 };
 
-export const AlarmRecordTable: FC<Props> = ({
+export const SiteConfigurationTable: FC<Props> = ({
   className,
   dataTestId,
   data,
@@ -71,32 +71,22 @@ export const AlarmRecordTable: FC<Props> = ({
     <>
       <Table
         rowKey="eventId"
-        // headerBg="#fff"
         className={className}
         scroll={{ x: 1200 }}
         dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
-        // headerBg={"#0000FF"}
         sticky={true}
         columns={columns}
-        rowSelection={rowSelection}
         showSorterTooltip={false}
+        rowSelection={rowSelection}
+        pagination={{ showQuickJumper: true, showSizeChanger: true }}
+        data-testid={dataTestId}
         loading={{
           indicator: <Spin indicator={antIcon} />,
           spinning: loading || isLoading,
         }}
-        pagination={{
-          pageSize,
-          showQuickJumper: true,
-          showSizeChanger: true,
-          // total: Math.ceil(totalAlerts / pageSize),
-          total: totalAlerts,
-          current: pageIndex,
-          onChange: handlePageChange,
-        }}
-        data-testid={dataTestId}
       />
 
-      <ProcessAlarmModal />
+      {/* <ProcessAlarmModal /> */}
     </>
   );
 };
