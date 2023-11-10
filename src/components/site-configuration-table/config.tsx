@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Divider, Space, Typography } from "antd";
 import type { ColumnType } from "antd/es/table";
 
 import type { AlarmLevel, DeviceEvent } from "../../types/device-event";
@@ -9,40 +9,46 @@ const { Link } = Typography;
 
 type ColumnParams = {
   onProcess: (event: DeviceEvent) => void;
+  onDelete:(event: DeviceEvent)=>void;
 };
 
 export const generateColumns = ({
   onProcess,
+  onDelete
 }: ColumnParams): ColumnType<DeviceEvent>[] => [
   {
     title: "Name",
-    dataIndex: "level",
+    dataIndex: ["site", "name"],
     width: 130,
-    render: (level: AlarmLevel) => <AlarmLevelTag level={level} />,
   },
   {
     title: "Id",
     width: 240,
-    dataIndex: ["site", "name"],
+    dataIndex: ["site", "id"],
   },
   {
     title: "Status",
     width: 240,
-    dataIndex: "timeEvent",
-    render: (date: string) => getFormattedDateTime(date),
+    dataIndex: "status",
   },
   {
     title: "Box Type",
     width: 192,
-    dataIndex: "vendor",
+    dataIndex: "boxType",
   },
   {
     title: "Actions",
-    dataIndex: "eventId",
+    dataIndex: "",
     width: 192,
     fixed: "right",
     render(_, event) {
-      return <Link onClick={() => onProcess(event)}>Process</Link>;
+      return (
+        <Space size={2} split={<Divider type="vertical" />}>
+          <Link onClick={() => onProcess(event)}>Edit</Link>
+          <Link onClick={() => onDelete(event)}>Delete</Link>
+          <Link onClick={() => onProcess(event)}>Download</Link>
+        </Space>
+      );
     },
   },
 ];

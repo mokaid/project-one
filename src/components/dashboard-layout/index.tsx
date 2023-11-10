@@ -40,9 +40,6 @@ export const DashboardLayout: FC = () => {
       theme={{
         components: {
           Layout: {
-            headerBg: `#1B2438 !important`,
-            triggerBg: `#1B2438 !important`,
-            // siderBg: `#1B2438 !important`,
             algorithm: true,
           },
         },
@@ -59,7 +56,7 @@ export const DashboardLayout: FC = () => {
         />
 
         <Sider
-          className={styles.sider}
+          className={`${styles.sider} ${darkTheme ? styles.sider_bg : styles.sider_light}`}
           theme={appTheme}
           collapsible={true}
           collapsed={collapsed}
@@ -67,7 +64,7 @@ export const DashboardLayout: FC = () => {
           trigger={null}
         >
           <Logo collapsed={collapsed} className={styles.logo} />
-          <DashboardNavigation className={styles.menu} />
+          <DashboardNavigation className={`${darkTheme ? styles.menu_bg  : ""}`} />
           <SiderTrigger
             className={styles.trigger}
             collapsed={collapsed}
@@ -78,7 +75,7 @@ export const DashboardLayout: FC = () => {
 
         <Layout>
           <Header
-            className={styles.header}
+            className={`${styles.header} ${darkTheme ? styles.header_darkBg : styles.header_lightBg}`}
             style={{ backgroundColor: colorBgContainer }}
           >
             <Space align="center" className={styles.controls}>

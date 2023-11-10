@@ -1,6 +1,5 @@
-import { DeviceEvent } from "../../types/device-event";
 
-export const data: DeviceEvent[] = [
+export const data: any[] = [
   {
     eventId: 1,
     site: { id: "00020002", name: "123" },
@@ -18,5 +17,15 @@ export const data: DeviceEvent[] = [
     problem: 1,
     level: 5,
     process: { status: 2, time: "2022-07-12 05:05:23" },
+ 
+    children:[
+      {
+        key:1,
+        status:"Disconnected",
+        boxType:"Standard Version",
+        site: { id: "00020002", name: "Dubai" },
+        checkId:1
+      }
+    ]
   },
 ];

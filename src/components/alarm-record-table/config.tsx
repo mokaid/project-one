@@ -54,10 +54,10 @@ export const generateColumns = ({
     title: "Actions",
     dataIndex: "eventId",
     sorter: false,
-    width: 85,
+    width: 130,
     fixed: "right",
     render(_, event) {
-      return <Link onClick={() => onProcess(event)}>Process</Link>;
+      return <Link onClick={() => onProcess(event)}>Acknowledge</Link>;
     },
   },
 ];

@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   dataTestId?: string;
   onClick: (collapsed: boolean) => void;
+  left?:boolean
 };
 
 export const SiderTrigger: FC<Props> = ({
@@ -17,12 +18,14 @@ export const SiderTrigger: FC<Props> = ({
   collapsed,
   dataTestId,
   onClick,
+  left
 }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const containerThemeStyles = { "--color": colorBgContainer } as CSSProperties;
+  const transform = left ? 'rotate(180deg)' : 'rotate(0deg)';
 
   const handleClick = () => {
     onClick(!collapsed);
@@ -32,12 +35,12 @@ export const SiderTrigger: FC<Props> = ({
     <button
       type="button"
       style={containerThemeStyles}
-      className={clsx(className, styles.container)}
+      className={clsx(className, `${styles.container} ${left ? styles.bg_dark : styles.common_bg_dark}`)}
       onClick={handleClick}
       aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
       data-testid={dataTestId}
     >
-      {collapsed ? <RightOutlined /> : <LeftOutlined />}
+      {collapsed  ? <RightOutlined style={{transform:transform}} /> : <LeftOutlined style={{transform:transform}} />}
     </button>
   );
 };

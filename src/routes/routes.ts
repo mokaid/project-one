@@ -12,6 +12,7 @@ export enum AppRoute {
 export enum AlarmRoute {
   Record = "record",
   SelfRecovery = "self-recovery",
+  SelfRecoverySite = "self-recovery-site",
 }
 
 export enum AlertRoute {

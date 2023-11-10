@@ -6,7 +6,12 @@ import { Dashboard } from "../pages/dashboard";
 
 import { AlarmRoute, AlertRoute, AppRoute } from "./routes";
 import { AlertMap } from "../pages/alert-map";
+import { AlarmSelfRecovery } from "../pages/alarm-self-recovery";
+import { AlarmSelfRecoverySite } from "../pages/alarm-self-recovery-site";
 import { SiteConfiguration } from "../pages/site-configuration";
+import { MaskedSource } from "../pages/masked-source";
+import { DisconnectedSites } from "../pages/disconnected-sites";
+import { SiteMap } from "../pages/site-map";
 // import { useAppSelector } from "../hooks/use-app-selector";
 // import { getAlertMapId } from "../store/selectors/events";
 
@@ -79,13 +84,35 @@ export const router = createBrowserRouter([
           },
           {
             path: AlarmRoute.SelfRecovery,
-            element: "Alarm Self Recovery",
+            element: <AlarmSelfRecovery />,
+            handle: {
+              crumb: () => ({
+                title: "Self Recovery",
+              }),
+            },
+          },
+          {
+            path: AlarmRoute.SelfRecoverySite,
+            element: <AlarmSelfRecoverySite />,
+            index: true,
+            handle: {
+              crumb: () => {
+                const searchParams = new URLSearchParams(
+                  window.location.search,
+                );
+                // Return a dynamic breadcrumb title using the 'name' parameter
+
+                return {
+                  title: searchParams.get("title") || "",
+                };
+              },
+            },
           },
         ],
       },
       {
         path: AppRoute.SiteMap,
-        element: "Site Map",
+        element: <SiteMap/>,
       },
       {
         path: AppRoute.SiteConfiguration,
@@ -98,11 +125,11 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoute.MaskedSource,
-        element: "Masked Source",
+        element: <MaskedSource/>,
       },
       {
         path: AppRoute.DisconnectedSites,
-        element: "Disconnected Sites",
+        element: <DisconnectedSites/>,
       },
       {
         path: AppRoute.Notifications,

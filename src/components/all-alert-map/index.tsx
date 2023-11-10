@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FC } from "react";
+import { useEffect, useMemo, useState, type FC,useContext } from "react";
 
 import {
   CheckCircleOutlined,
@@ -54,6 +54,7 @@ import {
 } from "../../store/selectors/events";
 import { AllAlertsMapTable } from "../alert-map-table";
 import { useLocation } from "react-router-dom";
+import { ThemeContext } from "../../theme";
 type Fields = {
   search: string;
 };
@@ -70,6 +71,8 @@ export const AllAlertsMap: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<Fields>();
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
   const [filter, setFilter] = useState<string | "">("");
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -298,7 +301,8 @@ setClearAll(true)
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
             loading={isLoading}
-            className={"alerts_table"}
+           
+            className={`${darkTheme ? "alerts_table" :"" }`}
           />
         </Col>
       </Row>

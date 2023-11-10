@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useEffect, type FC, useState } from "react";
+import { useEffect, type FC, useState, useContext } from "react";
 import { Col, Row } from "antd";
 
 import { AllAlerts } from "../../components/all-alerts";
@@ -23,6 +23,7 @@ import {
   systemChartColors,
   weeklyAlertChartBarColor,
 } from "../../utils/constants";
+import { ThemeContext } from "../../theme";
 
 export const Dashboard: FC = () => {
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
@@ -40,6 +41,8 @@ export const Dashboard: FC = () => {
   >([]);
 
   const [totalWeeklyAlerts, setTotalWeeklyAlerts] = useState<Number>(0);
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
 
   const date = new Date();
 
@@ -141,7 +144,9 @@ export const Dashboard: FC = () => {
         <TopAlertsBySite
           title="All Weekly Alerts"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="all-weekly-alerts"
           color={weeklyAlertChartBarColor}
           data={allWeeklyAlerts}
@@ -152,7 +157,9 @@ export const Dashboard: FC = () => {
         <AlertsByPriority
           title="Weekly Alerts by Priority"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="weekly-priority-alerts-chart"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbyPriority}
@@ -164,7 +171,9 @@ export const Dashboard: FC = () => {
         <AlertsByPriority
           title="Weekly Alerts by System"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="weekly-alerts-by-system"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbySystem}
@@ -186,7 +195,9 @@ export const Dashboard: FC = () => {
         <TopAlertsBySite
           title="Top 10 Weekly Alerts by Site"
           tooltipText="TODO: Add tooltip text"
-          className={styles.widget}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="top-10-alerts-by-site-chart"
           color={siteChartBarColor}
           data={weeklyTopAlertsBySite}

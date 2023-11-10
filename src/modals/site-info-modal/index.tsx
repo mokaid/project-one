@@ -123,11 +123,10 @@ export const SiteInfoModal: FC<Props> = ({ dataTestId }) => {
         style={{ background: " #0C183B" }}
       >
         <div className={styles.container}>
-          
-            <>
-              <SiteInfoListMap site={event?.site} />
-            </>
-                  </div>
+          <>
+            <SiteInfoListMap site={event?.site} />
+          </>
+        </div>
       </Drawer>
     </>
   );

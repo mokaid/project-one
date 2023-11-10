@@ -13,7 +13,11 @@ import type { DeviceEvent } from "../../types/device-event";
 import { generateColumns } from "./config";
 import { data } from "./mock";
 import { useAppSelector } from "../../hooks/use-app-selector";
-import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
+import {
+  getAlarmRecordEvents,
+  getEvents,
+  getSelectedRowIds,
+} from "../../store/selectors/events";
 import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
@@ -40,7 +44,7 @@ export const AlarmRecordTable: FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
-  const event = useAppSelector(getEvents);
+  const event = useAppSelector(getAlarmRecordEvents);
   const rowKey = useAppSelector(getSelectedRowIds);
 
   const onSelectChange = (selectedRowKeys: React.Key[]) => {
@@ -96,7 +100,7 @@ export const AlarmRecordTable: FC<Props> = ({
         data-testid={dataTestId}
       />
 
-      <ProcessAlarmModal />
+      <ProcessAlarmModal dataTestId="process-alarm" />
     </>
   );
 };

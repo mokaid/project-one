@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect, useMemo } from "react";
+import { type FC, useState, useEffect, useMemo, useContext } from "react";
 
 import { useDispatch } from "react-redux";
 import {
@@ -50,6 +50,7 @@ import {
   getSelectedRowIds,
   getTotalAlerts,
 } from "../../store/selectors/events";
+import { ThemeContext } from "../../theme";
 
 type Fields = {
   search: string;
@@ -81,12 +82,14 @@ export const AllAlerts: FC = () => {
   const [endDate, setEndDate] = useState<string>(
     formatDate(getTodayDate(date)),
   );
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
   const [itemLevels, setItemLevels] = useState<any[]>([]);
+  const [render, setRender] = useState<boolean>(false);
   const events = useAppSelector(getEvents);
   const storePageSize = useAppSelector(getGlobalPageSize);
   const selectedIds = useAppSelector(getSelectedRowIds);
   const total = useAppSelector(getTotalAlerts);
-  const [render, setRender] = useState<boolean>(false);
 
   useEffect(() => {
     const body: ReqDeviceEvent = {
@@ -251,21 +254,24 @@ export const AllAlerts: FC = () => {
                     placeholder="Search"
                     allowClear={true}
                     onChange={debouncedResults}
-                    className="search_input"
+                    className={`${
+                      darkTheme ? "search_input" : "search_input_light"
+                    }`}
                   />
                 </Item>
               </Form>
 
               <Button
-                className="filter_btn"
+                className={`filter_btn ${darkTheme ? "filter_btn_bg":""}`}
                 icon={<FilterOutlined />}
                 onClick={handleFilterClick}
               >
                 Filter
               </Button>
               <Button
-                className="filter_btn"
-                style={{ background: "#1B3687 !important" }}
+                className={`filter_btn ${darkTheme ? "filter_btn_bg":""}`}
+
+                
                 icon={<CheckCircleOutlined />}
                 disabled={!clearAll || isLoading}
                 onClick={() => ClearAllEvents()}
@@ -285,7 +291,8 @@ export const AllAlerts: FC = () => {
             totalAlerts={totalAlerts}
             handlePageChange={handlePageChange}
             loading={isLoading}
-            className={"alerts_table"}
+            className={`${darkTheme ? "alerts_table" :"" }`}
+
             // data={AllEventsData}
           />
         </Col>

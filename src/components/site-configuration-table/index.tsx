@@ -1,5 +1,5 @@
-import { type FC, useCallback, useState } from "react";
 import { Spin, Table } from "antd";
+import { useCallback, useState, type FC } from "react";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 // import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
@@ -10,11 +10,11 @@ import {
 } from "../../store/slices/events";
 import type { DeviceEvent } from "../../types/device-event";
 
-import { generateColumns } from "./config";
-import { data } from "./mock";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../hooks/use-app-selector";
 import { getEvents, getSelectedRowIds } from "../../store/selectors/events";
-import { LoadingOutlined } from "@ant-design/icons";
+import { generateColumns } from "./config";
+import { data } from './mock'
 
 type Props = {
   className: string;
@@ -25,8 +25,9 @@ type Props = {
   totalAlerts: number;
   handlePageChange: () => void;
   loading: boolean;
+  setDeleteModal:React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+const tableData = data;
 export const SiteConfigurationTable: FC<Props> = ({
   className,
   dataTestId,
@@ -36,6 +37,7 @@ export const SiteConfigurationTable: FC<Props> = ({
   totalAlerts,
   handlePageChange,
   loading,
+  setDeleteModal
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -60,9 +62,17 @@ export const SiteConfigurationTable: FC<Props> = ({
     },
     [dispatch],
   );
+  const handleDelete = useCallback(
+    (selectedEvent: DeviceEvent) => {
+      dispatch(setSelectedEvents([selectedEvent]));
+      setDeleteModal(true)
+    },
+    [dispatch],
+  );
 
   const columns = generateColumns({
     onProcess: handleProcessAlarm,
+    onDelete:handleDelete
   });
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -73,11 +83,12 @@ export const SiteConfigurationTable: FC<Props> = ({
         rowKey="eventId"
         className={className}
         scroll={{ x: 1200 }}
-        dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
+        // dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
+        dataSource={tableData}
         sticky={true}
         columns={columns}
         showSorterTooltip={false}
-        rowSelection={rowSelection}
+        // rowSelection={rowSelection}
         pagination={{ showQuickJumper: true, showSizeChanger: true }}
         data-testid={dataTestId}
         loading={{
@@ -86,7 +97,6 @@ export const SiteConfigurationTable: FC<Props> = ({
         }}
       />
 
-      {/* <ProcessAlarmModal /> */}
     </>
   );
 };
