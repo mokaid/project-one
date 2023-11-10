@@ -3,7 +3,11 @@ import { type FC, useMemo } from "react";
 import { DescriptionList, DescriptionListItem } from "../../description-list";
 import { DeviceEvent } from "../../types/device-event";
 import { Card, Space, Tag } from "antd";
-import { CheckCircleOutlined, ContactsOutlined, MailOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  ContactsOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 
 type Props = {
   site: DeviceEvent["site"];
@@ -73,15 +77,14 @@ const ContactCard = ({ index }: { index: number }) => {
       </p>
       <Card className="contact_card">
         <p>Samvel Nazaryan</p>
-        <div style={{display:"flex",gap:"5px",alignItems:"center"}}>
-        <ContactsOutlined />
-        +971 58 1000 000
+        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+          <ContactsOutlined />
+          +971 58 1000 000
         </div>
-        <div style={{display:"flex",gap:"5px",alignItems:"center"}}>
-        <MailOutlined />
-        s.nazaryan@convergint.com
+        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+          <MailOutlined />
+          s.nazaryan@convergint.com
         </div>
-        
       </Card>
     </>
   );

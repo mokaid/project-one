@@ -90,6 +90,15 @@ html {
   input {
   background-color: #1b2438 !important;
 }
+.alerts_table .ant-table-row-expand-icon{
+  background: #1b2438 !important;
+  border: 1px solid rgba(100, 103, 113, 1) !important;
+  color: #FFFFFF;
+  border-radius: 2px;
+  height: 1.1654rem;
+  width: 1.1654rem;
+  
+}
 .select_input .ant-select-selector {
   background-color: transparent !important;
   border: 1px solid #1b3687 !important;
@@ -111,8 +120,9 @@ html {
 .date_input_alarm_bg{
   background: #1b2438 !important;
   border-color: rgba(27, 54, 135, 1) !important;
-
+  
 }
+
 
 .ant-picker-dropdown .ant-picker-panel-container {
   background: #0c183b !important;
@@ -127,6 +137,18 @@ html {
 .search_input .ant-input-group .ant-input,
 .search_input .ant-input-group .ant-btn {
   background: #1b2438 !important;
+  border-end-end-radius: 2px !important;
+  border-start-end-radius: 2px !important;
+}
+.search_input_site .ant-input-affix-wrapper {
+  background: transparent !important;
+  border-start-start-radius: 2px !important;
+  border-end-start-radius: 2px !important;
+  height: 32px !important;
+}
+.search_input_site .ant-input-group .ant-input,
+.search_input_site .ant-input-group .ant-btn {
+  background: transparent !important;
   border-end-end-radius: 2px !important;
   border-start-end-radius: 2px !important;
 }
@@ -147,6 +169,12 @@ html {
   justify-content: center;
   align-items: center;
   height: 40px !important;
+}
+.search_input_site .ant-input-group .ant-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px !important;
 }
 .search_input_light .ant-input-group .ant-btn {
   display: flex;
@@ -297,4 +325,7 @@ html {
 .tabs_light > .ant-tabs-nav::before {
   /* border-bottom: 1px solid rgba(21, 42, 106, 1) !important; */
   width: 90%;
+}
+.modal_bg_dark{
+  background: #0C183B !important;
 }

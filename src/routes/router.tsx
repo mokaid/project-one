@@ -11,6 +11,7 @@ import { AlarmSelfRecoverySite } from "../pages/alarm-self-recovery-site";
 import { SiteConfiguration } from "../pages/site-configuration";
 import { MaskedSource } from "../pages/masked-source";
 import { DisconnectedSites } from "../pages/disconnected-sites";
+import { SiteMap } from "../pages/site-map";
 // import { useAppSelector } from "../hooks/use-app-selector";
 // import { getAlertMapId } from "../store/selectors/events";
 
@@ -111,7 +112,7 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoute.SiteMap,
-        element: "Site Map",
+        element: <SiteMap/>,
       },
       {
         path: AppRoute.SiteConfiguration,

@@ -18,6 +18,9 @@
 }
 .header_lightBg{
   background: white !important;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  
+  
 }
 .controls {
   margin-inline-start: auto;
@@ -79,6 +82,7 @@
 .menu_bg {
   background: #1b2438 !important;
 }
+
 .fakeSider {
   visibility: hidden;
   z-index: -1;

@@ -15,6 +15,11 @@ export const ALARM_LEVEL_NAME_MAP: Record<AlarmLevelName, string> = {
   [AlarmLevelName.Medium]: "Medium",
   [AlarmLevelName.High]: "High",
 };
+export const Status_LEVEL_NAME_MAP: Record<AlarmLevelName, string> = {
+  [AlarmLevelName.Low]: "Connected",
+  [AlarmLevelName.Medium]: "Medium",
+  [AlarmLevelName.High]: "Disconnected",
+};
 
 export const ALARM_LEVEL_OPTIONS = Object.values(AlarmLevelName).map(
   (level) => ({

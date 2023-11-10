@@ -40,9 +40,6 @@ export const DashboardLayout: FC = () => {
       theme={{
         components: {
           Layout: {
-            // headerBg: `#1B2438 !important`,
-            // triggerBg: `#1B2438 !important`,
-            // siderBg: `#1B2438 !important`,
             algorithm: true,
           },
         },
