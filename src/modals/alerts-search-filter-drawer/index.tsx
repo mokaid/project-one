@@ -25,6 +25,7 @@ type Props = {
     levels: number[],
   ) => void;
   alarmRecord?: boolean;
+  darkTheme?:boolean
 };
 
 type Fields = {
@@ -65,6 +66,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
   dataTestId,
   handlePageFilterDate,
   alarmRecord,
+  darkTheme
 }) => {
   const dispatch = useAppDispatch();
   const show = useAppSelector(getShowEventsFilterModalState);
@@ -124,7 +126,7 @@ export const AlertsSearchFilterDrawer: FC<Props> = ({
       // destroyOnClose={true}
       onClose={handleClose}
       data-testid={dataTestId}
-      style={{ background: " #0C183B" }}
+      style={{ background: `${darkTheme ? " #0C183B" : "" }` }}
     >
       <Form<Fields>
         form={form}

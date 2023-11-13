@@ -4,17 +4,20 @@ import type { ColumnType } from "antd/es/table";
 import type { AlarmLevel, DeviceEvent } from "../../types/device-event";
 import { getFormattedDateTime } from "../../utils/get-formatted-date-time";
 import { AlarmLevelTag } from "../alarm-level-tag";
+import Popup from "../pop-over";
 
 const { Link } = Typography;
 
 type ColumnParams = {
   onProcess: (event: DeviceEvent) => void;
-  onDelete:(event: DeviceEvent)=>void;
+  onDelete: (event: DeviceEvent) => void;
+  onEdit: (event: DeviceEvent) => void;
 };
 
 export const generateColumns = ({
   onProcess,
-  onDelete
+  onDelete,
+  onEdit,
 }: ColumnParams): ColumnType<DeviceEvent>[] => [
   {
     title: "Name",
@@ -42,12 +45,20 @@ export const generateColumns = ({
     width: 192,
     fixed: "right",
     render(_, event) {
+      console.log(event , 'event');
+      
       return (
-        <Space size={2} split={<Divider type="vertical" />}>
-          <Link onClick={() => onProcess(event)}>Edit</Link>
-          <Link onClick={() => onDelete(event)}>Delete</Link>
-          <Link onClick={() => onProcess(event)}>Download</Link>
+        <>{!event?.children && (
+          <Space size={2} split={<Divider type="vertical" />}>
+          
+          <Link onClick={() => onEdit(event.children)}>Edit</Link>
+          <Popup />
+
+          <Link onClick={() => onProcess(event.children)}>Download</Link>
         </Space>
+        ) }
+        
+        </>
       );
     },
   },

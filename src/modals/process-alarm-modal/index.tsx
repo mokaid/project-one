@@ -1,4 +1,4 @@
-import { useState, type FC } from "react";
+import { useState, type FC, useContext } from "react";
 import { Button, Drawer, Form, Input, Radio, Space, Spin, message } from "antd";
 import { useDidUpdate } from "rooks";
 
@@ -22,6 +22,7 @@ import styles from "./index.module.css";
 import { useProcessEventMutation } from "../../services";
 import { ReqProcessEvent } from "../../types/process-event";
 import { LoadingOutlined } from "@ant-design/icons";
+import { ThemeContext } from "../../theme";
 
 type Props = {
   dataTestId?: string;
@@ -57,6 +58,8 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
   const processTime = event ? getFormattedDateTime(event.process.time) : "N/A";
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const { appTheme } = useContext(ThemeContext);
+  const darkTheme = appTheme === "dark";
 
   const handleClose = () => {
     dispatch(setShowProcesslarmModal(false));
@@ -145,7 +148,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
         destroyOnClose={true}
         onClose={handleClose}
         data-testid={dataTestId}
-        style={{ background: " #0C183B" }}
+        style={{ background: `${darkTheme ? "#0C183B" :"" }` }}
       >
         <div className={styles.container}>
           <DescriptionList
@@ -179,7 +182,7 @@ export const ProcessAlarmModal: FC<Props> = ({ dataTestId }) => {
                 maxLength={256}
                 showCount={true}
                 placeholder="Process notes"
-                className={styles.testingTextarea}
+                className={darkTheme ? styles.testingTextarea : ""}
                 // style={{backgroundColor: "yellow"}}
               />
             </Item>

@@ -26,7 +26,7 @@ export const SiteMap: FC = () => {
           className={`${styles.trigger} ${collapsed ? styles.trigger_expand : styles.trigger_collapse}`}
         />
       <SiteInfoModal collapse={collapsed} onClick={handleCollapseMenu} />
-      <EditSiteMapModal/>
+      <EditSiteMapModal />
     </Row>
   );
 };

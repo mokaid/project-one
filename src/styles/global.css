@@ -169,6 +169,7 @@ html {
   justify-content: center;
   align-items: center;
   height: 40px !important;
+  color: white !important;
 }
 .search_input_site .ant-input-group .ant-btn {
   display: flex;
@@ -225,6 +226,9 @@ html {
   background: #1b2438 !important;
   
 }
+.ant-popover .ant-popover-inner{
+  background: rgba(15, 30, 76, 1) !important;
+}
 
 
 .primary_button {
@@ -268,6 +272,9 @@ html {
   background-color: transparent;
   border-color: rgba(100, 103, 113, 1);
 }
+.filter_checkbox .ant-checkbox-wrapper{
+  align-items: center;
+}
 .loaderContainer {
   display: flex;
   justify-content: center;
@@ -305,7 +312,7 @@ html {
 }
 
 .tabs .ant-tabs-nav-list .ant-tabs-tab {
-  background: rgba(21, 42, 106, 1);
+  /* background: rgba(21, 42, 106, 1); */
   border-radius: 2px 2px 0 0 !important;
 }
 .tabs_light .ant-tabs-nav-list .ant-tabs-tab {
@@ -320,7 +327,7 @@ html {
 }
 .tabs > .ant-tabs-nav::before {
   border-bottom: 1px solid rgba(21, 42, 106, 1) !important;
-  width: 90%;
+  width: 93%;
 }
 .tabs_light > .ant-tabs-nav::before {
   /* border-bottom: 1px solid rgba(21, 42, 106, 1) !important; */
@@ -328,4 +335,9 @@ html {
 }
 .modal_bg_dark{
   background: #0C183B !important;
+}
+
+/* .ant-menu-submenu >.ant-menu */
+.ant-menu-submenu >.ant-menu{
+  border-radius: 0px !important;
 }
