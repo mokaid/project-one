@@ -1,7 +1,6 @@
-import { Button, Drawer, Form, Input, Space, Typography } from "antd";
-import { type FC, useState } from "react";
+import { Button, Drawer, Form, Input, Space } from "antd";
+import { type FC } from "react";
 
-import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
 import { BaseSelect } from "../../components/base-select";
 import styles from "./index.module.css";
 
@@ -10,6 +9,7 @@ type Props = {
   alarmRecord?: boolean;
   Show: boolean;
   setAddGroup: React.Dispatch<React.SetStateAction<boolean>>;
+  darkTheme?:boolean
 };
 
 type Fields = {
@@ -20,7 +20,7 @@ type Fields = {
 };
 
 const { Item } = Form;
-const { TextArea } = Input;
+
 const initialValues: Fields = {
   organization: [],
   sitename: "",
@@ -28,7 +28,7 @@ const initialValues: Fields = {
   organizationname: "",
 };
 
-export const AddGroupModal: FC<Props> = ({ dataTestId, Show, setAddGroup }) => {
+export const AddGroupModal: FC<Props> = ({ dataTestId, Show, setAddGroup,darkTheme }) => {
   const show = Show;
   const [form] = Form.useForm<Fields>();
 
@@ -72,7 +72,7 @@ export const AddGroupModal: FC<Props> = ({ dataTestId, Show, setAddGroup }) => {
           </Button>
         </Space>
       }
-      style={{ background: "#0C183B" }}
+      style={{ background: `${darkTheme ? "#0C183B" : "" }` }}
     >
       <Form<Fields>
         // form={form}
@@ -92,7 +92,7 @@ export const AddGroupModal: FC<Props> = ({ dataTestId, Show, setAddGroup }) => {
           />
         </Item>
         <Item<Fields> label="Site Name" name="sitename">
-          <Input placeholder="Type here..." className={styles.input_bg} />
+          <Input placeholder="Type here..." className={darkTheme ? styles.input_bg : ""} />
         </Item>
 
         <Item<Fields> label="Parent Group" name="organization">

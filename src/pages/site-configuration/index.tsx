@@ -10,6 +10,7 @@ import { ThemeContext } from "../../theme";
 import { AddSiteModal } from "../../modals/add-site-modal";
 import { AddGroupModal } from "../../modals/add-group-modal";
 import DeleteModal from "../../modals/delete-modal";
+import { EditSiteMapModal } from "../../modals/edit-site-map-modal";
 
 export const SiteConfiguration: FC = () => {
   const dispatch = useAppDispatch();
@@ -19,10 +20,7 @@ export const SiteConfiguration: FC = () => {
   const [addGroup,setAddGroup] = useState<boolean>(false)
   const [deleteModal,setDeleteModal]=useState<boolean>(false)
 
-  const handleFilterClick = () => {
-    dispatch(setShowSiteInfoModal(true));
-  };
-
+ 
   const handleSiteInfo = () => {
     dispatch(setShowSiteInfoModal(true));
   };
@@ -73,10 +71,11 @@ export const SiteConfiguration: FC = () => {
           <SiteConfigurationTable className={darkTheme ? "alerts_table" : ""} setDeleteModal={setDeleteModal} />
         </Col>
       </Row>
-      <SiteConfigurationDrawer handlePageFilter={handleSiteInfo} />
-      <AddSiteModal Show={addSite} setAddSite={setAddSite}/>
-      <AddGroupModal Show={addGroup} setAddGroup={setAddGroup}/>
-      <DeleteModal Show={deleteModal} setDeleteModal={setDeleteModal}/>
+      <SiteConfigurationDrawer handlePageFilter={handleSiteInfo} darkTheme={darkTheme}/>
+      <AddSiteModal Show={addSite} setAddSite={setAddSite} darkTheme={darkTheme}/>
+      <AddGroupModal Show={addGroup} setAddGroup={setAddGroup} darkTheme={darkTheme}/>
+      <DeleteModal Show={deleteModal} setDeleteModal={setDeleteModal} darkTheme={darkTheme}/>
+      <EditSiteMapModal title="Test 1" darkTheme={darkTheme}/>
     </>
   );
 };

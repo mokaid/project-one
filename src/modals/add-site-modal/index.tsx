@@ -10,6 +10,7 @@ type Props = {
   alarmRecord?: boolean;
   Show: boolean;
   setAddSite: React.Dispatch<React.SetStateAction<boolean>>;
+  darkTheme?:boolean
 };
 
 type Fields = {
@@ -28,7 +29,7 @@ const initialValues: Fields = {
   organizationname: "",
 };
 
-export const AddSiteModal: FC<Props> = ({ dataTestId, Show, setAddSite }) => {
+export const AddSiteModal: FC<Props> = ({ dataTestId, Show, setAddSite,darkTheme}) => {
   const show = Show;
   const [form] = Form.useForm<Fields>();
   const [index, setIndex] = useState<number>(0);
@@ -37,9 +38,6 @@ export const AddSiteModal: FC<Props> = ({ dataTestId, Show, setAddSite }) => {
     setAddSite(false);
   };
 
-  const handleSubmit = (values: Fields) => {
-    setAddSite(!Show);
-  };
 
   return (
     <Drawer
@@ -48,19 +46,21 @@ export const AddSiteModal: FC<Props> = ({ dataTestId, Show, setAddSite }) => {
       title="Add New Site (S+ box)"
       onClose={handleClose}
       data-testid={dataTestId}
-      style={{ background: "#0C183B" }}
+      style={{ background:`${ darkTheme ? "#0C183B": "" }`  }}
     >
-      {index === 0 && <Step1 setStep={setIndex} setAddSite={setAddSite} />}
-      {index === 1 && <Step2 setStep={setIndex} setAddSite={setAddSite} />}
+      {index === 0 && <Step1 setStep={setIndex} setAddSite={setAddSite} darkTheme={darkTheme} />}
+      {index === 1 && <Step2 setStep={setIndex} setAddSite={setAddSite} darkTheme={darkTheme} />}
     </Drawer>
   );
 };
 const Step1 = ({
   setStep,
   setAddSite,
+  darkTheme
 }: {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setAddSite: React.Dispatch<React.SetStateAction<boolean>>;
+  darkTheme:boolean
 }) => {
   return (
     <Form<Fields>
@@ -93,7 +93,7 @@ const Step1 = ({
         Add New Organization
       </Button>
       <Item<Fields> label="Site Name" name="sitename">
-        <Input placeholder="Type here..." className={styles.input_bg} />
+        <Input placeholder="Type here..." className={darkTheme  ? styles.input_bg : ""} />
       </Item>
       <Item<Fields> label="Box Type" name="boxtype">
         <BaseSelect
@@ -131,9 +131,11 @@ const Step1 = ({
 const Step2 = ({
   setStep,
   setAddSite,
+  darkTheme
 }: {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setAddSite: React.Dispatch<React.SetStateAction<boolean>>;
+  darkTheme:boolean
 }) => {
   return (
     <>
@@ -162,7 +164,7 @@ const Step2 = ({
       >
         {" "}
         <Item<Fields> label="Organization name" name="sitename">
-          <Input placeholder="Type here..." className={styles.input_bg} />
+          <Input placeholder="Type here..." className={darkTheme ? styles.input_bg : ""} />
         </Item>
         <Item<Fields> label="Organization name" name="">
           <TextArea
@@ -170,7 +172,7 @@ const Step2 = ({
             maxLength={256}
             showCount={true}
             placeholder="Process notes"
-            className={styles.testingTextarea}
+            className={darkTheme ? styles.testingTextarea : ""}
             // style={{backgroundColor: "yellow"}}
           />
         </Item>

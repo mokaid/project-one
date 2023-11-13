@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import {
   setSelectedEvents,
   setSelectedEventsId,
+  setShowEventsFilterModal,
   setShowProcesslarmModal,
 } from "../../store/slices/events";
 import type { DeviceEvent } from "../../types/device-event";
@@ -69,10 +70,18 @@ export const SiteConfigurationTable: FC<Props> = ({
     },
     [dispatch],
   );
+  const handleEdit = useCallback(
+    (selectedEvent: DeviceEvent) => {
+      dispatch(setSelectedEvents([selectedEvent]));
+      dispatch(setShowEventsFilterModal(true));
+    },
+    [dispatch],
+  );
 
   const columns = generateColumns({
+    onEdit:handleEdit,
     onProcess: handleProcessAlarm,
-    onDelete:handleDelete
+    onDelete:handleDelete,
   });
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;

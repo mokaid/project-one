@@ -66,6 +66,8 @@ const themeConfig: ThemeConfig = {
   components: {
     Menu: {
       colorSplit: "transparent",
+      darkSubMenuItemBg: "rgba(12, 24, 59, 1)",
+      horizontalItemBorderRadius: 1,
     },
   },
 };

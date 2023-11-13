@@ -23,20 +23,10 @@ type Fields = {
   caseNumber: string;
 };
 
-const initialValues: Fields = {
-  processStatus: ProcessStatus.Accomplished,
-  remarks: "",
-  caseNumber: "",
-};
+
 
 const { Item } = Form;
-const { TextArea } = Input;
 
-const processStatusOptions = [
-  { label: "Pending", value: ProcessStatus.Pending },
-  { label: "Dispatched", value: ProcessStatus.Dispatched },
-  { label: "Accomplished", value: ProcessStatus.Accomplished },
-];
 
 export const SiteInfoModal: FC<Props> = ({ dataTestId, collapse, onClick }) => {
   const dispatch = useAppDispatch();
@@ -68,13 +58,16 @@ export const SiteInfoModal: FC<Props> = ({ dataTestId, collapse, onClick }) => {
           // label="Device"
           name="device"
           getValueProps={getMultipleSelectProps}
-          className="select_site"
+          // className="select_site"
+          className={`${darkTheme ? "select_site" : ""}`}
         >
           <BaseSelect
             mode="multiple"
             placeholder="Select Site"
             allowClear={true}
-            className="select_input"
+            // className="select_input"
+            className={`${darkTheme ? "select_input" : ""}`}
+            
             // style={{height:"32px"}}
           />
         </Item>

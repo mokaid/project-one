@@ -188,7 +188,7 @@ export const AlarmRecordGrid: FC = () => {
             <Search
               role="search"
               size="large"
-              placeholder="Enter Keyword"
+              placeholder="Search..."
               allowClear={true}
               title="Enter the keyword and press Enter"
               maxLength={255}
@@ -225,7 +225,7 @@ export const AlarmRecordGrid: FC = () => {
           />
         </Col>
       </Row>
-      <AlertsSearchFilterDrawer alarmRecord={true} handlePageFilterDate={handlePageFilterDate} />
+      <AlertsSearchFilterDrawer darkTheme={darkTheme} alarmRecord={true} handlePageFilterDate={handlePageFilterDate} />
     </>
   );
 };
