@@ -33,13 +33,13 @@ export default Popup;
 
 const Content = ({ hide }: { hide: any }) => {
   return (
-    <div style={{ padding: "0.5rem" }}>
+    <div style={{ padding: "0.7rem" }}>
       <Space>
         <Typography style={{ fontSize: "18px" }}>
         <InfoOutlined style={{borderRadius:"50%",background:"rgba(251, 182, 45, 1)",color:"rgba(15, 30, 76, 1)"}} />  Delete the Site Dubai?
         </Typography>
       </Space>
-      <Space style={{ display: "flex", justifyContent: "flex-end" }}>
+      <Space style={{ display: "flex", justifyContent: "flex-end",marginTop:"8px"}}>
         <Button 
           size="small"
           className={styles.default_btn}
