@@ -246,7 +246,7 @@ html {
 }
 
 .secondary_button {
-  background: #1b2438 !important;
+  background:  rgba(12, 24, 59, 1) !important;
   border-color: #1b3687;
   border-radius: 2px !important;
   height: 32px !important;
@@ -256,12 +256,10 @@ html {
 }
 
 .dark_disabled_button {
-  /* border-radius: 2px !important; */
-  /* height: 32px !important; */
   padding: 0px 15px !important;
   border-color: #1b3687 !important;
   color: white !important;
-  background: #1b2438 !important;
+  background: rgba(12, 24, 59, 1) !important;
   border-color: #1b3687;
   border-radius: 2px !important;
   height: 32px !important;
