@@ -12,6 +12,7 @@ import { SiteConfiguration } from "../pages/site-configuration";
 import { MaskedSource } from "../pages/masked-source";
 import { DisconnectedSites } from "../pages/disconnected-sites";
 import { SiteMap } from "../pages/site-map";
+import SignIn from "../pages/auth/signin";
 // import { useAppSelector } from "../hooks/use-app-selector";
 // import { getAlertMapId } from "../store/selectors/events";
 
@@ -20,7 +21,7 @@ import { SiteMap } from "../pages/site-map";
 export const router = createBrowserRouter([
   {
     path: "/sign-in",
-    element: "Sign in",
+    element: <SignIn/>,
   },
   {
     path: "/sign-up",
