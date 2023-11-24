@@ -11,6 +11,7 @@ import { AddSiteModal } from "../../modals/add-site-modal";
 import { AddGroupModal } from "../../modals/add-group-modal";
 import DeleteModal from "../../modals/delete-modal";
 import { EditSiteMapModal } from "../../modals/edit-site-map-modal";
+import LinkSitePopOver from "../../components/pop-over/link-site";
 
 export const SiteConfiguration: FC = () => {
   const dispatch = useAppDispatch();
@@ -53,22 +54,11 @@ export const SiteConfiguration: FC = () => {
             >
               Add Group
             </Button>
-            <Button
-              size="large"
-              disabled={true}
-              className={`${
-                darkTheme ? "dark_disabled_button" : "light_disabled_button"
-              }`}
-              type="primary"
-              icon={<LinkOutlined />}
-              // onClick={handleFilterClick}
-            >
-              Link Site
-            </Button>
+            <LinkSitePopOver/>
           </Space>
         </Col>
         <Col span={24}>
-          <SiteConfigurationTable className={darkTheme ? "alerts_table" : ""} setDeleteModal={setDeleteModal} />
+          <SiteConfigurationTable className={darkTheme ? "alerts_table" : "alerts_table_light"} setDeleteModal={setDeleteModal} />
         </Col>
       </Row>
       <SiteConfigurationDrawer handlePageFilter={handleSiteInfo} darkTheme={darkTheme}/>

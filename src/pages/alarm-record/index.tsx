@@ -38,7 +38,7 @@ export const AlarmRecord: FC = () => {
         <Tabs
           type="card"
           // className="tabs"
-          className={`${darkTheme ? "tabs" : "tabs_light"}`}
+          className={`${darkTheme && selectedTab === "grid" ? "tabs tabs_dark_grid" : darkTheme && selectedTab === "chart" ? "tabs tabs_dark_chart" : !darkTheme && selectedTab === "chart" ? "tabs_light tabs_light_chart" :"tabs_light tabs_light_grid" }`}
           items={items}
           activeKey={selectedTab}
           onChange={handleTabChange}

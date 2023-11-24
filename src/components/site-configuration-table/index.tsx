@@ -46,16 +46,7 @@ export const SiteConfigurationTable: FC<Props> = ({
   const event = useAppSelector(getEvents);
   const rowKey = useAppSelector(getSelectedRowIds);
 
-  const onSelectChange = (selectedRowKeys: React.Key[]) => {
-    dispatch(setSelectedEventsId(selectedRowKeys));
-    console.log("Selected Row Keys:", rowKey);
-  };
-
-  const rowSelection = {
-    selectedRowKeys: rowKey,
-    onChange: onSelectChange,
-  };
-
+ 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {
       dispatch(setSelectedEvents([selectedEvent]));
@@ -91,7 +82,7 @@ export const SiteConfigurationTable: FC<Props> = ({
       <Table
         rowKey="eventId"
         className={className}
-        scroll={{ x: 1200 }}
+        // scroll={{ x: 1200 }}
         // dataSource={event.find((item) => item.pageIndex === pageIndex)?.data}
         dataSource={tableData}
         sticky={true}

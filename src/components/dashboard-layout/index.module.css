@@ -70,6 +70,7 @@
   height: 100vh;
   overflow: visible;
   z-index: 100;
+  
  
  
 }
@@ -82,9 +83,16 @@
 .menu_bg {
   background: #1b2438 !important;
 }
+/* .menu_bg > .ant-menu-item-selected{
+background: black !important;
+} */
+.ant-menu .ant-menu-item-selected{
+  background: black !important;
+}
 
 .fakeSider {
   visibility: hidden;
   z-index: -1;
   pointer-events: none;
+  
 }

@@ -1,24 +1,17 @@
-import { type FC, useCallback, useState } from "react";
 import { Spin, Table } from "antd";
+import { useCallback, useState, type FC } from "react";
 
 import { useAppDispatch } from "../../hooks/use-app-dispatch";
 import { ProcessAlarmModal } from "../../modals/process-alarm-modal";
 import {
   setSelectedEvents,
-  setSelectedEventsId,
-  setShowProcesslarmModal,
+  setShowProcesslarmModal
 } from "../../store/slices/events";
 import type { DeviceEvent } from "../../types/device-event";
 
+import { LoadingOutlined } from "@ant-design/icons";
 import { generateColumns } from "./config";
 import { data } from "./mock";
-import { useAppSelector } from "../../hooks/use-app-selector";
-import {
-  getAlarmRecordEvents,
-  getEvents,
-  getSelectedRowIds,
-} from "../../store/selectors/events";
-import { LoadingOutlined } from "@ant-design/icons";
 
 type Props = {
   className: string;
@@ -44,18 +37,7 @@ export const MaskedSourceTable: FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
-  const event = useAppSelector(getAlarmRecordEvents);
-  const rowKey = useAppSelector(getSelectedRowIds);
 
-  const onSelectChange = (selectedRowKeys: React.Key[]) => {
-    dispatch(setSelectedEventsId(selectedRowKeys));
-    console.log("Selected Row Keys:", rowKey);
-  };
-
-  const rowSelection = {
-    selectedRowKeys: rowKey,
-    onChange: onSelectChange,
-  };
 
   const handleProcessAlarm = useCallback(
     (selectedEvent: DeviceEvent) => {

@@ -65,7 +65,8 @@ const navItems: NavigationProps["items"] = [
 const themeConfig: ThemeConfig = {
   components: {
     Menu: {
-      colorSplit: "transparent",
+      darkItemSelectedBg:"rgba(17, 26, 44, 1)",
+      darkItemSelectedColor:"rgba(9, 109, 217, 1)",
       darkSubMenuItemBg: "rgba(12, 24, 59, 1)",
       horizontalItemBorderRadius: 1,
     },

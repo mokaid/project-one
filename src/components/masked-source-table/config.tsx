@@ -27,10 +27,12 @@ export const generateColumns = ({
     dataIndex: "contact1",
   },
   {
-    title: "key",
+    title: "Key",
     sorter: true,
     dataIndex: ["obj", "key"],
-    render: (text) => <span style={{ color: `rgba(92, 219, 29, 1)` }}>{text}</span>,
+    render: (text) => (
+      <span style={{ color: `rgba(92, 219, 29, 1)` }}>{text}</span>
+    ),
   },
 
   {
