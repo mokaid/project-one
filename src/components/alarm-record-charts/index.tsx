@@ -1,4 +1,4 @@
-import { useState, useEffect, type FC , useContext } from "react";
+import { useState, useEffect, type FC, useContext } from "react";
 import { Col, Row } from "antd";
 
 import { AlertsByMonth } from "../../widgets/alerts-by-month";
@@ -25,6 +25,7 @@ import {
   weeklyAlertChartBarColor,
 } from "../../utils/constants";
 import { ThemeContext } from "../../theme";
+import { AlertsMockData } from "../../utils/mock";
 
 export const AlarmRecordCharts: FC = () => {
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
@@ -45,7 +46,7 @@ export const AlarmRecordCharts: FC = () => {
   const [weeklyTopAlertsBySite, setWeeklyTopAlertsBySite] = useState<
     HorizontalBarGraphDataType[]
   >([]);
-  const [monthlyAlerts,setMonthlyAlerts]=useState<any>([])
+  const [monthlyAlerts, setMonthlyAlerts] = useState<any>([]);
 
   const [totalWeeklyAlerts, setTotalWeeklyAlerts] = useState<Number>(0);
 
@@ -58,34 +59,30 @@ export const AlarmRecordCharts: FC = () => {
       {
         name: "Jan 23",
         high: 0,
-        low:0,
-        medium:0
+        low: 0,
+        medium: 0,
       },
       {
         name: "Feb 23",
         high: 0,
-        low:0,
-        medium:0
+        low: 0,
+        medium: 0,
       },
       {
         name: "Mar 23",
         high: 0,
-        low:0,
-        medium:0
+        low: 0,
+        medium: 0,
       },
-      {name: "Apr 23",
-        high: 0,
-        low:0,
-        medium:0
-      },
-      {name: "May 23", high: 0, low:0, medium:0 },
-      {name: "Jun 23", high: 0, low:0, medium:0 },
-      {name: "Jul 23", high: 0, low:0, medium:0 },
-      {name: "Aug 23", high: 0, low:0, medium:0 },
-      {name: "Sep 23", high: 0, low:0, medium:0 },
-      {name: "Oct 23", high: 0, low:0, medium:0 },
-      {name: "Nov 23", high: 0, low:0, medium:0 },
-      {name: "Dec 23", high: 0, low:0, medium:0 },
+      { name: "Apr 23", high: 0, low: 0, medium: 0 },
+      { name: "May 23", high: 0, low: 0, medium: 0 },
+      { name: "Jun 23", high: 0, low: 0, medium: 0 },
+      { name: "Jul 23", high: 0, low: 0, medium: 0 },
+      { name: "Aug 23", high: 0, low: 0, medium: 0 },
+      { name: "Sep 23", high: 0, low: 0, medium: 0 },
+      { name: "Oct 23", high: 0, low: 0, medium: 0 },
+      { name: "Nov 23", high: 0, low: 0, medium: 0 },
+      { name: "Dec 23", high: 0, low: 0, medium: 0 },
     ];
     data.forEach((ev: DeviceEvent) => {
       const date = new Date(ev.timeEvent);
@@ -103,7 +100,7 @@ export const AlarmRecordCharts: FC = () => {
           monthWiseData[date.getMonth()].medium + 1;
       }
     });
-    setMonthlyAlerts(monthWiseData)
+    setMonthlyAlerts(monthWiseData);
   };
 
   const setDataIntoStates = (data: DeviceEvent[]) => {
@@ -197,7 +194,8 @@ export const AlarmRecordCharts: FC = () => {
       startTime: formatDate(getCurrentYear(date)),
       endTime: formatDate(date),
     };
-
+    setDataIntoStates(AlertsMockData);
+    setDataIntoYearlyState(AlertsMockData);
     (async () => {
       const res = await getAllEvents(body);
       const monthlyAlerts = await getAllEvents(monthlyalertsBody);
@@ -213,7 +211,9 @@ export const AlarmRecordCharts: FC = () => {
         <TopAlertsByType
           title="Alerts by Event Type"
           tooltipText="TODO: Add tooltip text"
-          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="all-weekly-alerts"
           color={weeklyAlertChartBarColor}
           data={allWeeklyAlerts}
@@ -224,7 +224,9 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByPriority
           title="Weekly Alerts by Priority"
           tooltipText="TODO: Add tooltip text"
-          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="weekly-priority-alerts-chart"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbyPriority}
@@ -236,7 +238,9 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByMonth
           title="Alerts by Month"
           tooltipText="TODO: Add tooltip text"
-          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="weekly-alerts-by-month"
           data={monthlyAlerts}
           isLoading={isLoading}
@@ -246,7 +250,9 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByPriority
           title="Alerts by System"
           tooltipText="TODO: Add tooltip text"
-          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="weekly-alerts-by-system"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbySystem}
@@ -262,7 +268,9 @@ export const AlarmRecordCharts: FC = () => {
         <TopAlertsBySite
           title="Top 10 Weekly Alerts by Site"
           tooltipText="TODO: Add tooltip text"
-          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="top-10-alerts-by-site-chart"
           color={siteChartBarColor}
           data={weeklyTopAlertsBySite}
@@ -273,7 +281,9 @@ export const AlarmRecordCharts: FC = () => {
         <AlertsByPriority
           title="Alerts by Devices"
           tooltipText="TODO: Add tooltip text"
-          className={`${styles.widget} ${darkTheme ? styles.widget_bg : styles.widget_bg_light}`}
+          className={`${styles.widget} ${
+            darkTheme ? styles.widget_bg : styles.widget_bg_light
+          }`}
           dataTestId="weekly-alerts-by-system"
           centerText={totalWeeklyAlerts.toString()}
           data={weeklyAlertsbyDevices}

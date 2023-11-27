@@ -13,6 +13,8 @@ import { clearAllSelectEvents, setShowEventsFilterModal } from "../../store/slic
 import { ThemeContext } from "../../theme";
 import { formatDate, getLastWeekDate } from "../../utils/general-helpers";
 import { ALERTS_MAP_CONFIG } from "./config";
+import brownMarker from '../../assets/brownmarker.svg'
+import orangeMarker from '../../assets/orangemarker.svg'
 import styles from "./index.module.css";
 
 type Props = {
@@ -86,18 +88,22 @@ export const SiteMapComp: FC<Props> = ({ className, dataTestId }) => {
     {
       lat: 23.4241,
       lng: 53.8478,
+      status:1
     },
     {
       lat: 23.1000,
       lng: 53.2568,
+      status:1
     },
     {
       lat: 23.4000,
       lng: 53.8000,
+      status:2
     },
     {
       lat: 23.4000,
       lng: 53.7000,
+      status:2
     },
    
   ];
@@ -112,7 +118,7 @@ export const SiteMapComp: FC<Props> = ({ className, dataTestId }) => {
             onUnmount={handleMapUnmount}
           >
             {coOrdinates.map((item) => (
-              <Marker position={{ lat: item.lat, lng: item.lng }} onClick={()=>onMarkerClick()}/>
+              <Marker position={{ lat: item.lat, lng: item.lng }} onClick={()=>onMarkerClick()} icon={item.status === 1 ? brownMarker : orangeMarker} />
             ))}
 
             <GoogleMapControl

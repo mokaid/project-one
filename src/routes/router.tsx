@@ -20,7 +20,7 @@ import SignIn from "../pages/auth/signin";
 
 export const router = createBrowserRouter([
   {
-    path: "/sign-in",
+    path: "/signin",
     element: <SignIn/>,
   },
   {
