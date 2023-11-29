@@ -50,13 +50,12 @@
 .input_container {
   width: 100%;
 }
-.bg_img{
-    /* zIndex:"1",position:"absolute",width:"100%",height:"100%",border:"1px solid white" */
-    z-index: 1;
-    position: absolute;
-    width: 60%;
-    height: 100%;
-    background-image: url('../../../assets/signinbg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+.bg_img {
+  z-index: 1;
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  background-image: url("../../../assets/signinbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }

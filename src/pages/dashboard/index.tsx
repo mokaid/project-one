@@ -24,6 +24,7 @@ import {
   weeklyAlertChartBarColor,
 } from "../../utils/constants";
 import { ThemeContext } from "../../theme";
+import { AlertsMockData } from "../../utils/mock";
 
 export const Dashboard: FC = () => {
   const [getAllEvents, { isLoading }] = useGetAllEventsMutation();
@@ -122,6 +123,7 @@ export const Dashboard: FC = () => {
       startTime: formatDate(getLastWeekDate(date)),
       endTime: formatDate(date),
     };
+    setDataIntoStates(AlertsMockData);
     (async () => {
       const res = await getAllEvents(body);
       setDataIntoStates(res?.data?.data.event);
